@@ -1,14 +1,22 @@
 package edu.mit.media.inm.data;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import edu.mit.media.inm.R;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class StoryAdapter extends ArrayAdapter<Story> {
@@ -17,9 +25,9 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 	int layoutResourceId;
 	List<Story> data;
 
-	public StoryAdapter(Context context, int layoutResourceId, List<Story> data) {
-		super(context, layoutResourceId, data);
-		this.layoutResourceId = layoutResourceId;
+	public StoryAdapter(Context context, List<Story> data) {
+		super(context, R.layout.story_list_item, data);
+		this.layoutResourceId = R.layout.story_list_item;
 		this.context = context;
 		this.data = data;
 	}
@@ -34,7 +42,11 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 			row = inflater.inflate(layoutResourceId, parent, false);
 
 			holder = new StoryHolder();
-			holder.txtTitle = (TextView) row.findViewById(R.id.story_title);
+			holder.title = (TextView) row.findViewById(R.id.story_title);
+			holder.author = (TextView) row.findViewById(R.id.story_author);
+			holder.date = (TextView) row.findViewById(R.id.story_date);
+			holder.excerpt = (TextView) row.findViewById(R.id.story_excerpt);
+			holder.image = (ImageView) row.findViewById(R.id.story_image);
 
 			row.setTag(holder);
 		} else {
@@ -42,12 +54,29 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 		}
 
 		Story Story = data.get(position);
-		holder.txtTitle.setText(Story.title);
-
+		holder.title.setText(Story.title);
+		holder.author.setText(Story.author);
+		
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		holder.date.setText(df.format(new Date(Story.date)));
+		
+		//TODO truncate story
+		holder.excerpt.setText(Story.story);
+		try {
+			InputStream ims = context.getAssets().open(Story.image);
+			holder.image.setImageDrawable(Drawable.createFromStream(ims, null));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return row;
 	}
 
 	static class StoryHolder {
-		TextView txtTitle;
+		TextView title;
+		TextView author;
+		TextView date;
+		TextView excerpt;
+		ImageView image;
 	}
 }

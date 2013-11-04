@@ -40,8 +40,7 @@ public class TellFragment extends MajorFragment {
 		List<Story> values = datasource.getAllStories();
 
 		// Populate a listview
-		this.adapter = new StoryAdapter(this.getActivity(),
-				R.layout.story_list_item, values);
+		this.adapter = new StoryAdapter(this.getActivity(), values);
 
 		Log.d(TAG, "OnCreateViewFinished:" + this.adapter.toString());
 
@@ -59,21 +58,21 @@ public class TellFragment extends MajorFragment {
 			@Override
 			public void onClick(View v) {
 				Story Story = null;
-				Log.d(TAG, "OnClick");
+				Log.d(TAG, "New story button clicked.");
 
 				// Autogenerate stories.
 				String[] Titles = new String[] { "Cool", "Very nice", "Hate it" };
 				String author = "joy4luck";
 				String[] Stories = new String[] { "A", "B", "C" };
+				String image = "candle.png";
 				int r = new Random().nextInt(3);
 
 				// save the new Story to the database
 				Log.d(TAG, datasource.toString());
 				Story = datasource.createStory(author,
-						System.currentTimeMillis(), "drawable/ic_launcher",
-						Stories[r], Titles[r]);
+						System.currentTimeMillis(), image, Stories[r],
+						Titles[r]);
 				adapter.add(Story);
-				Log.d(TAG, "OnClick:" + adapter.toString());
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -100,6 +99,6 @@ public class TellFragment extends MajorFragment {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
