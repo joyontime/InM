@@ -8,4 +8,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="hello">Dummy string :)</string>
 
+    
+    <string name="all_stories">All Stories.</string>
+    <string name="my_stories">My Stories.</string>
+    
+    <string name="compose">Write a new story</string>
+    
 </resources>

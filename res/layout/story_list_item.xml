@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="#CCC"
+        android:textColor="#EEE"
         android:typeface="sans"
         android:textSize="15dip"
         android:textStyle="bold"/>
@@ -39,7 +39,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/story_title"
-        android:textColor="#AAA"
+        android:textColor="#CCC"
         android:textSize="12dip"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail" />
@@ -51,7 +51,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/story_author"
-        android:textColor="#AAA"
+        android:textColor="#CCC"
         android:textSize="10dip"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail" />
@@ -67,7 +67,7 @@
         android:text="Unknown"
         android:layout_marginRight="5dip"
         android:textSize="10dip"
-        android:textColor="#AAA"
+        android:textColor="#CCC"
         android:textStyle="bold"/>
  
      <!-- Rightend Arrow -->

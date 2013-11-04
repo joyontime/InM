@@ -20,6 +20,9 @@ import android.widget.ListView;
 
 public class TellFragment extends MajorFragment {
 	private static final String TAG = "TellFragment";
+
+	//TODO Use preferences
+	private String username = "joy4luck";
 	private StoryDataSource datasource;
 	private ListView listview;
 	private StoryAdapter adapter;
@@ -37,7 +40,7 @@ public class TellFragment extends MajorFragment {
 		datasource = new StoryDataSource(this.getActivity());
 		datasource.open();
 
-		List<Story> values = datasource.getAllStories();
+		List<Story> values = datasource.getUserStories(username);
 
 		// Populate a listview
 		this.adapter = new StoryAdapter(this.getActivity(), values);
@@ -62,14 +65,13 @@ public class TellFragment extends MajorFragment {
 
 				// Autogenerate stories.
 				String[] Titles = new String[] { "Cool", "Very nice", "Hate it" };
-				String author = "joy4luck";
 				String[] Stories = new String[] { "A", "B", "C" };
 				String image = "candle.png";
 				int r = new Random().nextInt(3);
 
 				// save the new Story to the database
 				Log.d(TAG, datasource.toString());
-				Story = datasource.createStory(author,
+				Story = datasource.createStory(username,
 						System.currentTimeMillis(), image, Stories[r],
 						Titles[r]);
 				adapter.add(Story);
@@ -77,8 +79,6 @@ public class TellFragment extends MajorFragment {
 			}
 		});
 
-		// Find all stories in db
-		// TODO Only get stories by this author
 		listview = (ListView) this.getActivity().findViewById(R.id.my_stories);
 		Log.d(TAG, listview.toString());
 		listview.setAdapter(adapter);
@@ -98,7 +98,5 @@ public class TellFragment extends MajorFragment {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-
 	}
 }

@@ -79,6 +79,23 @@ public class StoryDataSource {
 		cursor.close();
 		return Storys;
 	}
+	
+	public List<Story> getUserStories(String username) {
+		List<Story> Storys = new ArrayList<Story>();
+
+		Cursor cursor = database.query(SQLiteStory.TABLE_STORY, allColumns,
+				SQLiteStory.COLUMN_AUTHOR + " = '" + username + "'", null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Story Story = cursorToStory(cursor);
+			Storys.add(Story);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		return Storys;
+	}
 
 	private Story cursorToStory(Cursor cursor) {
 		Story Story = new Story();
