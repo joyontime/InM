@@ -1,8 +1,10 @@
 package edu.mit.media.inm.adapter;
 
+import edu.mit.media.inm.MajorFragment;
 import edu.mit.media.inm.status.*;
 import edu.mit.media.inm.story.*;
 
+import android.app.ListFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,24 +15,18 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
  
-    @Override
-    public Fragment getItem(int index) {
+    public MajorFragment getItem(int index) {
  
         switch (index) {
         case 0:
-            // Top Rated fragment activity
             return new StatusFragment();
         case 1:
-            // Games fragment activity
             return new FeedFragment();
         case 2:
-            // Movies fragment activity
             return new UpdateFragment();
         case 3:
-            // Movies fragment activity
             return new TellFragment();
         }
- 
         return null;
     }
  

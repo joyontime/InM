@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.View;
 import android.app.ActionBar.TabListener;
 import edu.mit.media.inm.adapter.*;
 
@@ -83,5 +84,4 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {		
 	}
-
 }
