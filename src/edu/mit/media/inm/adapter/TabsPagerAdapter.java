@@ -1,3 +1,7 @@
+package edu.mit.media.inm.adapter;
+
+import edu.mit.media.inm.status.*;
+import edu.mit.media.inm.story.*;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
