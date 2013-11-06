@@ -42,25 +42,19 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		viewPager.setAdapter(mAdapter);
 		// actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		/*
-		Drawable bgColor = getResources().getDrawable();
-		actionBar.setBackgroundDrawable(bgColor);
-		*/
 
 		int[] tabimages = { R.drawable.door, R.drawable.bookmark,
 				R.drawable.smiley, R.drawable.pencil };
 		// Adding Tabs
 		for (int tab_name : tabimages) {
 			/*
+			// Alternative ways to set appearance and text of a tab.
 			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
 			View v = LayoutInflater.from(this).inflate(R.layout.main_tab, null);
 			v.setBackgroundResource(tab_name);
 			*/
-			ImageView v = new ImageView(this);
-			v.setImageResource(tab_name);
-			v.setTranslationY(25);
 			
-			actionBar.addTab(actionBar.newTab().setCustomView(v)
+			actionBar.addTab(actionBar.newTab().setIcon(tab_name)
 					.setTabListener(this));
 		}
 

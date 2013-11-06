@@ -9,6 +9,7 @@ import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryAdapter;
 import edu.mit.media.inm.data.StoryDataSource;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,25 +58,11 @@ public class TellFragment extends MajorFragment {
 		new_story_btn = (Button) this.getActivity()
 				.findViewById(R.id.new_story);
 		new_story_btn.setOnClickListener(new View.OnClickListener() {
-
+			// Initialize a ComposeActivity to write a story.
 			@Override
 			public void onClick(View v) {
-				Story Story = null;
-				Log.d(TAG, "New story button clicked.");
-
-				// Autogenerate stories.
-				String[] Titles = new String[] { "Cool", "Very nice", "Hate it" };
-				String[] Stories = new String[] { "A", "B", "C" };
-				String image = "candle.png";
-				int r = new Random().nextInt(3);
-
-				// save the new Story to the database
-				Log.d(TAG, datasource.toString());
-				Story = datasource.createStory(username,
-						System.currentTimeMillis(), image, Stories[r],
-						Titles[r]);
-				adapter.add(Story);
-				adapter.notifyDataSetChanged();
+				Intent intent = new Intent(getActivity(), ComposeActivity.class);
+				startActivity(intent);
 			}
 		});
 
@@ -98,5 +85,24 @@ public class TellFragment extends MajorFragment {
 
 	@Override
 	public void onClick(View v) {
+		//TODO (joyc) maybe handle response to refresh?
+		/*
+		Story Story = null;
+		Log.d(TAG, "New story button clicked.");
+
+		// Autogenerate stories.
+		String[] Titles = new String[] { "Cool", "Very nice", "Hate it" };
+		String[] Stories = new String[] { "A", "B", "C" };
+		String image = "candle.png";
+		int r = new Random().nextInt(3);
+
+		// save the new Story to the database
+		Log.d(TAG, datasource.toString());
+		Story = datasource.createStory(username,
+				System.currentTimeMillis(), image, Stories[r],
+				Titles[r]);
+		adapter.add(Story);
+		adapter.notifyDataSetChanged();
+		*/
 	}
 }

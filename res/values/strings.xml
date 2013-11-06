@@ -13,5 +13,5 @@
     <string name="my_stories">My Stories.</string>
     
     <string name="compose">Write a new story</string>
-    
+    <string name="compose_name">Share a Story</string>
 </resources>
