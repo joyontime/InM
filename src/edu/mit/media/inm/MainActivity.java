@@ -78,7 +78,6 @@ public class MainActivity extends FragmentActivity implements TabListener {
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
-
 	}
 
 	@Override

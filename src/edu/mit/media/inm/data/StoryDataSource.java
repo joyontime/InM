@@ -19,8 +19,8 @@ public class StoryDataSource {
 	private SQLiteStory dbHelper;
 	private String[] allColumns = { SQLiteStory.COLUMN_ID,
 			SQLiteStory.COLUMN_AUTHOR, SQLiteStory.COLUMN_DATE,
-			SQLiteStory.COLUMN_IMAGE, SQLiteStory.COLUMN_STORY,
-			SQLiteStory.COLUMN_TITLE };
+			SQLiteStory.COLUMN_IMAGE, SQLiteStory.COLUMN_DATE,
+			SQLiteStory.COLUMN_STORY, SQLiteStory.COLUMN_TITLE };
 
 	public StoryDataSource(Context context) {
 		dbHelper = new SQLiteStory(context);
@@ -35,15 +35,16 @@ public class StoryDataSource {
 	}
 
 	public Story createStory(String author, long date, String image,
-			String story, String title) {
+			String share, String story, String title) {
 
 		// Enter the new Story into the db
 		ContentValues values = new ContentValues();
-		values.put(SQLiteStory.COLUMN_AUTHOR, author);
+		values.put(SQLiteStory.COLUMN_AUTHOR, defIfEmpty(author, "Anon."));
 		values.put(SQLiteStory.COLUMN_DATE, date);
-		values.put(SQLiteStory.COLUMN_IMAGE, image);
-		values.put(SQLiteStory.COLUMN_STORY, story);
-		values.put(SQLiteStory.COLUMN_TITLE, title);
+		values.put(SQLiteStory.COLUMN_IMAGE, defIfEmpty(image, "candle.png"));
+		values.put(SQLiteStory.COLUMN_SHARE, defIfEmpty(share, "Everyone"));
+		values.put(SQLiteStory.COLUMN_STORY, defIfEmpty(story, "-"));
+		values.put(SQLiteStory.COLUMN_TITLE, defIfEmpty(title, "Untitled."));
 		long insertId = database.insert(SQLiteStory.TABLE_STORY, null, values);
 
 		// Get the entered story back out as a Story object
@@ -54,6 +55,14 @@ public class StoryDataSource {
 		Story newStory = cursorToStory(cursor);
 		cursor.close();
 		return newStory;
+	}
+	
+	private String defIfEmpty(String in, String def){
+		if (in.length() == 0){
+			return def;
+		} else {
+			return in;
+		}
 	}
 
 	public void deleteStory(Story story) {
@@ -103,8 +112,9 @@ public class StoryDataSource {
 		Story.author = cursor.getString(1);
 		Story.date = cursor.getLong(2);
 		Story.image = cursor.getString(3);
-		Story.story = cursor.getString(4);
-		Story.title = cursor.getString(5);
+		Story.share = cursor.getString(4);
+		Story.story = cursor.getString(5);
+		Story.title = cursor.getString(6);
 		return Story;
 	}
 }

@@ -41,13 +41,6 @@ public class TellFragment extends MajorFragment {
 		datasource = new StoryDataSource(this.getActivity());
 		datasource.open();
 
-		List<Story> values = datasource.getUserStories(username);
-
-		// Populate a listview
-		this.adapter = new StoryAdapter(this.getActivity(), values);
-
-		Log.d(TAG, "OnCreateViewFinished:" + this.adapter.toString());
-
 		return rootView;
 	}
 
@@ -68,12 +61,18 @@ public class TellFragment extends MajorFragment {
 
 		listview = (ListView) this.getActivity().findViewById(R.id.my_stories);
 		Log.d(TAG, listview.toString());
-		listview.setAdapter(adapter);
 	}
 
 	@Override
 	public void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume");
 		datasource.open();
+
+		List<Story> values = datasource.getUserStories(username);
+		this.adapter = new StoryAdapter(this.getActivity(), values);
+		listview.setAdapter(adapter);
+		
 		super.onResume();
 	}
 
@@ -86,23 +85,5 @@ public class TellFragment extends MajorFragment {
 	@Override
 	public void onClick(View v) {
 		//TODO (joyc) maybe handle response to refresh?
-		/*
-		Story Story = null;
-		Log.d(TAG, "New story button clicked.");
-
-		// Autogenerate stories.
-		String[] Titles = new String[] { "Cool", "Very nice", "Hate it" };
-		String[] Stories = new String[] { "A", "B", "C" };
-		String image = "candle.png";
-		int r = new Random().nextInt(3);
-
-		// save the new Story to the database
-		Log.d(TAG, datasource.toString());
-		Story = datasource.createStory(username,
-				System.currentTimeMillis(), image, Stories[r],
-				Titles[r]);
-		adapter.add(Story);
-		adapter.notifyDataSetChanged();
-		*/
 	}
 }

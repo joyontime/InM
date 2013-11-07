@@ -1,23 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_spinner1"
-        android:actionViewClass="android.widget.Spinner"
-        android:orderInCategory="1"
-        android:showAsAction="always">
-        <menu>
-            <item
-                android:id="@+id/menuShareEveryone"
-                android:title="Share to Everyone"/>
-            <item
-                android:id="@+id/menuShareInner"
-                android:title="Share to Inner Circle"/>
-            <item
-                android:id="@+id/menuDontShare"
-                android:title="For my eyes only."/>
-        </menu>
-    </item>
-    <item
         android:id="@+id/action_done"
         android:icon="@drawable/ic_action_accept"
         android:orderInCategory="100"

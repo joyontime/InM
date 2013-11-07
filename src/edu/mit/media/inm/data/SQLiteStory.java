@@ -13,6 +13,7 @@ public class SQLiteStory extends SQLiteOpenHelper{
 	public static final String COLUMN_AUTHOR = "author";
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_IMAGE = "image";
+	public static final String COLUMN_SHARE = "share";
 	public static final String COLUMN_STORY = "story";
 	public static final String COLUMN_TITLE = "title";
 	
@@ -27,6 +28,7 @@ public class SQLiteStory extends SQLiteOpenHelper{
 			+ COLUMN_AUTHOR + " text not null, "
 			+ COLUMN_DATE + " integer not null, "
 			+ COLUMN_IMAGE + " text not null, "
+			+ COLUMN_SHARE + " text not null, "
 			+ COLUMN_STORY + " text not null, "
 			+ COLUMN_TITLE + " text not null)";
 	

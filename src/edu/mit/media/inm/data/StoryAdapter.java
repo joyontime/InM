@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 		this.layoutResourceId = R.layout.story_list_item;
 		this.context = context;
 		this.data = data;
+		Collections.sort(this.data);
 	}
 
 	@Override

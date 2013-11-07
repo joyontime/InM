@@ -13,5 +13,12 @@
     <string name="my_stories">My Stories.</string>
     
     <string name="compose">Write a new story</string>
-    <string name="compose_name">Share a Story</string>
+    <string name="compose_name">Share to</string>
+    
+    <string-array name="share_list">
+        <item>Everyone</item>
+        <item>Inner Circle</item>
+        <item>Nobody Else</item>
+    </string-array>
+    
 </resources>

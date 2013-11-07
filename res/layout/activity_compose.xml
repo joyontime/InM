@@ -5,19 +5,19 @@
     android:background="#FFF"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#DDD"
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Title" >
-
+            android:hint="Title"
+            android:singleLine="true"
+        	android:layout_alignParentLeft="true">
             <requestFocus />
         </EditText>
 
@@ -25,10 +25,15 @@
             android:id="@+id/action_add_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_new_picture" />
-    </LinearLayout>
+            android:background="#DDD"
+            android:drawableLeft="@drawable/ic_action_new_picture"
+            android:padding="5dip"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
 
     <EditText
+        android:id="@+id/editStory"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="top|left"

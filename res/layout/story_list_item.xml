@@ -52,9 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/story_author"
         android:textColor="#CCC"
-        android:textSize="10dip"
+        android:textSize="12dip"
         android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail" />
+        android:layout_toRightOf="@+id/thumbnail"
+        android:maxLines="3"/>
  
     <!-- Rightend Date -->
     <TextView
