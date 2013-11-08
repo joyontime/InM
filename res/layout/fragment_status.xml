@@ -5,12 +5,13 @@
     android:orientation="vertical"
     android:background="#fa6a6a" >
      
-    <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <GridView
+        android:id="@+id/status_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:gravity="center"
-        android:text="Design Status Screen"
-        android:textSize="20dp"
+    	android:columnWidth="100dp"
+    	
+   		android:stretchMode="columnWidth"
         android:layout_centerInParent="true"/>
-     
- 
 </RelativeLayout>
