@@ -1,6 +1,5 @@
 package edu.mit.media.inm.story;
 import java.util.List;
-import java.util.Random;
 
 import edu.mit.media.inm.MajorFragment;
 import edu.mit.media.inm.R;
@@ -8,12 +7,10 @@ import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryAdapter;
 import edu.mit.media.inm.data.StoryDataSource;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
  
 public class FeedFragment extends MajorFragment {
@@ -21,8 +18,6 @@ public class FeedFragment extends MajorFragment {
 	private StoryDataSource datasource;
 	private ListView listview;
 	private StoryAdapter adapter;
-
-	private Button new_story_btn;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

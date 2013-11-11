@@ -72,7 +72,7 @@ public class StatusDataSource {
 				+ " = " + id, null);
 	}
 
-	public List<Status> getAllStories() {
+	public List<Status> getAllStatuses() {
 		List<Status> Statuss = new ArrayList<Status>();
 
 		Cursor cursor = database.query(SQLiteStatus.TABLE_STATUS, allColumns,
@@ -89,8 +89,8 @@ public class StatusDataSource {
 		return Statuss;
 	}
 
-	public List<Status> getUserStories(String username) {
-		List<Status> Statuss = new ArrayList<Status>();
+	public List<Status> getUserStatuses(String username) {
+		List<Status> Statuses = new ArrayList<Status>();
 
 		Cursor cursor = database.query(SQLiteStatus.TABLE_STATUS, allColumns,
 				SQLiteStatus.COLUMN_NAME + " = '" + username + "'", null, null,
@@ -99,23 +99,22 @@ public class StatusDataSource {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Status Status = cursorToStatus(cursor);
-			Statuss.add(Status);
+			Statuses.add(Status);
 			cursor.moveToNext();
 		}
 		// make sure to close the cursor
 		cursor.close();
-		return Statuss;
+		return Statuses;
 	}
 
 	private Status cursorToStatus(Cursor cursor) {
 		Status Status = new Status();
 		Status.id = cursor.getLong(0);
-		Status.author = cursor.getString(1);
-		Status.date = cursor.getLong(2);
-		Status.image = cursor.getString(3);
-		Status.share = cursor.getString(4);
-		Status.Status = cursor.getString(5);
-		Status.title = cursor.getString(6);
+		Status.avail = cursor.getInt(1);
+		Status.briefing = cursor.getString(2);
+		Status.date = cursor.getLong(3);
+		Status.mood = cursor.getInt(4);
+		Status.name = cursor.getString(5);
 		return Status;
 	}
 }

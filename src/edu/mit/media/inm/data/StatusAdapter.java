@@ -1,18 +1,11 @@
 package edu.mit.media.inm.data;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import edu.mit.media.inm.R;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,15 +51,6 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 		holder.name.setText(Status.name);
 		
 		holder.briefing.setText(Status.briefing);
-		/*
-		try {
-			InputStream ims = context.getAssets().open(Status.image);
-			holder.avail_image.setImageDrawable(Drawable.createFromStream(ims, null));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 		return row;
 	}
 

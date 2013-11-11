@@ -118,4 +118,9 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
+	
+	public void switchToTab(int position){
+		viewPager.setCurrentItem(position);
+		actionBar.setSelectedNavigationItem(position);
+	}
 }

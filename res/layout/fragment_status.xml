@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fa6a6a" >
+    android:background="#222" >
      
     <GridView
         android:id="@+id/status_grid"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
         android:gravity="center"
-    	android:columnWidth="100dp"
-    	
-   		android:stretchMode="columnWidth"
-        android:layout_centerInParent="true"/>
+        android:numColumns="2"
+        android:stretchMode="columnWidth" />
+
 </RelativeLayout>
