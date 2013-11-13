@@ -27,7 +27,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	// Tab titles
-	private String[] tabs = { "Status", "Feed", "Update", "Tell" };
+	private String[] tabs = { "Status", "Feed"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +43,9 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		// actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		int[] tabimages = { R.drawable.door, R.drawable.bookmark,
-				R.drawable.smiley, R.drawable.pencil };
+		int[] tabimages = { R.drawable.door, R.drawable.pencil };
 		// Adding Tabs
 		for (int tab_name : tabimages) {
-			/*
-			// Alternative ways to set appearance and text of a tab.
-			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
-			View v = LayoutInflater.from(this).inflate(R.layout.main_tab, null);
-			v.setBackgroundResource(tab_name);
-			*/
-			
 			actionBar.addTab(actionBar.newTab().setIcon(tab_name)
 					.setTabListener(this));
 		}
@@ -62,7 +54,6 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		 * on swiping the viewpager make respective tab selected
 		 * */
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
 			@Override
 			public void onPageSelected(int position) {
 				// on changing the page

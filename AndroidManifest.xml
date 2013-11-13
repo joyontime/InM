@@ -28,6 +28,11 @@
             android:name="edu.mit.media.inm.story.ComposeActivity"
             android:label="@string/compose_name" >
         </activity>
+        
+        <activity
+            android:name="edu.mit.media.inm.status.UpdateActivity"
+            android:label="@string/update_name" >
+        </activity>
     </application>
 
 </manifest>

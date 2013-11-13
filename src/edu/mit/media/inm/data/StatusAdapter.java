@@ -47,10 +47,11 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 			holder = (StatusHolder) row.getTag();
 		}
 
-		Status Status = data.get(position);
-		holder.name.setText(Status.name);
+		Status status = data.get(position);
+		holder.name.setText(status.name);
 		
-		holder.briefing.setText(Status.briefing);
+		//holder.briefing.setText(Status.briefing);
+		holder.briefing.setText(status.toString());
 		return row;
 	}
 

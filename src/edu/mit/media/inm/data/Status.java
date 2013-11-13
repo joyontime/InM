@@ -23,25 +23,34 @@ public class Status implements Parcelable, Comparable<Status> {
 	public int mood;
 	public String name;
 
+
+	public static String BAD = "Bad";
+	public static String SOSO = "So-so";
+	public static String CHEERFUL = "Cheerful";
+	
 	public static final Map<Integer, String> moodStringMap;
 	static {
 		moodStringMap = new HashMap<Integer, String>();
-		moodStringMap.put(0, "Bad");
-		moodStringMap.put(1, "Meh");
-		moodStringMap.put(2, "Cheerful");
+		moodStringMap.put(0, BAD);
+		moodStringMap.put(1, SOSO);
+		moodStringMap.put(2, CHEERFUL);
 	}
+
+	public static String NO = "Please do not disturb.";
+	public static String MAYBE = "I'm flexible today.";
+	public static String YES = "Come on in!";
 
 	public static final Map<Integer, String> availStringMap;
 	static {
 		availStringMap = new HashMap<Integer, String>();
-		availStringMap.put(0, "Please do not disturb.");
-		availStringMap.put(1, "I'm flexible today.");
-		availStringMap.put(2, "Come on in!");
+		availStringMap.put(0, NO);
+		availStringMap.put(1, MAYBE);
+		availStringMap.put(2, YES);
 	}
 
 	@Override
 	public String toString() {
-		return this.name + " is " + moodStringMap.get(mood) + ". "
+		return this.name + " is feeling " + moodStringMap.get(mood) + ". "
 				+ availStringMap.get(avail);
 	}
 

@@ -2,14 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#222" >
+    android:background="#222"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/new_story"
+        android:layout_width="match_parent"
+        android:layout_height="70dip"
+        
+    	android:background="#333"
+        android:textColor="#EEE"
+        
+        android:drawableLeft="@drawable/ic_action_new"
+        android:paddingLeft="40dip"
+        android:paddingRight="40dip"
+        
+        android:text="@string/compose" />
 
     <ListView
-        android:id="@+id/all_stories"
+        android:id="@+id/my_stories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/all_stories" >
+        android:text="@string/my_stories" >
     </ListView>
- 
+
 </LinearLayout>

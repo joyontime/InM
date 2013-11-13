@@ -1,7 +1,5 @@
 package edu.mit.media.inm.story;
 
-import java.util.List;
-
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.Story;

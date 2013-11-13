@@ -7,6 +7,8 @@ import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.Status;
 import edu.mit.media.inm.data.StatusAdapter;
 import edu.mit.media.inm.data.StatusDataSource;
+import edu.mit.media.inm.story.ComposeActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,12 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 public class StatusFragment extends MajorFragment {
 	private static final String TAG = "FeedFragment";
 	private StatusDataSource datasource;
 	private GridView gridview;
 	private StatusAdapter adapter;
+
+	private Button new_status_btn;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,30 +37,40 @@ public class StatusFragment extends MajorFragment {
 
 		datasource = new StatusDataSource(this.getActivity());
 		datasource.open();
-
-		List<Status> values = datasource.getAllStatuses();
-
-		// Populate the gridview
-		this.adapter = new StatusAdapter(this.getActivity(), values);
-
-		Log.d(TAG, "OnCreateViewFinished:" + this.adapter.toString());
-
 		return rootView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// Find all stories in db
+		Log.d(TAG, "OnActivityCreated");
+		
+		new_status_btn = (Button) this.getView().findViewById(R.id.new_status_btn);
+
+		Log.d(TAG, new_status_btn.toString());
+		new_status_btn.setOnClickListener(new View.OnClickListener() {
+			// Initialize an UpdateActivity
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "Button clicked");
+			
+				Intent intent = new Intent(getActivity(), UpdateActivity.class);
+				startActivity(intent);
+			}
+		});		
 		gridview = (GridView) this.getActivity().findViewById(R.id.status_grid);
 		Log.d(TAG, gridview.toString());
-		gridview.setAdapter(adapter);
 	}
 
 	@Override
 	public void onResume() {
-		datasource.open();
 		super.onResume();
+
+		datasource.open();
+		// Populate the gridview
+		List<Status> values = datasource.getAllStatuses();
+		this.adapter = new StatusAdapter(this.getActivity(), values);
+		gridview.setAdapter(adapter);
 	}
 
 	@Override

@@ -26,6 +26,8 @@
     <string name="all_statuses">All Statuses</string>
     <string name="my_status">My Status</string>
 
+    <string name="update_name">Share how you feel today</string>
+    <string name="update_btn">Update my status</string>
     <string name="update">Update</string>
 
     <string-array name="mood_list">

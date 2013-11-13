@@ -22,10 +22,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             return new StatusFragment();
         case 1:
             return new FeedFragment();
-        case 2:
-            return new UpdateFragment();
-        case 3:
-            return new TellFragment();
         }
         return null;
     }
@@ -33,7 +29,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 4;
+        return 2;
     }
  
 }

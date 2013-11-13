@@ -1,7 +1,9 @@
 package edu.mit.media.inm.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -73,20 +75,26 @@ public class StatusDataSource {
 	}
 
 	public List<Status> getAllStatuses() {
-		List<Status> Statuss = new ArrayList<Status>();
+		Map<String, Status> nameToStatus = new HashMap<String, Status>();
 
 		Cursor cursor = database.query(SQLiteStatus.TABLE_STATUS, allColumns,
 				null, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			Status Status = cursorToStatus(cursor);
-			Statuss.add(Status);
+			Status status = cursorToStatus(cursor);
+			if (nameToStatus.containsKey(status.name)){
+				if (status.date > nameToStatus.get(status.name).date){
+					nameToStatus.put(status.name, status);
+				}
+			} else {
+				nameToStatus.put(status.name, status);
+			}
 			cursor.moveToNext();
 		}
 		// make sure to close the cursor
 		cursor.close();
-		return Statuss;
+		return new ArrayList<Status>(nameToStatus.values());
 	}
 
 	public List<Status> getUserStatuses(String username) {
