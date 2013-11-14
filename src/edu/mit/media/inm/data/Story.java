@@ -15,6 +15,7 @@ public class Story implements Parcelable, Comparable<Story> {
 	public static final String INNER = "inner";
 	
 	public static final String NEW_STORY = "new_story";
+	public static final String OPEN_STORY = "open_story";
 	
 	public long id;
 	public String author;

@@ -13,6 +13,9 @@
     <string name="all_stories">All Stories.</string>
     <string name="my_stories">My Stories.</string>
     
+    
+    <string name="story_name">Story Page</string>
+    
     <string name="compose">Write a new story</string>
     <string name="compose_name">Share to</string>
     

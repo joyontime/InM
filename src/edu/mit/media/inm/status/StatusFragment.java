@@ -70,7 +70,6 @@ public class StatusFragment extends MajorFragment {
 		
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
 	            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	            StatusHolder sh = (StatusHolder) v.getTag();
 	            String name = sh.getUser();

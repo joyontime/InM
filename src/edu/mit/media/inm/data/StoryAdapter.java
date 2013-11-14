@@ -55,30 +55,38 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 			holder = (StoryHolder) row.getTag();
 		}
 
-		Story Story = data.get(position);
-		holder.title.setText(Story.title);
-		holder.author.setText(Story.author);
+		Story story = data.get(position);
+		holder.title.setText(story.title);
+		holder.author.setText(story.author);
 		
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-		holder.date.setText(df.format(new Date(Story.date)));
+		holder.date.setText(df.format(new Date(story.date)));
 		
 		//TODO truncate story
-		holder.excerpt.setText(Story.story);
+		holder.excerpt.setText(story.story);
 		try {
-			InputStream ims = context.getAssets().open(Story.image);
+			InputStream ims = context.getAssets().open(story.image);
 			holder.image.setImageDrawable(Drawable.createFromStream(ims, null));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		holder.id = story.id;
 		return row;
 	}
 
-	static class StoryHolder {
+	public static class StoryHolder {
 		TextView title;
 		TextView author;
 		TextView date;
 		TextView excerpt;
 		ImageView image;
+		
+		long id;
+		
+		public long getId(){
+			return id;
+		}
 	}
 }

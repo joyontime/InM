@@ -7,18 +7,24 @@ import edu.mit.media.inm.MajorFragment;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryAdapter;
+import edu.mit.media.inm.data.StoryAdapter.StoryHolder;
 import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.data.StatusAdapter.StatusHolder;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class FeedFragment extends MajorFragment {
 	private static final String TAG = "TellFragment";
@@ -63,7 +69,18 @@ public class FeedFragment extends MajorFragment {
 		});
 
 		listview = (ListView) this.getActivity().findViewById(R.id.my_stories);
-		Log.d(TAG, listview.toString());
+		listview.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	            // Get which story was clicked
+	            StoryHolder sh = (StoryHolder) v.getTag();
+	            final long storyId = sh.getId();
+                Story s = datasource.getStory(storyId);
+                
+	            Intent i = new Intent(getActivity(), StoryActivity.class);
+                i.putExtra(Story.OPEN_STORY, s);
+                startActivity(i);
+	        }
+	    });
 	}
 
 	@Override

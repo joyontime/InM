@@ -71,6 +71,17 @@ public class StoryDataSource {
 		database.delete(SQLiteStory.TABLE_STORY, SQLiteStory.COLUMN_ID
 				+ " = " + id, null);
 	}
+	
+	public Story getStory(long id) {
+		Log.i(TAG, "Trying to find story with id: " + id);
+		Cursor cursor = database.query(SQLiteStory.TABLE_STORY, allColumns,
+				SQLiteStory.COLUMN_ID + " = " + id, null, null, null, null);
+		cursor.moveToFirst();
+		Story story = cursorToStory(cursor);
+		// make sure to close the cursor
+		cursor.close();
+		return story;
+	}
 
 	public List<Story> getAllStories() {
 		List<Story> Storys = new ArrayList<Story>();

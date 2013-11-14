@@ -30,6 +30,11 @@
         </activity>
         
         <activity
+            android:name="edu.mit.media.inm.story.StoryActivity"
+            android:label="@string/story_name" >
+        </activity>
+        
+        <activity
             android:name="edu.mit.media.inm.status.UpdateActivity"
             android:label="@string/update_name" >
         </activity>
