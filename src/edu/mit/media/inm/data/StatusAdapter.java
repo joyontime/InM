@@ -55,10 +55,14 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 		return row;
 	}
 
-	static class StatusHolder {
+	public static class StatusHolder {
 		TextView name;
 		TextView briefing;
 		ImageView mood_image;
 		ImageView avail_image;
+		
+		public String getUser(){
+			return name.getText().toString();
+		}
 	}
 }

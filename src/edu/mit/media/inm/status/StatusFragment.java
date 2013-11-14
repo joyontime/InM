@@ -6,8 +6,13 @@ import edu.mit.media.inm.MajorFragment;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.Status;
 import edu.mit.media.inm.data.StatusAdapter;
+import edu.mit.media.inm.data.StatusAdapter.StatusHolder;
 import edu.mit.media.inm.data.StatusDataSource;
 import edu.mit.media.inm.story.ComposeActivity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +20,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -60,8 +67,29 @@ public class StatusFragment extends MajorFragment {
 		});		
 		gridview = (GridView) this.getActivity().findViewById(R.id.status_grid);
 		Log.d(TAG, gridview.toString());
+		
+		gridview.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	            Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+	            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	            StatusHolder sh = (StatusHolder) v.getTag();
+	            String name = sh.getUser();
+	            builder.setTitle("Poke " + name + "?");
+	            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                    // TODO Send the poke
+	                }
+	            });
+	            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                    // User cancelled the dialog
+	                }
+	            });
+	            builder.show();
+	        }
+	    });
 	}
-
+	
 	@Override
 	public void onResume() {
 		super.onResume();
