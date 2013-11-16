@@ -18,6 +18,11 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 	Context context;
 	int layoutResourceId;
 	List<Status> data;
+	public static final int[] faces = { R.drawable.face_sad,
+			R.drawable.face_soso, R.drawable.face_cheer };
+
+	public static final int[] doors = { R.drawable.door_no,
+			R.drawable.door_maybe, R.drawable.door_yes };
 
 	public StatusAdapter(Context context, List<Status> data) {
 		super(context, R.layout.status_grid_item, data);
@@ -39,9 +44,11 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 			holder = new StatusHolder();
 			holder.name = (TextView) row.findViewById(R.id.status_name);
 			holder.briefing = (TextView) row.findViewById(R.id.status_briefing);
-			holder.mood_image = (ImageView) row.findViewById(R.id.status_mood_icon);
-			holder.avail_image = (ImageView) row.findViewById(R.id.status_avail_icon);
-
+			holder.mood_image = (ImageView) row
+					.findViewById(R.id.status_mood_icon);
+			holder.avail_image = (ImageView) row
+					.findViewById(R.id.status_avail_icon);
+			
 			row.setTag(holder);
 		} else {
 			holder = (StatusHolder) row.getTag();
@@ -49,9 +56,10 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 
 		Status status = data.get(position);
 		holder.name.setText(status.name);
-		
-		//holder.briefing.setText(Status.briefing);
 		holder.briefing.setText(status.toString());
+		holder.mood_image.setImageResource(faces[status.mood]);
+		holder.avail_image.setImageResource(doors[status.avail]);
+
 		return row;
 	}
 
@@ -60,8 +68,8 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 		TextView briefing;
 		ImageView mood_image;
 		ImageView avail_image;
-		
-		public String getUser(){
+
+		public String getUser() {
 			return name.getText().toString();
 		}
 	}

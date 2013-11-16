@@ -3,6 +3,7 @@ package edu.mit.media.inm.status;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.Status;
+import edu.mit.media.inm.data.StatusAdapter;
 import edu.mit.media.inm.data.StatusDataSource;
 import edu.mit.media.inm.data.Story;
 import android.app.ActionBar;
@@ -14,7 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.Toast;
 
 public class UpdateActivity extends Activity {
@@ -26,6 +29,8 @@ public class UpdateActivity extends Activity {
 
 	private NumberPicker pick_avail;
 	private NumberPicker pick_mood;
+	private ImageView icon_avail;
+	private ImageView icon_mood;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,13 @@ public class UpdateActivity extends Activity {
 	}
 
 	public void setup() {
+		OnValueChangeListener updateListener = new OnValueChangeListener(){
+			@Override
+			public void onValueChange(NumberPicker arg0, int arg1, int arg2) {
+				updateIcon();
+			}
+		};
+		
 		pick_avail = (NumberPicker) this.findViewById(
 				R.id.pick_avail);
 		pick_avail.setMinValue(0);
@@ -55,6 +67,7 @@ public class UpdateActivity extends Activity {
 		pick_avail.setDisplayedValues(new String[] {Status.NO, Status.MAYBE, Status.YES});
 		pick_avail.setValue(1);
 		pick_avail.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		pick_avail.setOnValueChangedListener(updateListener);
 		
 		pick_mood = (NumberPicker) this.findViewById(
 				R.id.pick_mood);
@@ -63,7 +76,16 @@ public class UpdateActivity extends Activity {
 		pick_mood.setDisplayedValues(new String[] {Status.BAD, Status.SOSO, Status.CHEERFUL});
 		pick_mood.setValue(1);
 		pick_mood.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		pick_mood.setOnValueChangedListener(updateListener);
 		
+		icon_mood = (ImageView) this.findViewById(R.id.update_mood_icon);
+		icon_avail = (ImageView) this.findViewById(R.id.update_avail_icon);
+		updateIcon();
+	}
+	
+	private void updateIcon(){
+		icon_mood.setImageResource(StatusAdapter.faces[pick_mood.getValue()]);
+		icon_avail.setImageResource(StatusAdapter.doors[pick_avail.getValue()]);
 	}
 	
 	@Override
@@ -95,8 +117,6 @@ public class UpdateActivity extends Activity {
 		getMenuInflater().inflate(R.menu.update, menu);
 		return true;
 	}
-	
-	
 
 	@Override
 	public void onResume() {
