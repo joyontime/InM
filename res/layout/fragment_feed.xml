@@ -13,7 +13,7 @@
     	android:background="#333"
         android:textColor="#EEE"
         
-        android:drawableLeft="@drawable/ic_action_new"
+        android:drawableRight="@drawable/ic_action_new"
         android:paddingLeft="40dip"
         android:paddingRight="40dip"
         
@@ -23,7 +23,8 @@
         android:id="@+id/my_stories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/my_stories" >
+        android:text="@string/my_stories"
+        android:requiresFadingEdge = "vertical" >
     </ListView>
 
 </LinearLayout>

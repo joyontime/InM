@@ -159,8 +159,8 @@ public class ComposeActivity extends Activity {
 				if (!isCamera) {
 					Uri gallery_image = data == null ? null : data.getData();
 					FileUtil.copyFile(this.getApplicationContext(), gallery_image, photoUri);
-
 				}
+				FileUtil.saveScaledBitmap(getApplicationContext(), photoUri);
 				Drawable photo;
 				try {
 					InputStream inputStream = getContentResolver()
@@ -222,8 +222,12 @@ public class ComposeActivity extends Activity {
 				Toast.makeText(this,
 						"Publishing: " + compose_title.getText().toString(),
 						Toast.LENGTH_LONG).show();
+				String photo_filename = "None";
+				if (photo_added){
+					photo_filename = photoUri.getLastPathSegment();
+				}
 				Story s = datasource.createStory(username, System
-						.currentTimeMillis(), photoUri.getLastPathSegment(), this.currentShareStatus,
+						.currentTimeMillis(), photo_filename, this.currentShareStatus,
 						editStory.getText().toString(), compose_title.getText()
 								.toString());
 				Intent intent = new Intent(this, MainActivity.class);
@@ -236,6 +240,7 @@ public class ComposeActivity extends Activity {
 			}
 			return true;
 		case android.R.id.home:
+			reset();
 			startActivity(new Intent(this, MainActivity.class));
 			return true;
 		}
@@ -264,12 +269,18 @@ public class ComposeActivity extends Activity {
 		datasource.close();
 		super.onPause();
 	}
+	
+	private void reset(){
+		if (!(photo_added && story_saved)){
+			photo_file.delete();
+		}
+		photo_added = false;
+		story_saved = false;
+	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (!(photo_added && story_saved)){
-			photo_file.delete();
-		}
+		reset();
 	}
 }

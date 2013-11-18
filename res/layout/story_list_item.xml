@@ -29,8 +29,9 @@
         android:layout_toRightOf="@+id/thumbnail"
         android:textColor="#EEE"
         android:typeface="sans"
-        android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="1"/>
  
     <!-- Author Name -->
     <TextView
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/story_author"
         android:textColor="#CCC"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
         android:maxLines="3"/>
@@ -62,11 +63,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/story_title"
+        android:layout_alignBottom="@id/thumbnail"
         android:gravity="right"
         android:text="Unknown"
         android:layout_marginRight="5dip"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textColor="#CCC"
         android:textStyle="bold"/>
  

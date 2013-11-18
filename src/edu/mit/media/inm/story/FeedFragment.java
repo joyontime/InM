@@ -54,7 +54,6 @@ public class FeedFragment extends MajorFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Log.d(TAG, "OnActivityCreated");
 
 		new_story_btn = (Button) this.getActivity()
 				.findViewById(R.id.new_story);
@@ -62,7 +61,6 @@ public class FeedFragment extends MajorFragment {
 			// Initialize a ComposeActivity to write a story.
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "Button clicked");
 				Intent intent = new Intent(getActivity(), ComposeActivity.class);
 				startActivity(intent);
 			}

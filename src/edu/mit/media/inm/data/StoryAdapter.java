@@ -61,7 +61,6 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 		}
 
 		Story story = data.get(position);
-		Log.d(TAG, "STORY IMAGE:" + story.image);
 		holder.title.setText(story.title);
 		holder.author.setText(story.author);
 
@@ -70,9 +69,13 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 
 		holder.excerpt.setText(story.story);
 
-		holder.image.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
-				context, story.image, 100,
-				100));
+		if (story.image.equals("None")){
+			holder.image.setImageBitmap(FileUtil.decodeSampledBitmapFromResource(
+					context, R.drawable.candle_small, 100, 100));
+		} else {
+			holder.image.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
+					context, story.image, 100, 100));
+		}
 		
 		holder.id = story.id;
 		return row;

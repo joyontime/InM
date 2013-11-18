@@ -26,7 +26,8 @@
         android:background="#DDD"
         android:paddingLeft="10dp"
         android:hint="Title"
-        android:singleLine="true" >
+        android:singleLine="true"
+        android:maxLength="30">
 
         <requestFocus />
     </EditText>

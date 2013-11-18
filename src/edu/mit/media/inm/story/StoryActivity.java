@@ -46,15 +46,25 @@ public class StoryActivity extends Activity {
 
 		Intent i = this.getIntent();
 		Story s = i.getParcelableExtra(Story.OPEN_STORY);
-		Toast.makeText(this, s.toString(), Toast.LENGTH_SHORT).show();
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(s.title);
 
 		story_iv = (ImageView) this.findViewById(R.id.story_full_image);
-		story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
-				getApplicationContext(), s.image, 400, 200));
+		
+		if (! s.image.equals("None")){
+			story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
+					getApplicationContext(), s.image, 400, 200));
+		}
+		
+		if (s.image.equals("None")){
+			story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromResource(
+					getApplicationContext(), R.drawable.candle_small, 400, 200));
+		} else {
+			story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
+					getApplicationContext(), s.image, 400, 200));
+		}
 
 		author_tv = (TextView) this.findViewById(R.id.story_full_author);
 		author_tv.setText(s.author);

@@ -13,7 +13,7 @@
     	android:background="#333"
         android:textColor="#EEE"
         
-        android:drawableLeft="@drawable/ic_action_new"
+        android:drawableRight="@drawable/ic_action_new"
         android:paddingLeft="40dip"
         android:paddingRight="40dip"
         

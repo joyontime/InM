@@ -165,4 +165,28 @@ public class FileUtil {
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeResource(res, res_id, options);
 	}
+
+	public static void saveBitmap(String filename, Bitmap bmp) {
+		try {
+			FileOutputStream out = new FileOutputStream(filename);
+			bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveScaledBitmap(Context ctx, Uri photo_uri) {
+		Bitmap bmp = FileUtil.decodeSampledBitmapFromFile(ctx,
+				photo_uri.getLastPathSegment(), 400, 200);
+		try {
+			ContentResolver content = ctx.getContentResolver();
+			OutputStream out = content.openOutputStream(photo_uri);
+			bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
