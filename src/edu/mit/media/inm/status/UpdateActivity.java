@@ -6,8 +6,10 @@ import edu.mit.media.inm.data.Status;
 import edu.mit.media.inm.data.StatusAdapter;
 import edu.mit.media.inm.data.StatusDataSource;
 import edu.mit.media.inm.data.Story;
+import edu.mit.media.inm.util.FileUtil;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,11 +33,15 @@ public class UpdateActivity extends Activity {
 	private NumberPicker pick_mood;
 	private ImageView icon_avail;
 	private ImageView icon_mood;
+	
+	private Context mCtx;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "OnCreateView");
+		
+		this.mCtx = getApplicationContext();
 
 		setContentView(R.layout.activity_update);
 
@@ -84,8 +90,10 @@ public class UpdateActivity extends Activity {
 	}
 	
 	private void updateIcon(){
-		icon_mood.setImageResource(StatusAdapter.faces[pick_mood.getValue()]);
-		icon_avail.setImageResource(StatusAdapter.doors[pick_avail.getValue()]);
+		icon_mood.setImageBitmap(FileUtil
+				.decodeSampledBitmapFromResource(mCtx, StatusAdapter.faces[pick_mood.getValue()], 150, 150));
+		icon_avail.setImageBitmap(FileUtil
+				.decodeSampledBitmapFromResource(mCtx, StatusAdapter.doors[pick_avail.getValue()], 150, 150));
 	}
 	
 	@Override

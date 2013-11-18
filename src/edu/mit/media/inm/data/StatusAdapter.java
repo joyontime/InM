@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.util.FileUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -48,7 +49,7 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 					.findViewById(R.id.status_mood_icon);
 			holder.avail_image = (ImageView) row
 					.findViewById(R.id.status_avail_icon);
-			
+
 			row.setTag(holder);
 		} else {
 			holder = (StatusHolder) row.getTag();
@@ -57,8 +58,10 @@ public class StatusAdapter extends ArrayAdapter<Status> {
 		Status status = data.get(position);
 		holder.name.setText(status.name);
 		holder.briefing.setText(status.toString());
-		holder.mood_image.setImageResource(faces[status.mood]);
-		holder.avail_image.setImageResource(doors[status.avail]);
+		holder.mood_image.setImageBitmap(FileUtil
+				.decodeSampledBitmapFromResource(context, faces[status.mood], 150, 150));
+		holder.avail_image.setImageBitmap(FileUtil
+				.decodeSampledBitmapFromResource(context, doors[status.avail], 150, 150));
 
 		return row;
 	}

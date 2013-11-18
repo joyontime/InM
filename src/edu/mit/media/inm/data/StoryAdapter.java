@@ -1,5 +1,7 @@
 package edu.mit.media.inm.data;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -9,10 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.util.FileUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class StoryAdapter extends ArrayAdapter<Story> {
+	private static final String TAG = "StoryAdapter";
 
 	Context context;
 	int layoutResourceId;
@@ -56,21 +61,18 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 		}
 
 		Story story = data.get(position);
+		Log.d(TAG, "STORY IMAGE:" + story.image);
 		holder.title.setText(story.title);
 		holder.author.setText(story.author);
-		
+
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 		holder.date.setText(df.format(new Date(story.date)));
-		
-		//TODO truncate story
+
 		holder.excerpt.setText(story.story);
-		try {
-			InputStream ims = context.getAssets().open(story.image);
-			holder.image.setImageDrawable(Drawable.createFromStream(ims, null));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		holder.image.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
+				context, story.image, 100,
+				100));
 		
 		holder.id = story.id;
 		return row;
@@ -82,10 +84,10 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 		TextView date;
 		TextView excerpt;
 		ImageView image;
-		
+
 		long id;
-		
-		public long getId(){
+
+		public long getId() {
 			return id;
 		}
 	}

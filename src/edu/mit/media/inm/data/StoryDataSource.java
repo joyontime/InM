@@ -41,7 +41,7 @@ public class StoryDataSource {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteStory.COLUMN_AUTHOR, defIfEmpty(author, "Anon."));
 		values.put(SQLiteStory.COLUMN_DATE, date);
-		values.put(SQLiteStory.COLUMN_IMAGE, defIfEmpty(image, "candle.png"));
+		values.put(SQLiteStory.COLUMN_IMAGE, defIfEmpty(image, "None"));
 		values.put(SQLiteStory.COLUMN_SHARE, defIfEmpty(share, "Everyone"));
 		values.put(SQLiteStory.COLUMN_STORY, defIfEmpty(story, "-"));
 		values.put(SQLiteStory.COLUMN_TITLE, defIfEmpty(title, "Untitled."));

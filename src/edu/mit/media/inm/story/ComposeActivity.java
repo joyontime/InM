@@ -89,13 +89,13 @@ public class ComposeActivity extends Activity {
 		});
 		
 		// Determine Uri of camera image to save.
-				final File root = new File(Environment.getExternalStorageDirectory()
+				final File root = new File(getApplicationContext().getExternalFilesDir(null)
 						+ File.separator + "InM_photos");
 				root.mkdirs();
 				Log.d(TAG, root.getAbsolutePath());
 				
 				try {
-					photo_file = File.createTempFile("photo_", ".png", root);
+					photo_file = File.createTempFile("photo_", ".bmp", root);
 				} catch (IOException e) {
 					Log.d(TAG, e.getMessage());
 					photo_file = new File(root.getAbsolutePath()
@@ -218,13 +218,12 @@ public class ComposeActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_done:
-			String image = "candle.png";
 			if (storyValid()) {
 				Toast.makeText(this,
 						"Publishing: " + compose_title.getText().toString(),
 						Toast.LENGTH_LONG).show();
 				Story s = datasource.createStory(username, System
-						.currentTimeMillis(), image, this.currentShareStatus,
+						.currentTimeMillis(), photoUri.getLastPathSegment(), this.currentShareStatus,
 						editStory.getText().toString(), compose_title.getText()
 								.toString());
 				Intent intent = new Intent(this, MainActivity.class);
