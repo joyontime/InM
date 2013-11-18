@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#222"
-    android:orientation="vertical" >
+    android:padding="20dp"
+    android:orientation="vertical">
     
     <ImageView
             android:id="@+id/story_full_image"
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/story_full_image"
         android:textColor="#CCC"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:layout_marginTop="1dip"
         android:text="Author name"/>
     
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/story_full_author"
         android:textColor="#CCC"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_marginTop="1dip"
         android:text="Full story text here."/>
  
@@ -45,7 +46,7 @@
         android:gravity="right"
         android:text="Unknown"
         android:layout_marginRight="5dip"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textColor="#CCC"
         android:textStyle="bold"/>
 

@@ -27,16 +27,19 @@
         </activity>
         <activity
             android:name="edu.mit.media.inm.story.ComposeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/compose_name" >
         </activity>
         
         <activity
             android:name="edu.mit.media.inm.story.StoryActivity"
+            android:screenOrientation="portrait"
             android:label="@string/story_name" >
         </activity>
         
         <activity
             android:name="edu.mit.media.inm.status.UpdateActivity"
+            android:screenOrientation="portrait"
             android:label="@string/update_name" >
         </activity>
     </application>
