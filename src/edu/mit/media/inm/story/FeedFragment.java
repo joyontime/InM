@@ -10,8 +10,8 @@ import edu.mit.media.inm.data.StoryAdapter;
 import edu.mit.media.inm.data.StoryAdapter.StoryHolder;
 import edu.mit.media.inm.data.StoryDataSource;
 import edu.mit.media.inm.data.StatusAdapter.StatusHolder;
-import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +26,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class FeedFragment extends MajorFragment {
+public class FeedFragment extends Fragment {
 	private static final String TAG = "TellFragment";
 
 	//TODO Use preferences
@@ -99,10 +99,5 @@ public class FeedFragment extends MajorFragment {
 	public void onPause() {
 		datasource.close();
 		super.onPause();
-	}
-
-	@Override
-	public void onClick(View v) {
-		//TODO (joyc) maybe handle response to refresh?
 	}
 }

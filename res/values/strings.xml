@@ -47,5 +47,20 @@
         <item>I\'m flexible today.</item>
         <item>Come on in!</item>
     </string-array>
+    
+    <!-- Preferences -->
+    <string name="user_prefs">User Preferences</string>
+    <string name = "title_username_preference">Set Username</string>
+    <string name = "summary_username_preference">Set the username used to communicate with the server.</string>
+    <string name = "dialog_username_preference">Enter Your Username</string>
+    
+    <string name = "title_password_preference">Set Password</string>
+    <string name = "summary_password_preference">Set the password used to communicate with the server.</string>
+    <string name = "dialog_password_preference">Enter Your Password</string>
+    
+    <string name = "usage_prefs">Usage Preferences</string>
+    <string name = "title_prompt_preference">Turn On Prompts</string>
+    <string name = "summary_prompt_preference">Prompt daily with a notification.</string>
+    
 
 </resources>

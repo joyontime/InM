@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+              
+    <PreferenceCategory
+            android:title="@string/user_prefs">
+ 
+        <EditTextPreference
+                android:key="username_preference"
+                android:title="@string/title_username_preference"
+                android:summary="@string/summary_username_preference" 
+                android:dialogTitle="@string/dialog_username_preference" />
+        
+        <EditTextPreference
+                android:key="password_preference"
+                android:title="@string/title_password_preference"
+                android:summary="@string/summary_username_preference" 
+                android:dialogTitle="@string/dialog_password_preference"
+                android:inputType="textPassword"/>
+                
+    </PreferenceCategory>
+ 
+    <PreferenceCategory
+            android:title="@string/usage_prefs">
+ 
+        <!-- This PreferenceScreen tag serves as a screen break (similar to page break
+            in word processing). Like for other preference types, we assign a key
+            here so it is able to save and restore its instance state. -->
+        <CheckBoxPreference
+                android:key="checkbox_preference"
+                android:defaultValue="true"
+                android:title="@string/title_prompt_preference"
+                android:summary="@string/summary_prompt_preference" />
+ 
+    </PreferenceCategory>    
+</PreferenceScreen>

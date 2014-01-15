@@ -2,73 +2,39 @@ package edu.mit.media.inm;
 
 import java.util.List;
 
-import android.R.color;
 import android.os.Bundle;
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.app.ActionBar.TabListener;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import edu.mit.media.inm.adapter.*;
+import android.widget.Toast;
 import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.story.FeedFragment;
 
-public class MainActivity extends FragmentActivity implements TabListener {
-	private ViewPager viewPager;
-	private TabsPagerAdapter mAdapter;
+public class MainActivity extends FragmentActivity {
 	private ActionBar actionBar;
-	// Tab titles
-	private String[] tabs = { "Status", "Feed"};
+	private FragmentManager fm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		// setContentView(R.layout.activity_main);
 
-		// Initilization
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
-		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-
-		viewPager.setAdapter(mAdapter);
-		// actionBar.setHomeButtonEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		int[] tabimages = { R.drawable.door, R.drawable.pencil };
-		// Adding Tabs
-		for (int tab_name : tabimages) {
-			actionBar.addTab(actionBar.newTab().setIcon(tab_name)
-					.setTabListener(this));
+		FragmentManager.enableDebugLogging(true);
+		fm = getFragmentManager();
+		if (savedInstanceState == null) {
+			fm.beginTransaction().add(android.R.id.content, new FeedFragment())
+					.addToBackStack("main").commit();
 		}
 
-		/**
-		 * on swiping the viewpager make respective tab selected
-		 * */
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				// on changing the page
-				// make respected tab selected
-				actionBar.setSelectedNavigationItem(position);
-			}
+		// Initilization
+		actionBar = getActionBar();
 
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-			}
-		});
+		// actionBar.setHomeButtonEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	@Override
@@ -82,6 +48,11 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+			fm.beginTransaction()
+					.replace(android.R.id.content, new PrefsFragment())
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack("prefs").commit();
+
 			return true;
 		case R.id.action_about:
 			// TODO Convenience function that delete all stories
@@ -92,26 +63,20 @@ public class MainActivity extends FragmentActivity implements TabListener {
 				datasource.deleteStory(s);
 			}
 			return true;
+		case android.R.id.home:
+			Toast.makeText(this, "Welcome to InMind!", Toast.LENGTH_LONG)
+					.show();
 		}
 		return false;
 	}
 
 	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		viewPager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-	}
-	
-	public void switchToTab(int position){
-		viewPager.setCurrentItem(position);
-		actionBar.setSelectedNavigationItem(position);
+	public void onBackPressed() {
+		// check to see if stack is empty
+		if (fm.getBackStackEntryCount() > 0) {
+			fm.popBackStack();
+		} else {
+			super.onBackPressed();
+		}
 	}
 }
