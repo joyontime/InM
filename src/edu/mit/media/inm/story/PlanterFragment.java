@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class FeedFragment extends Fragment {
+public class PlanterFragment extends Fragment {
 	private static final String TAG = "TellFragment";
 
 	private String username;
@@ -69,7 +69,7 @@ public class FeedFragment extends Fragment {
 	            final long storyId = sh.getId();
                 Story s = datasource.getStory(storyId);
                 
-	            Intent i = new Intent(getActivity(), StoryActivity.class);
+	            Intent i = new Intent(getActivity(), PlantActivity.class);
                 i.putExtra(Story.OPEN_STORY, s);
                 startActivity(i);
 	        }

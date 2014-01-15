@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryDataSource;
-import edu.mit.media.inm.story.FeedFragment;
+import edu.mit.media.inm.story.PlanterFragment;
 
 public class MainActivity extends FragmentActivity {
 	private ActionBar actionBar;
@@ -26,7 +26,7 @@ public class MainActivity extends FragmentActivity {
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
 		if (savedInstanceState == null) {
-			fm.beginTransaction().add(android.R.id.content, new FeedFragment())
+			fm.beginTransaction().add(android.R.id.content, new PlanterFragment())
 					.commit();
 		}
 

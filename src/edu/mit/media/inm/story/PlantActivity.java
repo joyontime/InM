@@ -14,6 +14,7 @@ import edu.mit.media.inm.data.StoryDataSource;
 import edu.mit.media.inm.util.FileUtil;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,11 +24,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StoryActivity extends Activity {
+public class PlantActivity extends Activity {
 	private static final String TAG = "StoryActivity";
 
-	// TODO Use preferences
-	private String username = "joy4luck";
 	private StoryDataSource datasource;
 	TextView author_tv;
 	TextView text_tv;
