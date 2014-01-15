@@ -27,7 +27,7 @@ public class MainActivity extends FragmentActivity {
 		fm = getFragmentManager();
 		if (savedInstanceState == null) {
 			fm.beginTransaction().add(android.R.id.content, new FeedFragment())
-					.addToBackStack("main").commit();
+					.commit();
 		}
 
 		// Initilization

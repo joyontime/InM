@@ -26,7 +26,7 @@
             in word processing). Like for other preference types, we assign a key
             here so it is able to save and restore its instance state. -->
         <CheckBoxPreference
-                android:key="checkbox_preference"
+                android:key="prompt_preference"
                 android:defaultValue="true"
                 android:title="@string/title_prompt_preference"
                 android:summary="@string/summary_prompt_preference" />

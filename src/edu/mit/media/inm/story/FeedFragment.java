@@ -1,18 +1,13 @@
 package edu.mit.media.inm.story;
 
 import java.util.List;
-import java.util.Random;
-
-import edu.mit.media.inm.MajorFragment;
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.PreferenceHandler;
 import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryAdapter;
 import edu.mit.media.inm.data.StoryAdapter.StoryHolder;
 import edu.mit.media.inm.data.StoryDataSource;
-import edu.mit.media.inm.data.StatusAdapter.StatusHolder;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,17 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class FeedFragment extends Fragment {
 	private static final String TAG = "TellFragment";
 
-	//TODO Use preferences
-	private String username = "joy4luck";
+	private String username;
 	private StoryDataSource datasource;
 	private ListView listview;
 	private StoryAdapter adapter;
@@ -41,6 +33,9 @@ public class FeedFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d(TAG, "OnCreateView");
+		
+		PreferenceHandler ph = new PreferenceHandler(this.getActivity());
+		username = ph.username();
 
 		View rootView = inflater.inflate(R.layout.fragment_feed, container,
 				false);
