@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class PlanterFragment extends Fragment {
 	private static final String TAG = "TellFragment";
@@ -93,13 +95,26 @@ public class PlanterFragment extends Fragment {
 
 		List<Plant> values = datasource.getAllStories();
 		this.adapter = new PlantAdapter(this.getActivity(), values);
+		
+		
 		for (int i = 0; i <10; i++){
-			View plant = View.inflate(getActivity(), R.layout.plant_list_item, my_plants);
+			//View plant = View.inflate(getActivity(), R.layout.plant_list_item, my_plants);
 
-			Log.d(TAG, "VIEWS!" + plant.getId());
+			LinearLayout plant = new LinearLayout(getActivity());
+			plant.setOrientation(LinearLayout.VERTICAL);
+			my_plants.addView(plant);
+
+			ImageView image = new ImageView(getActivity());
+			image.setImageResource(R.drawable.demo_plant);
+			plant.addView(image);
 			
-			ImageView image = (ImageView) plant.findViewById(R.id.plant_image);
-			image.setImageResource(R.drawable.door_maybe);
+			TextView text = new TextView(getActivity());
+			text.setText("Topic" + i);
+			text.setGravity(Gravity.CENTER_HORIZONTAL);
+			plant.addView(text);
+			
+			
+			Log.d(TAG, "VIEWS!" + plant.getId());
 		}
 		super.onResume();
 	}
