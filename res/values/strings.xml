@@ -17,9 +17,9 @@
     <string name="my_stories">My Stories.</string>
     
     
-    <string name="story_name">Story Page</string>
+    <string name="plant_name">Plant Page</string>
     
-    <string name="compose">Write a new story</string>
+    <string name="compose">Write a new plant</string>
     <string name="compose_name">Share to</string>
     
     <string-array name="share_list">

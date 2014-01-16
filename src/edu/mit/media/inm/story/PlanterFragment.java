@@ -51,7 +51,7 @@ public class PlanterFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		new_story_btn = (Button) this.getActivity()
-				.findViewById(R.id.new_story);
+				.findViewById(R.id.new_plant);
 		new_story_btn.setOnClickListener(new View.OnClickListener() {
 			// Initialize a ComposeActivity to write a story.
 			@Override

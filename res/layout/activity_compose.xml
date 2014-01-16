@@ -14,7 +14,7 @@
         android:layout_alignParentRight="true"
         android:padding="5dp"
         android:background="#333"
-        android:contentDescription="Picture for story"
+        android:contentDescription="Picture for plant"
         android:src="@drawable/ic_action_new_picture" />
 
     <EditText
@@ -34,12 +34,12 @@
     </EditText>
 
     <EditText
-        android:id="@+id/compose_story"
+        android:id="@+id/compose_plant"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/compose_picture"
         android:gravity="top|left"
-        android:hint="Write your story."
+        android:hint="Write your plant."
         android:inputType="textMultiLine|textCapSentences"
         android:lines="8"
         android:minLines="6"

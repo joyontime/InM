@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/new_story"
+        android:id="@+id/new_plant"
         android:layout_width="match_parent"
         android:layout_height="70dip"
         

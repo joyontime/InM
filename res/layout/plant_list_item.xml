@@ -13,16 +13,16 @@
         android:layout_marginRight="5dip">
  
         <ImageView
-            android:id="@+id/story_image"
+            android:id="@+id/plant_image"
             android:layout_width="100dip"
             android:layout_height="100dip"
             android:src="@drawable/ic_launcher"/>
  
     </LinearLayout>
  
-    <!-- Title Of Note-->
+    <!-- Title Of Plant-->
     <TextView
-        android:id="@+id/story_title"
+        android:id="@+id/plant_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
@@ -35,22 +35,22 @@
  
     <!-- Author Name -->
     <TextView
-        android:id="@+id/story_author"
+        android:id="@+id/plant_author"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/story_title"
+        android:layout_below="@id/plant_title"
         android:textColor="#CCC"
         android:textSize="12sp"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail" />
     
     
-    <!-- Note Excerpt -->
+    <!-- Plant Excerpt -->
     <TextView
-        android:id="@+id/story_excerpt"
+        android:id="@+id/plant_excerpt"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/story_author"
+        android:layout_below="@id/plant_author"
         android:textColor="#CCC"
         android:textSize="14sp"
         android:layout_marginTop="1dip"
@@ -59,7 +59,7 @@
  
     <!-- Rightend Date -->
     <TextView
-        android:id="@+id/story_date"
+        android:id="@+id/plant_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
