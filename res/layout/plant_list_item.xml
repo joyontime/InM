@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="100dip"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dip" >
@@ -20,7 +20,7 @@
  
     </LinearLayout>
  
-    <!-- Title Of Plant-->
+    <!-- 
     <TextView
         android:id="@+id/plant_title"
         android:layout_width="wrap_content"
@@ -33,7 +33,6 @@
         android:textStyle="bold"
         android:maxLines="1"/>
  
-    <!-- Author Name -->
     <TextView
         android:id="@+id/plant_author"
         android:layout_width="fill_parent"
@@ -45,7 +44,6 @@
         android:layout_toRightOf="@+id/thumbnail" />
     
     
-    <!-- Plant Excerpt -->
     <TextView
         android:id="@+id/plant_excerpt"
         android:layout_width="fill_parent"
@@ -57,7 +55,6 @@
         android:layout_toRightOf="@+id/thumbnail"
         android:maxLines="3"/>
  
-    <!-- Rightend Date -->
     <TextView
         android:id="@+id/plant_date"
         android:layout_width="wrap_content"
@@ -70,5 +67,6 @@
         android:textSize="12sp"
         android:textColor="#CCC"
         android:textStyle="bold"/>
+        -->
  
 </RelativeLayout>

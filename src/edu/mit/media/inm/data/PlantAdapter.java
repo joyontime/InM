@@ -49,10 +49,12 @@ public class PlantAdapter extends ArrayAdapter<Plant> {
 			row = inflater.inflate(layoutResourceId, parent, false);
 
 			holder = new PlantHolder();
+			/*
 			holder.title = (TextView) row.findViewById(R.id.plant_title);
 			holder.author = (TextView) row.findViewById(R.id.plant_author);
 			holder.date = (TextView) row.findViewById(R.id.plant_date);
 			holder.excerpt = (TextView) row.findViewById(R.id.plant_excerpt);
+			*/
 			holder.image = (ImageView) row.findViewById(R.id.plant_image);
 
 			row.setTag(holder);

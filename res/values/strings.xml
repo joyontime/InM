@@ -9,12 +9,13 @@
     <string name="hello_world">Hello world!</string>
     <string name="hello">Dummy string :)</string>
 
-    <!-- Stories -->
+    <!-- Plants -->
     
     <string name="action_add_picture">Add picture.</string>
     <string name="action_done">Done</string>
     <string name="all_stories">All Stories.</string>
-    <string name="my_stories">My Stories.</string>
+    <string name="planter">Planter,</string>
+    <string name="my_plants">My Plants.</string>
     
     
     <string name="plant_name">Plant Page</string>
