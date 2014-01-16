@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#222"
     android:orientation="vertical" >
 
-    <HorizontalScrollView
-        android:id="@+id/planter"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/my_plants"
-        android:requiresFadingEdge = "horizontal" 
-        android:background="@drawable/cloud_repeat">
-        <LinearLayout
-        android:id="@+id/my_plants"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/my_plants"
-        android:orientation="horizontal"
-        android:requiresFadingEdge = "vertical" >
-    	</LinearLayout>
-    </HorizontalScrollView>
-    
     <Button
         android:id="@+id/new_plant"
         android:layout_width="match_parent"
@@ -34,17 +17,28 @@
         android:paddingLeft="40dip"
         android:paddingRight="40dip"
         
-        android:text="@string/compose" />
+        android:text="@string/new_pot" />
 
-    <!-- 
-    <ListView
-        android:id="@+id/my_plants"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/my_plants"
-        android:orientation="horizontal"
-        android:requiresFadingEdge = "vertical" >
-    	</ListView>
-    	-->
-    
-</LinearLayout>
+    <HorizontalScrollView
+        android:id="@+id/planter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:background="@drawable/cloud_repeat" 
+        android:requiresFadingEdge="horizontal"
+        android:text="@string/my_plants" 
+        android:layout_below="@id/new_plant">
+
+        <LinearLayout
+            android:id="@+id/my_plants"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/window_border"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:requiresFadingEdge="vertical"
+            android:text="@string/my_plants" >
+
+    	</LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

@@ -20,9 +20,11 @@
     
     <string name="plant_name">Plant Page</string>
     
-    <string name="compose">Write a new plant</string>
+    <string name="new_pot">Get another pot.</string>
     <string name="compose_name">Share to</string>
     
+    
+    <string name="compose">Write a new plant</string>
     <string-array name="share_list">
         <item>Everyone</item>
         <item>Inner Circle</item>

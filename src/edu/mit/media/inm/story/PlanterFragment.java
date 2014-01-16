@@ -93,9 +93,11 @@ public class PlanterFragment extends Fragment {
 
 		List<Plant> values = datasource.getAllStories();
 		this.adapter = new PlantAdapter(this.getActivity(), values);
-
 		for (int i = 0; i <10; i++){
 			View plant = View.inflate(getActivity(), R.layout.plant_list_item, my_plants);
+
+			Log.d(TAG, "VIEWS!" + plant.getId());
+			
 			ImageView image = (ImageView) plant.findViewById(R.id.plant_image);
 			image.setImageResource(R.drawable.door_maybe);
 		}
