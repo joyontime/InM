@@ -14,7 +14,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public static final String INNER = "inner";
 	
 	public static final String NEW_STORY = "new_plant";
-	public static final String OPEN_STORY = "open_plant";
+	public static final String OPEN_PLANT = "open_plant";
 	
 	public long id;
 	public String author;

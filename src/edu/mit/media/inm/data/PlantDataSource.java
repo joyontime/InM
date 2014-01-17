@@ -39,7 +39,6 @@ public class PlantDataSource {
 			long date, String pass, String salt, String server_id,
 			String share, int status, String title) {
 
-		// Enter the new Plant into the db
 		ContentValues values = new ContentValues();
 		values.put(SQLitePlant.COLUMN_AUTHOR, author);
 		values.put(SQLitePlant.COLUMN_DATE, date);
@@ -74,7 +73,6 @@ public class PlantDataSource {
 				SQLitePlant.COLUMN_ID + " = " + id, null, null, null, null);
 		cursor.moveToFirst();
 		Plant plant = cursorToPlant(cursor);
-		// make sure to close the cursor
 		cursor.close();
 		return plant;
 	}
@@ -91,7 +89,6 @@ public class PlantDataSource {
 			Plants.add(Plant);
 			cursor.moveToNext();
 		}
-		// make sure to close the cursor
 		cursor.close();
 		return Plants;
 	}
@@ -108,7 +105,6 @@ public class PlantDataSource {
 			Plants.add(Plant);
 			cursor.moveToNext();
 		}
-		// make sure to close the cursor
 		cursor.close();
 		return Plants;
 	}
