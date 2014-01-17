@@ -21,7 +21,6 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.activity_main);
 
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
@@ -52,6 +51,7 @@ public class MainActivity extends FragmentActivity {
 					.replace(android.R.id.content, new PrefsFragment())
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack("prefs").commit();
+	        actionBar.setDisplayHomeAsUpEnabled(true);
 
 			return true;
 		case R.id.action_about:
@@ -64,8 +64,16 @@ public class MainActivity extends FragmentActivity {
 			}
 			return true;
 		case android.R.id.home:
-			Toast.makeText(this, "Welcome to InMind!", Toast.LENGTH_LONG)
-					.show();
+			if (fm.getBackStackEntryCount() > 0) {
+				if (fm.getBackStackEntryCount() == 1){
+					actionBar.setDisplayHomeAsUpEnabled(false);
+			        actionBar.setTitle(R.string.app_name);
+				}
+				fm.popBackStack();
+			} else {
+				Toast.makeText(this, "Welcome to InMind!", Toast.LENGTH_LONG)
+				.show();
+			}
 		}
 		return false;
 	}
@@ -74,6 +82,10 @@ public class MainActivity extends FragmentActivity {
 	public void onBackPressed() {
 		// check to see if stack is empty
 		if (fm.getBackStackEntryCount() > 0) {
+			if (fm.getBackStackEntryCount() == 1){
+				actionBar.setDisplayHomeAsUpEnabled(false);
+		        actionBar.setTitle(R.string.app_name);
+			}
 			fm.popBackStack();
 		} else {
 			super.onBackPressed();

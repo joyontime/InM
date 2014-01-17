@@ -11,5 +11,13 @@ public class PrefsFragment extends PreferenceFragment {
 
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
+		
+		
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		getActivity().getActionBar().setTitle(R.string.action_settings);
 	}
 }
