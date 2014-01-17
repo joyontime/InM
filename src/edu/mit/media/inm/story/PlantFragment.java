@@ -25,7 +25,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,14 @@ public class PlantFragment extends Fragment {
 	private Activity ctx;
 	private PlantDataSource datasource;
 	private Plant plant;
+	private ImageView plant_image;
+	private Button note;
+	private Button water;
+	private Button trim;
+	private Button archive;
+	private TextView show_info;
+	private TextView info_text;
+	
 	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
@@ -65,33 +75,28 @@ public class PlantFragment extends Fragment {
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
 
+		// Toggle visibility of plant data
+		OnClickListener listener = new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				info_text.setVisibility(info_text.isShown()
+                        ? View.GONE
+                        : View.VISIBLE );
+				if (info_text.isShown()){
+					show_info.setText(R.string.hide_info);
+				} else{
+					show_info.setText(R.string.show_info);
+				}
+			}
+		};
+		info_text = (TextView) rootView.findViewById(R.id.info_text);
+		info_text.setOnClickListener(listener);
+		show_info = (TextView) rootView.findViewById(R.id.show_info);
+		show_info.setOnClickListener(listener);
+		
+		//TODO Buttons
+
 		return rootView;
-
-		/*
-		story_iv = (ImageView) this.findViewById(R.id.story_full_image);
-		
-		if (! s.image.equals("None")){
-			story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
-					getApplicationContext(), s.image, 400, 200));
-		}
-		
-		if (s.image.equals("None")){
-			story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromResource(
-					getApplicationContext(), R.drawable.candle_small, 400, 200));
-		} else {
-			story_iv.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
-					getApplicationContext(), s.image, 400, 200));
-		}
-
-		author_tv = (TextView) this.findViewById(R.id.story_full_author);
-		author_tv.setText(s.author);
-		text_tv = (TextView) this.findViewById(R.id.story_full_text);
-		text_tv.setText(s.story);
-		date_tv = (TextView) this.findViewById(R.id.story_full_date);
-
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-		date_tv.setText(df.format(new Date(s.date)));
-		*/
 	}
 	
 	@Override
@@ -101,7 +106,7 @@ public class PlantFragment extends Fragment {
 		ctx.getActionBar().setTitle(this.plant.title);
 		datasource.open();
 	}
-
+	
 	@Override
 	public void onPause() {
 		datasource.close();
