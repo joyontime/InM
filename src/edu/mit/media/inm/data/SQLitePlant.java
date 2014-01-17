@@ -8,13 +8,17 @@ import android.util.Log;
 
 public class SQLitePlant extends SQLiteOpenHelper{
 	
-	public static final String TABLE_STORY = "plant";
+	public static final String TABLE_PLANT = "plant";
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_AUTHOR = "author";
 	public static final String COLUMN_DATE = "date";
-	public static final String COLUMN_IMAGE = "image";
-	public static final String COLUMN_SHARE = "share";
-	public static final String COLUMN_STORY = "plant";
+	//public static final String COLUMN_IMAGE = "image";
+	public static final String COLUMN_PASSPHRASE = "passphrase";
+	public static final String COLUMN_SALT = "salt";
+	public static final String COLUMN_SERVER_ID = "server_id";
+	public static final String COLUMN_SHARED_WITH = "share";
+	public static final String COLUMN_STATUS = "status";
+	//public static final String COLUMN_STORY = "plant";
 	public static final String COLUMN_TITLE = "title";
 	
 
@@ -22,14 +26,21 @@ public class SQLitePlant extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
 	
 	// Database creation sql statement
+	private static String integer = " integer not null, ";
+	private static String text = " text not null, ";
+	
 	private static final String DATABASE_CREATE = "create table "
-			+ TABLE_STORY + "(" 
+			+ TABLE_PLANT + "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, "
-			+ COLUMN_AUTHOR + " text not null, "
-			+ COLUMN_DATE + " integer not null, "
-			+ COLUMN_IMAGE + " text not null, "
-			+ COLUMN_SHARE + " text not null, "
-			+ COLUMN_STORY + " text not null, "
+			+ COLUMN_AUTHOR + text
+			+ COLUMN_DATE + integer
+			//+ COLUMN_IMAGE + " text not null, "
+			+ COLUMN_PASSPHRASE + text
+			+ COLUMN_SALT + text
+			+ COLUMN_SERVER_ID + text
+			+ COLUMN_SHARED_WITH + text
+			+ COLUMN_STATUS + integer
+			//+ COLUMN_STORY + " text not null, "
 			+ COLUMN_TITLE + " text not null)";
 	
 	public SQLitePlant(Context context) {
@@ -46,7 +57,7 @@ public class SQLitePlant extends SQLiteOpenHelper{
 		 Log.w(SQLitePlant.class.getName(),
 			        "Upgrading database from version " + oldVersion + " to "
 			            + newVersion + ", which will destroy all old data");
-	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_STORY);
+	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANT);
 	    onCreate(db);
 	}
 }

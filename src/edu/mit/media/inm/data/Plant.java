@@ -10,7 +10,6 @@ import android.os.Parcelable;
  * 
  */
 public class Plant implements Parcelable, Comparable<Plant> {
-
 	public static final String EVERYONE = "everyone";
 	public static final String INNER = "inner";
 	
@@ -20,9 +19,13 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public long id;
 	public String author;
 	public long date;
-	public String image;
-	public String share;
-	public String plant;
+	//public String image;
+	public String passphrase;
+	public String salt;
+	public String server_id;
+	public String shared_with;
+	public int status;
+	//public String plant;
 	public String title;
 
 	@Override
@@ -40,9 +43,13 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		out.writeLong(id);
 		out.writeString(author);
 		out.writeLong(date);
-		out.writeString(image);
-		out.writeString(share);
-		out.writeString(plant);
+		//out.writeString(image);
+		out.writeString(passphrase);
+		out.writeString(salt);
+		out.writeString(server_id);
+		out.writeString(shared_with);
+		out.writeInt(status);
+		//out.writeString(plant);
 		out.writeString(title);
 	}
 	
@@ -67,9 +74,13 @@ public class Plant implements Parcelable, Comparable<Plant> {
         this.id = in.readLong();
         this.author = in.readString();
         this.date = in.readLong();
-        this.image = in.readString();
-        this.share = in.readString();
-        this.plant = in.readString();
+        //this.image = in.readString();
+        this.passphrase = in.readString();
+        this.salt = in.readString();
+        this.server_id = in.readString();
+        this.shared_with = in.readString();
+        this.status = in.readInt();
+        //this.plant = in.readString();
         this.title = in.readString();
     }
 

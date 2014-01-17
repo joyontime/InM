@@ -5,9 +5,6 @@ import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.PreferenceHandler;
 import edu.mit.media.inm.data.Plant;
-import edu.mit.media.inm.data.PlantAdapter;
-import edu.mit.media.inm.data.PlantAdapter.PlantHolder;
-import edu.mit.media.inm.data.PlantDataSource;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,13 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 public class PlanterFragment extends Fragment {
@@ -33,7 +27,6 @@ public class PlanterFragment extends Fragment {
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
-	private PlantAdapter adapter;
 
 	private Button new_plant_btn;
 
@@ -73,18 +66,7 @@ public class PlanterFragment extends Fragment {
 		//planter.setBackgroundResource(R.drawable.cloud_bg);
 		
 		my_plants = (LinearLayout) this.getActivity().findViewById(R.id.my_plants);
-		my_plants.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				 PlantHolder sh = (PlantHolder) v.getTag();
-		            final long plantId = sh.getId();
-	                Plant s = datasource.getPlant(plantId);
-	                
-		            Intent i = new Intent(getActivity(), PlantActivity.class);
-	                i.putExtra(Plant.OPEN_STORY, s);
-	                startActivity(i);
-			}
-	    });
+		
 	}
 
 	@Override
@@ -94,22 +76,43 @@ public class PlanterFragment extends Fragment {
 		datasource.open();
 
 		List<Plant> values = datasource.getAllStories();
-		this.adapter = new PlantAdapter(this.getActivity(), values);
 		
-		
-		for (int i = 0; i <10; i++){
+		if (values.size() == 0){
+			// If there are no plants to display, show a message instead.
+			planter.setVisibility(View.INVISIBLE);
+
+			planter.setVisibility(View.INVISIBLE);
+		} else if (my_plants.getChildAt(0)!=null){
+			// If there are child elements, remove them so we can refresh.
+			my_plants.removeAllViews();
+		}
+		for (Plant p : values){
 			//View plant = View.inflate(getActivity(), R.layout.plant_list_item, my_plants);
 
+			// Set up the plant container
 			LinearLayout plant = new LinearLayout(getActivity());
 			plant.setOrientation(LinearLayout.VERTICAL);
+			plant.setTag(p);
+			plant.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Plant clicked_plant = (Plant) v.getTag();
+	                
+		            Intent i = new Intent(getActivity(), PlantActivity.class);
+	                i.putExtra(Plant.OPEN_STORY, clicked_plant);
+	                startActivity(i);
+				}
+		    });
 			my_plants.addView(plant);
 
+			// Choose a plant image
 			ImageView image = new ImageView(getActivity());
 			image.setImageResource(R.drawable.demo_plant);
 			plant.addView(image);
 			
+			// Label the plant with its topic
 			TextView text = new TextView(getActivity());
-			text.setText("Topic" + i);
+			text.setText("Topic " + p.title);
 			text.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(text);
 			
