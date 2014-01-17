@@ -1,11 +1,16 @@
 package edu.mit.media.inm.story;
 
 import java.util.List;
+
+import edu.mit.media.inm.PrefsFragment;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.PreferenceHandler;
 import edu.mit.media.inm.data.Plant;
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -23,6 +29,7 @@ import android.widget.TextView;
 public class PlanterFragment extends Fragment {
 	private static final String TAG = "TellFragment";
 
+	private Activity ctx;
 	private String username;
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
@@ -35,13 +42,14 @@ public class PlanterFragment extends Fragment {
 			Bundle savedInstanceState) {
 		Log.d(TAG, "OnCreateView");
 		
-		PreferenceHandler ph = new PreferenceHandler(this.getActivity());
+		ctx = this.getActivity();
+		PreferenceHandler ph = new PreferenceHandler(ctx);
 		username = ph.username();
 
-		View rootView = inflater.inflate(R.layout.fragment_feed, container,
+		View rootView = inflater.inflate(R.layout.fragment_planter, container,
 				false);
 
-		datasource = new PlantDataSource(this.getActivity());
+		datasource = new PlantDataSource(ctx);
 		datasource.open();
 
 		return rootView;
@@ -51,22 +59,21 @@ public class PlanterFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		new_plant_btn = (Button) this.getActivity()
-				.findViewById(R.id.new_plant);
+		new_plant_btn = (Button) getView().findViewById(R.id.new_plant);
 		new_plant_btn.setOnClickListener(new View.OnClickListener() {
-			// Initialize a ComposeActivity to write a plant.
+			// Switch to pot fragment
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), ComposeActivity.class);
-				startActivity(intent);
+				getFragmentManager().beginTransaction()
+				.replace(android.R.id.content, new PotFragment())
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.addToBackStack("pot").commit();
+		        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		});
 
-		planter = (HorizontalScrollView) this.getActivity().findViewById(R.id.planter);
-		//planter.setBackgroundResource(R.drawable.cloud_bg);
-		
-		my_plants = (LinearLayout) this.getActivity().findViewById(R.id.my_plants);
-		
+		planter = (HorizontalScrollView) getView().findViewById(R.id.planter);
+		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
 	}
 
 	@Override
@@ -80,46 +87,44 @@ public class PlanterFragment extends Fragment {
 		if (values.size() == 0){
 			// If there are no plants to display, show a message instead.
 			planter.setVisibility(View.INVISIBLE);
-
-			planter.setVisibility(View.INVISIBLE);
 		} else if (my_plants.getChildAt(0)!=null){
 			// If there are child elements, remove them so we can refresh.
 			my_plants.removeAllViews();
 		}
 		for (Plant p : values){
-			//View plant = View.inflate(getActivity(), R.layout.plant_list_item, my_plants);
-
 			// Set up the plant container
-			LinearLayout plant = new LinearLayout(getActivity());
+			LinearLayout plant = new LinearLayout(ctx);
 			plant.setOrientation(LinearLayout.VERTICAL);
 			plant.setTag(p);
 			plant.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					Plant clicked_plant = (Plant) v.getTag();
-	                
-		            Intent i = new Intent(getActivity(), PlantActivity.class);
-	                i.putExtra(Plant.OPEN_STORY, clicked_plant);
-	                startActivity(i);
+	                ctx.getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, PlantFragment.newInstance(clicked_plant))
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack("plant").commit();
+
+			        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
 				}
 		    });
 			my_plants.addView(plant);
 
 			// Choose a plant image
-			ImageView image = new ImageView(getActivity());
+			ImageView image = new ImageView(ctx);
 			image.setImageResource(R.drawable.demo_plant);
 			plant.addView(image);
 			
 			// Label the plant with its topic
-			TextView text = new TextView(getActivity());
+			TextView text = new TextView(ctx);
+			text.setPadding(10, 10, 10, 10);
+			text.setLayoutParams(
+					new LayoutParams(300,
+							LayoutParams.MATCH_PARENT));
 			text.setText("Topic " + p.title);
 			text.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(text);
-			
-			
-			Log.d(TAG, "VIEWS!" + plant.getId());
 		}
-		super.onResume();
 	}
 
 	@Override

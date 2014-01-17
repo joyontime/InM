@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ACC">
+    
+    <EditText
+        android:id="@+id/title_box"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#8CC"
+        
+        android:paddingLeft="10dp"
+        android:layout_margin="10dp"
+        
+        android:hint="@string/name_pot"
+        android:singleLine="true"
+        android:maxLength="30"
+        android:inputType="textCapWords">
+
+        <requestFocus />
+     </EditText>
+        
+     
+    <ImageView
+        android:id="@+id/pot_image"
+        android:contentDescription="@string/pot"
+        android:layout_width="match_parent"
+        android:layout_height="150dip"
+        android:background="@drawable/cloud_repeat" 
+        
+        android:padding="5dp"
+        android:layout_margin="10dp"
+
+    >
+    </ImageView>
+    	
+    <ListView
+        android:id="@+id/friend_list"
+        android:contentDescription="@string/friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+    ></ListView>
+
+</LinearLayout>

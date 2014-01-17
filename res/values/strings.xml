@@ -17,7 +17,6 @@
     <string name="planter">Planter,</string>
     <string name="my_plants">My Plants.</string>
     
-    
     <string name="plant_name">Plant Page</string>
     
     <string name="new_pot">Get another pot.</string>
@@ -30,14 +29,12 @@
         <item>Inner Circle</item>
         <item>Nobody Else</item>
     </string-array>
-
-    <!-- Status -->
-    <string name="all_statuses">All Statuses</string>
-    <string name="my_status">My Status</string>
-
-    <string name="update_name">Share how you feel today</string>
-    <string name="update_btn">Update my status</string>
-    <string name="update">Update</string>
+    
+    <!-- Pots -->
+    <string name="pot_fragment">Plant a New Pot</string>
+    <string name="name_pot">Name your plant</string>
+    <string name="pot">Pot</string>
+    <string name="friends">Friends</string>
 
     <string-array name="mood_list">
         <item>Bad</item>
