@@ -70,14 +70,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/plant_image"
-        android:background="#ACC"
+        android:background="@color/light_teal"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/show_info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#8CC"
+            android:background="@color/faded_teal"
             android:clickable="true"
             android:gravity="center"
             android:padding="10dip"
@@ -87,7 +87,7 @@
             android:id="@+id/info_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#8CC"
+            android:background="@color/faded_teal"
             android:minLines="5"
             android:padding="10dip"
             android:visibility="gone" />

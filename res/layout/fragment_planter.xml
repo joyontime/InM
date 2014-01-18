@@ -2,33 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:background="#ACC"
+    android:orientation="vertical" >
 
     <Button
         android:id="@+id/new_plant"
         android:layout_width="match_parent"
         android:layout_height="70dip"
-        
-    	android:background="#333"
-        android:textColor="#EEE"
-        
         android:drawableRight="@drawable/ic_action_new"
         android:paddingLeft="40dip"
         android:paddingRight="40dip"
-        
-        android:text="@string/new_pot" />
+        android:text="@string/new_pot"
+        android:background="@color/faded_teal"
+        android:textColor="#FFF" />
 
     <HorizontalScrollView
         android:id="@+id/planter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/new_plant"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/cloud_repeat"
         android:fadeScrollbars="false"
-        android:background="@drawable/cloud_repeat" 
         android:requiresFadingEdge="horizontal"
-        android:text="@string/my_plants" 
-        android:layout_below="@id/new_plant">
+        android:text="@string/my_plants" >
 
         <LinearLayout
             android:id="@+id/my_plants"
@@ -39,7 +36,7 @@
             android:padding="20dp"
             android:requiresFadingEdge="vertical"
             android:text="@string/my_plants" >
-
-    	</LinearLayout>
+        </LinearLayout>
     </HorizontalScrollView>
+
 </RelativeLayout>

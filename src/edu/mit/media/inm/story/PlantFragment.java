@@ -46,6 +46,7 @@ public class PlantFragment extends Fragment {
 	private TextView show_info;
 	private TextView info_text;
 	
+	private int status;
 	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
@@ -94,9 +95,53 @@ public class PlantFragment extends Fragment {
 		show_info = (TextView) rootView.findViewById(R.id.show_info);
 		show_info.setOnClickListener(listener);
 		
-		//TODO Buttons
+		// Load plant data.
+		StringBuilder info_string = new StringBuilder();
+		info_string.append("Created at: ");
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		info_string.append(df.format(new Date(plant.date)));
+		info_string.append("\n");
+		info_string.append("Shared with: ");
+		for (String s: plant.shared_with.split(",")){
+			info_string.append("\t");
+			info_string.append(s);
+			info_string.append("\n");
+			
+		}
+		info_text.setText(info_string.toString());
+		
+		// Buttons
+		water = (Button) rootView.findViewById(R.id.water_btn);
+		water.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				status +=1;
+				Toast.makeText(ctx, "Plant watered!", Toast.LENGTH_SHORT).show();
+			}
+		});
+		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				status -=1;
+				Toast.makeText(ctx, "Plant trimmed!", Toast.LENGTH_SHORT).show();
+			}
+		});
+		note = (Button) rootView.findViewById(R.id.note_btn);
+		note.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ctx, ComposeActivity.class);
+                startActivity(intent);
+			}
+		});
+		archive = (Button) rootView.findViewById(R.id.archive_btn);
 
 		return rootView;
+	}
+	
+	private void setUpView(){
+		
 	}
 	
 	@Override

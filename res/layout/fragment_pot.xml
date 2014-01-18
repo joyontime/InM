@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ACC">
+    android:background="@color/light_teal">
     
     <EditText
         android:id="@+id/title_box"
         android:layout_width="match_parent"
         android:layout_height="50dip"
-        android:background="#8CC"
+        android:background="@color/faded_teal"
         
         android:paddingLeft="10dp"
         android:layout_margin="10dp"

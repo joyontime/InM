@@ -5,4 +5,7 @@
         <color name="honeycombish_blue">#FF58BAED</color>
         <color name="soft_grey">#FF777777</color>
         <color name="background">#FFEFEFEF</color>
+        <color name="teal">#0AA</color>
+        <color name="faded_teal">#7BB</color>
+        <color name="light_teal">#ACC</color>
 </resources>

@@ -121,7 +121,7 @@ public class PlanterFragment extends Fragment {
 			text.setLayoutParams(
 					new LayoutParams(300,
 							LayoutParams.MATCH_PARENT));
-			text.setText("Topic " + p.title);
+			text.setText(p.title);
 			text.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(text);
 		}
