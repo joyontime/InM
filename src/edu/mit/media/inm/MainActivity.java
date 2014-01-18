@@ -1,6 +1,7 @@
 package edu.mit.media.inm;
 
 import java.util.List;
+import java.util.UUID;
 
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -12,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.note.Story;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PrefsFragment;
+import edu.mit.media.inm.user.FriendFragment;
 
 public class MainActivity extends FragmentActivity {
 	private ActionBar actionBar;
@@ -56,15 +59,27 @@ public class MainActivity extends FragmentActivity {
 	        actionBar.setDisplayHomeAsUpEnabled(true);
 
 			return true;
-		case R.id.action_about:
-			// TODO Convenience function that delete all stories
-			StoryDataSource datasource = new StoryDataSource(this);
+		case R.id.action_about:		
+			UserDataSource datasource = new UserDataSource(this);
 			datasource.open();
-			List<Story> stories = datasource.getAllStories();
-			for (Story s : stories) {
-				datasource.deleteStory(s);
+			
+			for (int i = 0; i < 10; i++){
+				datasource.createUser(
+						UUID.randomUUID().toString(),
+						"User " + i,
+						System.currentTimeMillis());
 			}
+
+			datasource.close();
 			return true;
+		case R.id.action_friends:
+			fm.beginTransaction()
+			.replace(android.R.id.content, new FriendFragment())
+			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+			.addToBackStack("friends").commit();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			return true;
+		
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
 				if (fm.getBackStackEntryCount() == 1){

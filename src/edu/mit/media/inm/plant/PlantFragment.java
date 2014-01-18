@@ -11,6 +11,7 @@ import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.note.ComposeActivity;
 import edu.mit.media.inm.note.Story;
 import edu.mit.media.inm.prefs.PreferenceHandler;
@@ -135,17 +136,23 @@ public class PlantFragment extends Fragment {
 		
 		// Load plant data.
 		StringBuilder info_string = new StringBuilder();
+
+		// Pretty Print date
 		info_string.append("Created at: ");
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 		info_string.append(df.format(new Date(plant.date)));
 		info_string.append("\n");
+
+		// Pretty Print friends shared with
 		info_string.append("Shared with: ");
+		UserDataSource user_data = new UserDataSource(ctx);
+		user_data.open();
 		for (String s: plant.shared_with.split(",")){
-			info_string.append("\t");
-			info_string.append(s);
-			info_string.append("\n");
-			
+			info_string.append("\n\t");
+			info_string.append(user_data.getUserAlias(s));		
+			//info_string.append(s);		
 		}
+
 		info_text.setText(info_string.toString());
 	}
 	

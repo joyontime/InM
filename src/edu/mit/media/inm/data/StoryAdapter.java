@@ -33,8 +33,8 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 	List<Story> data;
 
 	public StoryAdapter(Context context, List<Story> data) {
-		super(context, R.layout.story_list_item, data);
-		this.layoutResourceId = R.layout.story_list_item;
+		super(context, R.layout.note_list_item, data);
+		this.layoutResourceId = R.layout.note_list_item;
 		this.context = context;
 		this.data = data;
 		Collections.sort(this.data);

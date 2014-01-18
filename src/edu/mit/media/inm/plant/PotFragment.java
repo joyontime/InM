@@ -1,11 +1,14 @@
 package edu.mit.media.inm.plant;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.user.User;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -47,7 +50,7 @@ public class PotFragment extends Fragment {
 	private EditText title_box;
 	private ImageView pot_image;
 	private ListView friend_list;
-	private String[] friends;
+	private List<User> friends;
 	
 
 	@Override
@@ -84,15 +87,20 @@ public class PotFragment extends Fragment {
 			}
 		});
 		
-		//TODO database call for friends
-		friends = new String[10];
-		for (int i = 0; i <10; i++){
-			friends[i] = "Friend" + i;
+		// Database call for friends
+
+		UserDataSource user_data = new UserDataSource(ctx);
+		user_data.open();
+		friends = user_data.getAllUsers();
+		ArrayList<String> friend_aliases = new ArrayList<String>(); 
+		for (User u: friends){
+			friend_aliases.add(u.alias);
 		}
+		
 		friend_list = (ListView) getView().findViewById(R.id.friend_list);
 		friend_list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		friend_list.setAdapter(new ArrayAdapter<String>(ctx,
-		                android.R.layout.simple_list_item_multiple_choice, friends));
+		                android.R.layout.simple_list_item_multiple_choice, friend_aliases));
 	}
 
 	@Override
@@ -123,9 +131,9 @@ public class PotFragment extends Fragment {
         		SparseBooleanArray checked = friend_list.getCheckedItemPositions();
         		
         		StringBuilder share = new StringBuilder();
-        		for (int i =0; i<friends.length; i++){
+        		for (int i =0; i<friends.size(); i++){
         			if (checked.get(i)){
-        				share.append(friends[i]);
+        				share.append(friends.get(i).server_id);
         				share.append(',');
         			}
         		}

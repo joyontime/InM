@@ -1,13 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_about"
-        android:orderInCategory="100"
-        android:title="@string/action_about"/>
+        android:id="@+id/action_friends"
+        android:orderInCategory="98"
+        android:title="@string/action_friends"/>
     
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="99"
         android:title="@string/action_settings"/>
 
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="100"
+        android:title="@string/action_about"/>
+    
 </menu>

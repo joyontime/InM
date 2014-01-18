@@ -1,7 +1,11 @@
 package edu.mit.media.inm.user;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import android.app.Activity;
 import android.app.Fragment;
@@ -9,6 +13,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class FriendFragment extends Fragment {
 	private Activity ctx;
@@ -33,9 +39,16 @@ public class FriendFragment extends Fragment {
 		
 		datasource = new UserDataSource(ctx);
 		datasource.open();
-
-		setupInfoView();
-		setupButtons();
+		
+		ListView friend_listview = (ListView) rootView.findViewById(R.id.friend_list);
+		List<User> friends = datasource.getAllUsers();
+		ArrayList<String> friend_aliases = new ArrayList<String>(); 
+		for (User u: friends){
+			friend_aliases.add(u.alias);
+		}
+		
+		friend_listview.setAdapter(
+				new ArrayAdapter<String>(ctx, R.layout.friend_row_item, friend_aliases));
 		
 		return rootView;
 	}
