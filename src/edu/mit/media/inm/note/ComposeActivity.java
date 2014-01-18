@@ -1,4 +1,4 @@
-package edu.mit.media.inm.story;
+package edu.mit.media.inm.note;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +9,6 @@ import java.util.List;
 
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryDataSource;
 import edu.mit.media.inm.util.FileUtil;
 import android.app.ActionBar;

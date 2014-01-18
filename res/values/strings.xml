@@ -53,6 +53,9 @@
         <item>Come on in!</item>
     </string-array>
     
+    <!-- User -->
+    <string name="action_friends">My Friends</string>
+    
     <!-- Preferences -->
     <string name="user_prefs">User Preferences</string>
     <string name = "title_username_preference">Set Username</string>

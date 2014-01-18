@@ -11,9 +11,10 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryDataSource;
-import edu.mit.media.inm.story.PlanterFragment;
+import edu.mit.media.inm.note.Story;
+import edu.mit.media.inm.plant.PlanterFragment;
+import edu.mit.media.inm.prefs.PrefsFragment;
 
 public class MainActivity extends FragmentActivity {
 	private ActionBar actionBar;

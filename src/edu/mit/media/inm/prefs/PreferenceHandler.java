@@ -1,4 +1,4 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.prefs;
 
 import edu.mit.media.inm.R;
 import android.content.Context;

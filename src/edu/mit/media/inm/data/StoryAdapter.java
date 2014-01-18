@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.note.Story;
 import edu.mit.media.inm.util.FileUtil;
 import android.app.Activity;
 import android.content.Context;

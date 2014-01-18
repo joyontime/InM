@@ -1,4 +1,4 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.plant;
 
 import android.os.Parcel;
 import android.os.Parcelable;

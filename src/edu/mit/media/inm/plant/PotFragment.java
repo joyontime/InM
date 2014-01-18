@@ -1,12 +1,11 @@
-package edu.mit.media.inm.story;
+package edu.mit.media.inm.plant;
 
 import java.util.List;
 import java.util.UUID;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.PreferenceHandler;
-import edu.mit.media.inm.data.Plant;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;

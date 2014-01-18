@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class SQLitePlant extends SQLiteOpenHelper{
+public class PlantSQLite extends SQLiteOpenHelper{
 	
 	public static final String TABLE_PLANT = "plant";
 	public static final String COLUMN_ID = "_id";
@@ -43,7 +43,7 @@ public class SQLitePlant extends SQLiteOpenHelper{
 			//+ COLUMN_STORY + " text not null, "
 			+ COLUMN_TITLE + " text not null)";
 	
-	public SQLitePlant(Context context) {
+	public PlantSQLite(Context context) {
 		super(context, STORY_DB, null, DATABASE_VERSION);
 	}
 
@@ -54,7 +54,7 @@ public class SQLitePlant extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		 Log.w(SQLitePlant.class.getName(),
+		 Log.w(PlantSQLite.class.getName(),
 			        "Upgrading database from version " + oldVersion + " to "
 			            + newVersion + ", which will destroy all old data");
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANT);

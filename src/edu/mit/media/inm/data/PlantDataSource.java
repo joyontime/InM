@@ -3,6 +3,8 @@ package edu.mit.media.inm.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.mit.media.inm.plant.Plant;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,15 +18,15 @@ public class PlantDataSource {
 	
 	// Database fields
 	private SQLiteDatabase database;
-	private SQLitePlant dbHelper;
-	private String[] allColumns = { SQLitePlant.COLUMN_ID,
-			SQLitePlant.COLUMN_AUTHOR, SQLitePlant.COLUMN_DATE,
-			SQLitePlant.COLUMN_PASSPHRASE, SQLitePlant.COLUMN_SALT,
-			SQLitePlant.COLUMN_SERVER_ID, SQLitePlant.COLUMN_SHARED_WITH,
-			SQLitePlant.COLUMN_STATUS,SQLitePlant.COLUMN_TITLE };
+	private PlantSQLite dbHelper;
+	private String[] allColumns = { PlantSQLite.COLUMN_ID,
+			PlantSQLite.COLUMN_AUTHOR, PlantSQLite.COLUMN_DATE,
+			PlantSQLite.COLUMN_PASSPHRASE, PlantSQLite.COLUMN_SALT,
+			PlantSQLite.COLUMN_SERVER_ID, PlantSQLite.COLUMN_SHARED_WITH,
+			PlantSQLite.COLUMN_STATUS,PlantSQLite.COLUMN_TITLE };
 
 	public PlantDataSource(Context context) {
-		dbHelper = new SQLitePlant(context);
+		dbHelper = new PlantSQLite(context);
 	}
 
 	public void open() throws SQLException {
@@ -40,19 +42,19 @@ public class PlantDataSource {
 			String share, int status, String title) {
 
 		ContentValues values = new ContentValues();
-		values.put(SQLitePlant.COLUMN_AUTHOR, author);
-		values.put(SQLitePlant.COLUMN_DATE, date);
-		values.put(SQLitePlant.COLUMN_PASSPHRASE, pass);
-		values.put(SQLitePlant.COLUMN_SALT, salt);
-		values.put(SQLitePlant.COLUMN_SERVER_ID, server_id);
-		values.put(SQLitePlant.COLUMN_SHARED_WITH, share);
-		values.put(SQLitePlant.COLUMN_STATUS, status);
-		values.put(SQLitePlant.COLUMN_TITLE, title);
-		long insertId = database.insert(SQLitePlant.TABLE_PLANT, null, values);
+		values.put(PlantSQLite.COLUMN_AUTHOR, author);
+		values.put(PlantSQLite.COLUMN_DATE, date);
+		values.put(PlantSQLite.COLUMN_PASSPHRASE, pass);
+		values.put(PlantSQLite.COLUMN_SALT, salt);
+		values.put(PlantSQLite.COLUMN_SERVER_ID, server_id);
+		values.put(PlantSQLite.COLUMN_SHARED_WITH, share);
+		values.put(PlantSQLite.COLUMN_STATUS, status);
+		values.put(PlantSQLite.COLUMN_TITLE, title);
+		long insertId = database.insert(PlantSQLite.TABLE_PLANT, null, values);
 
 		// Get the entered plant back out as a Plant object
-		Cursor cursor = database.query(SQLitePlant.TABLE_PLANT, allColumns,
-				SQLitePlant.COLUMN_ID + " = " + insertId, null, null, null,
+		Cursor cursor = database.query(PlantSQLite.TABLE_PLANT, allColumns,
+				PlantSQLite.COLUMN_ID + " = " + insertId, null, null, null,
 				null);
 		cursor.moveToFirst();
 		Plant newPlant = cursorToPlant(cursor);
@@ -63,14 +65,14 @@ public class PlantDataSource {
 	public void deletePlant(Plant plant) {
 		long id = plant.id;
 		Log.i(TAG, "Plant deleted with id: " + id);
-		database.delete(SQLitePlant.TABLE_PLANT, SQLitePlant.COLUMN_ID
+		database.delete(PlantSQLite.TABLE_PLANT, PlantSQLite.COLUMN_ID
 				+ " = " + id, null);
 	}
 	
 	public Plant getPlant(long id) {
 		Log.i(TAG, "Trying to find plant with id: " + id);
-		Cursor cursor = database.query(SQLitePlant.TABLE_PLANT, allColumns,
-				SQLitePlant.COLUMN_ID + " = " + id, null, null, null, null);
+		Cursor cursor = database.query(PlantSQLite.TABLE_PLANT, allColumns,
+				PlantSQLite.COLUMN_ID + " = " + id, null, null, null, null);
 		cursor.moveToFirst();
 		Plant plant = cursorToPlant(cursor);
 		cursor.close();
@@ -80,7 +82,7 @@ public class PlantDataSource {
 	public List<Plant> getAllStories() {
 		List<Plant> Plants = new ArrayList<Plant>();
 
-		Cursor cursor = database.query(SQLitePlant.TABLE_PLANT, allColumns,
+		Cursor cursor = database.query(PlantSQLite.TABLE_PLANT, allColumns,
 				null, null, null, null, null);
 
 		cursor.moveToFirst();
@@ -96,8 +98,8 @@ public class PlantDataSource {
 	public List<Plant> getUserStories(String username) {
 		List<Plant> Plants = new ArrayList<Plant>();
 
-		Cursor cursor = database.query(SQLitePlant.TABLE_PLANT, allColumns,
-				SQLitePlant.COLUMN_AUTHOR + " = '" + username + "'", null, null, null, null);
+		Cursor cursor = database.query(PlantSQLite.TABLE_PLANT, allColumns,
+				PlantSQLite.COLUMN_AUTHOR + " = '" + username + "'", null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

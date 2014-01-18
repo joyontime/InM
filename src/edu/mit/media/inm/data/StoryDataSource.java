@@ -3,6 +3,8 @@ package edu.mit.media.inm.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.mit.media.inm.note.Story;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,14 +18,14 @@ public class StoryDataSource {
 	
 	// Database fields
 	private SQLiteDatabase database;
-	private SQLiteStory dbHelper;
-	private String[] allColumns = { SQLiteStory.COLUMN_ID,
-			SQLiteStory.COLUMN_AUTHOR, SQLiteStory.COLUMN_DATE,
-			SQLiteStory.COLUMN_IMAGE, SQLiteStory.COLUMN_DATE,
-			SQLiteStory.COLUMN_STORY, SQLiteStory.COLUMN_TITLE };
+	private StorySQLite dbHelper;
+	private String[] allColumns = { StorySQLite.COLUMN_ID,
+			StorySQLite.COLUMN_AUTHOR, StorySQLite.COLUMN_DATE,
+			StorySQLite.COLUMN_IMAGE, StorySQLite.COLUMN_DATE,
+			StorySQLite.COLUMN_STORY, StorySQLite.COLUMN_TITLE };
 
 	public StoryDataSource(Context context) {
-		dbHelper = new SQLiteStory(context);
+		dbHelper = new StorySQLite(context);
 	}
 
 	public void open() throws SQLException {
@@ -39,17 +41,17 @@ public class StoryDataSource {
 
 		// Enter the new Story into the db
 		ContentValues values = new ContentValues();
-		values.put(SQLiteStory.COLUMN_AUTHOR, defIfEmpty(author, "Anon."));
-		values.put(SQLiteStory.COLUMN_DATE, date);
-		values.put(SQLiteStory.COLUMN_IMAGE, defIfEmpty(image, "None"));
-		values.put(SQLiteStory.COLUMN_SHARE, defIfEmpty(share, "Everyone"));
-		values.put(SQLiteStory.COLUMN_STORY, defIfEmpty(story, "-"));
-		values.put(SQLiteStory.COLUMN_TITLE, defIfEmpty(title, "Untitled."));
-		long insertId = database.insert(SQLiteStory.TABLE_STORY, null, values);
+		values.put(StorySQLite.COLUMN_AUTHOR, defIfEmpty(author, "Anon."));
+		values.put(StorySQLite.COLUMN_DATE, date);
+		values.put(StorySQLite.COLUMN_IMAGE, defIfEmpty(image, "None"));
+		values.put(StorySQLite.COLUMN_SHARE, defIfEmpty(share, "Everyone"));
+		values.put(StorySQLite.COLUMN_STORY, defIfEmpty(story, "-"));
+		values.put(StorySQLite.COLUMN_TITLE, defIfEmpty(title, "Untitled."));
+		long insertId = database.insert(StorySQLite.TABLE_STORY, null, values);
 
 		// Get the entered story back out as a Story object
-		Cursor cursor = database.query(SQLiteStory.TABLE_STORY, allColumns,
-				SQLiteStory.COLUMN_ID + " = " + insertId, null, null, null,
+		Cursor cursor = database.query(StorySQLite.TABLE_STORY, allColumns,
+				StorySQLite.COLUMN_ID + " = " + insertId, null, null, null,
 				null);
 		cursor.moveToFirst();
 		Story newStory = cursorToStory(cursor);
@@ -68,14 +70,14 @@ public class StoryDataSource {
 	public void deleteStory(Story story) {
 		long id = story.id;
 		Log.i(TAG, "Story deleted with id: " + id);
-		database.delete(SQLiteStory.TABLE_STORY, SQLiteStory.COLUMN_ID
+		database.delete(StorySQLite.TABLE_STORY, StorySQLite.COLUMN_ID
 				+ " = " + id, null);
 	}
 	
 	public Story getStory(long id) {
 		Log.i(TAG, "Trying to find story with id: " + id);
-		Cursor cursor = database.query(SQLiteStory.TABLE_STORY, allColumns,
-				SQLiteStory.COLUMN_ID + " = " + id, null, null, null, null);
+		Cursor cursor = database.query(StorySQLite.TABLE_STORY, allColumns,
+				StorySQLite.COLUMN_ID + " = " + id, null, null, null, null);
 		cursor.moveToFirst();
 		Story story = cursorToStory(cursor);
 		// make sure to close the cursor
@@ -86,7 +88,7 @@ public class StoryDataSource {
 	public List<Story> getAllStories() {
 		List<Story> Storys = new ArrayList<Story>();
 
-		Cursor cursor = database.query(SQLiteStory.TABLE_STORY, allColumns,
+		Cursor cursor = database.query(StorySQLite.TABLE_STORY, allColumns,
 				null, null, null, null, null);
 
 		cursor.moveToFirst();
@@ -103,8 +105,8 @@ public class StoryDataSource {
 	public List<Story> getUserStories(String username) {
 		List<Story> Storys = new ArrayList<Story>();
 
-		Cursor cursor = database.query(SQLiteStory.TABLE_STORY, allColumns,
-				SQLiteStory.COLUMN_AUTHOR + " = '" + username + "'", null, null, null, null);
+		Cursor cursor = database.query(StorySQLite.TABLE_STORY, allColumns,
+				StorySQLite.COLUMN_AUTHOR + " = '" + username + "'", null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

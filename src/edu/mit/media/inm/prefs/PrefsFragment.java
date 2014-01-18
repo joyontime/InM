@@ -1,5 +1,8 @@
-package edu.mit.media.inm;
+package edu.mit.media.inm.prefs;
 
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.R.string;
+import edu.mit.media.inm.R.xml;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 

@@ -1,4 +1,4 @@
-package edu.mit.media.inm.story;
+package edu.mit.media.inm.plant;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,11 +9,11 @@ import java.util.Date;
 
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.Plant;
 import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.PreferenceHandler;
-import edu.mit.media.inm.data.Story;
 import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.note.ComposeActivity;
+import edu.mit.media.inm.note.Story;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.util.FileUtil;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -36,6 +36,7 @@ public class PlantFragment extends Fragment {
 	private static final String TAG = "PlantActivity";
 
 	private Activity ctx;
+	private View rootView;
 	private PlantDataSource datasource;
 	private Plant plant;
 	private ImageView plant_image;
@@ -70,12 +71,49 @@ public class PlantFragment extends Fragment {
 		ctx = this.getActivity();
 		PreferenceHandler ph = new PreferenceHandler(ctx);
 
-		View rootView = inflater.inflate(R.layout.fragment_plant, container,
+		rootView = inflater.inflate(R.layout.fragment_plant, container,
 				false);
 		
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
 
+		setupInfoView();
+		setupButtons();
+		
+		return rootView;
+	}
+	
+	private void setupButtons(){
+		// Buttons
+		water = (Button) rootView.findViewById(R.id.water_btn);
+		water.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				status +=1;
+				Toast.makeText(ctx, "Plant watered!", Toast.LENGTH_SHORT).show();
+			}
+		});
+		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				status -=1;
+				Toast.makeText(ctx, "Plant trimmed!", Toast.LENGTH_SHORT).show();
+			}
+		});
+		note = (Button) rootView.findViewById(R.id.note_btn);
+		note.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ctx, ComposeActivity.class);
+                startActivity(intent);
+			}
+		});
+		archive = (Button) rootView.findViewById(R.id.archive_btn);
+
+	}
+	
+	private void setupInfoView(){
 		// Toggle visibility of plant data
 		OnClickListener listener = new OnClickListener(){
 			@Override
@@ -109,39 +147,6 @@ public class PlantFragment extends Fragment {
 			
 		}
 		info_text.setText(info_string.toString());
-		
-		// Buttons
-		water = (Button) rootView.findViewById(R.id.water_btn);
-		water.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				status +=1;
-				Toast.makeText(ctx, "Plant watered!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		trim = (Button) rootView.findViewById(R.id.trim_btn);
-		trim.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				status -=1;
-				Toast.makeText(ctx, "Plant trimmed!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		note = (Button) rootView.findViewById(R.id.note_btn);
-		note.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ctx, ComposeActivity.class);
-                startActivity(intent);
-			}
-		});
-		archive = (Button) rootView.findViewById(R.id.archive_btn);
-
-		return rootView;
-	}
-	
-	private void setUpView(){
-		
 	}
 	
 	@Override
