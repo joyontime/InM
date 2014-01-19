@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/light_teal">
+    android:background="@color/light_teal"
+    android:gravity="center">
     
     <EditText
         android:id="@+id/title_box"
@@ -26,12 +27,13 @@
     <ImageView
         android:id="@+id/pot_image"
         android:contentDescription="@string/pot"
-        android:layout_width="match_parent"
+        android:layout_width="100dip"
         android:layout_height="150dip"
         android:background="@drawable/cloud_repeat" 
         
         android:padding="5dp"
         android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
 
     >
     </ImageView>

@@ -12,13 +12,12 @@ public class PlantSQLite extends SQLiteOpenHelper{
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_AUTHOR = "author";
 	public static final String COLUMN_DATE = "date";
-	//public static final String COLUMN_IMAGE = "image";
 	public static final String COLUMN_PASSPHRASE = "passphrase";
+	public static final String COLUMN_POT = "pot";
 	public static final String COLUMN_SALT = "salt";
 	public static final String COLUMN_SERVER_ID = "server_id";
 	public static final String COLUMN_SHARED_WITH = "share";
 	public static final String COLUMN_STATUS = "status";
-	//public static final String COLUMN_STORY = "plant";
 	public static final String COLUMN_TITLE = "title";
 	
 
@@ -34,13 +33,12 @@ public class PlantSQLite extends SQLiteOpenHelper{
 			+ COLUMN_ID + " integer primary key autoincrement, "
 			+ COLUMN_AUTHOR + text
 			+ COLUMN_DATE + integer
-			//+ COLUMN_IMAGE + " text not null, "
 			+ COLUMN_PASSPHRASE + text
+			+ COLUMN_POT + text
 			+ COLUMN_SALT + text
 			+ COLUMN_SERVER_ID + text
 			+ COLUMN_SHARED_WITH + text
 			+ COLUMN_STATUS + integer
-			//+ COLUMN_STORY + " text not null, "
 			+ COLUMN_TITLE + " text not null)";
 	
 	public PlantSQLite(Context context) {

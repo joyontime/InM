@@ -81,7 +81,7 @@ public class PlanterFragment extends Fragment {
 		Log.d(TAG, "onResume");
 		datasource.open();
 
-		List<Plant> values = datasource.getAllStories();
+		List<Plant> values = datasource.getAllPlants();
 		
 		if (values.size() == 0){
 			// If there are no plants to display, show a message instead.
@@ -111,15 +111,22 @@ public class PlanterFragment extends Fragment {
 
 			// Choose a plant image
 			ImageView image = new ImageView(ctx);
-			image.setImageResource(R.drawable.demo_plant);
+			//image.setImageResource(R.drawable.demo_plant);
+			image.setImageResource(Plant.growth[p.status]);
+			image.setBackgroundResource(Plant.pots[p.pot]);
+			image.setLayoutParams(
+					new LayoutParams(
+							300,
+							LayoutParams.WRAP_CONTENT));
 			plant.addView(image);
 			
 			// Label the plant with its topic
 			TextView text = new TextView(ctx);
 			text.setPadding(10, 10, 10, 10);
 			text.setLayoutParams(
-					new LayoutParams(300,
-							LayoutParams.MATCH_PARENT));
+					new LayoutParams(
+							300,
+							LayoutParams.WRAP_CONTENT));
 			text.setText(p.title);
 			text.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(text);

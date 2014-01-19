@@ -52,6 +52,7 @@ public class PotFragment extends Fragment {
 	private ListView friend_list;
 	private List<User> friends;
 	
+	private int pot_color = 1;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,11 +80,14 @@ public class PotFragment extends Fragment {
 		
 		title_box = (EditText) getView().findViewById(R.id.title_box);
 		pot_image = (ImageView) getView().findViewById(R.id.pot_image);
+		pot_image.setImageResource(Plant.pots[pot_color]);
 		pot_image.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Iterate through pot colors!
+				if (pot_color > 11)	pot_color = 1;
+				else pot_color++;
+				pot_image.setImageResource(Plant.pots[pot_color]);
 			}
 		});
 		
@@ -142,6 +146,7 @@ public class PotFragment extends Fragment {
                 		username,
                 		System.currentTimeMillis(),		// TODO get date from server
                 		randomString(),
+                		pot_color,
                 		randomString(),
                 		randomString(),					// TODO get server id from server
                 		share.toString(),

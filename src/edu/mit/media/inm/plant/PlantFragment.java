@@ -83,38 +83,13 @@ public class PlantFragment extends Fragment {
 		
 		return rootView;
 	}
-	
-	private void setupButtons(){
-		// Buttons
-		water = (Button) rootView.findViewById(R.id.water_btn);
-		water.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				status +=1;
-				Toast.makeText(ctx, "Plant watered!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		trim = (Button) rootView.findViewById(R.id.trim_btn);
-		trim.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				status -=1;
-				Toast.makeText(ctx, "Plant trimmed!", Toast.LENGTH_SHORT).show();
-			}
-		});
-		note = (Button) rootView.findViewById(R.id.note_btn);
-		note.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ctx, ComposeActivity.class);
-                startActivity(intent);
-			}
-		});
-		archive = (Button) rootView.findViewById(R.id.archive_btn);
 
-	}
-	
 	private void setupInfoView(){
+
+		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
+		plant_image.setImageResource(Plant.growth[plant.status]);
+		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
+		
 		// Toggle visibility of plant data
 		OnClickListener listener = new OnClickListener(){
 			@Override
@@ -148,12 +123,53 @@ public class PlantFragment extends Fragment {
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
 		for (String s: plant.shared_with.split(",")){
-			info_string.append("\n\t");
-			info_string.append(user_data.getUserAlias(s));		
-			//info_string.append(s);		
+			if (!s.trim().isEmpty()){
+				info_string.append("\n\t");
+				info_string.append(user_data.getUserAlias(s));	
+			}		
 		}
 
 		info_text.setText(info_string.toString());
+	}
+	
+	private void setupButtons(){
+		// Buttons
+		water = (Button) rootView.findViewById(R.id.water_btn);
+		water.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				if (status < 8){
+					status +=1;
+					plant_image.setImageResource(Plant.growth[status]);
+					Toast.makeText(ctx, "Plant watered. It grew!", Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(ctx, "Plant watered.", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				if (status > 0){
+					status -=1;
+					plant_image.setImageResource(Plant.growth[status]);
+					Toast.makeText(ctx, "Plant trimmed. It's smaller now.", Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(ctx, "Plant trimmed.", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		note = (Button) rootView.findViewById(R.id.note_btn);
+		note.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ctx, ComposeActivity.class);
+                startActivity(intent);
+			}
+		});
+		archive = (Button) rootView.findViewById(R.id.archive_btn);
+
 	}
 	
 	@Override
@@ -166,6 +182,7 @@ public class PlantFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
+		datasource.updatePlant(plant.server_id, this.status);
 		datasource.close();
 		super.onPause();
 	}
