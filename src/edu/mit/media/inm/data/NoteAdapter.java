@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.note.Story;
+import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.util.FileUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -25,14 +25,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class StoryAdapter extends ArrayAdapter<Story> {
+public class NoteAdapter extends ArrayAdapter<Note> {
 	private static final String TAG = "StoryAdapter";
 
 	Context context;
 	int layoutResourceId;
-	List<Story> data;
+	List<Note> data;
 
-	public StoryAdapter(Context context, List<Story> data) {
+	public NoteAdapter(Context context, List<Note> data) {
 		super(context, R.layout.note_list_item, data);
 		this.layoutResourceId = R.layout.note_list_item;
 		this.context = context;
@@ -44,6 +44,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
 		StoryHolder holder = null;
+		/*
 
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -61,7 +62,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 			holder = (StoryHolder) row.getTag();
 		}
 
-		Story story = data.get(position);
+		Note story = data.get(position);
 		holder.title.setText(story.title);
 		holder.author.setText(story.author);
 
@@ -78,7 +79,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
 					context, story.image, 100, 100));
 		}
 		
-		holder.id = story.id;
+		holder.id = story.id;*/
 		return row;
 	}
 

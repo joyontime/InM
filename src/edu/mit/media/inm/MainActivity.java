@@ -12,9 +12,10 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.note.Story;
+import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
@@ -79,7 +80,7 @@ public class MainActivity extends FragmentActivity {
 			.addToBackStack("friends").commit();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
-		
+
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
 				if (fm.getBackStackEntryCount() == 1){

@@ -53,6 +53,9 @@
         <item>Come on in!</item>
     </string-array>
     
+    <!--  Note -->
+    <string name="note_hint">Write your note here.</string>
+    
     <!-- User -->
     <string name="action_friends">My Friends</string>
     

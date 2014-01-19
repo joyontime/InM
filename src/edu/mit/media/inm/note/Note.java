@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * @author joyc4luck
  * 
  */
-public class Story implements Parcelable, Comparable<Story> {
+public class Note implements Parcelable, Comparable<Note> {
 
 	public static final String EVERYONE = "everyone";
 	public static final String INNER = "inner";
@@ -20,14 +20,12 @@ public class Story implements Parcelable, Comparable<Story> {
 	public long id;
 	public String author;
 	public long date;
-	public String image;
-	public String share;
-	public String story;
-	public String title;
+	public String text;
+	public String plant;
 
 	@Override
 	public String toString() {
-		return title;
+		return text;
 	}
 
 	@Override
@@ -40,41 +38,37 @@ public class Story implements Parcelable, Comparable<Story> {
 		out.writeLong(id);
 		out.writeString(author);
 		out.writeLong(date);
-		out.writeString(image);
-		out.writeString(share);
-		out.writeString(story);
-		out.writeString(title);
+		out.writeString(text);
+		out.writeString(plant);
 	}
 	
 	/**
 	 * Regeneration of object.
 	 */
-    public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
-        public Story createFromParcel(Parcel in) {
-            return new Story(in);
+    public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
         }
 
-        public Story[] newArray(int size) {
-            return new Story[size];
+        public Note[] newArray(int size) {
+            return new Note[size];
         }
     };
 
-    public Story(){
+    public Note(){
     	
     }
 
-    private Story(Parcel in) {
+    private Note(Parcel in) {
         this.id = in.readLong();
         this.author = in.readString();
         this.date = in.readLong();
-        this.image = in.readString();
-        this.share = in.readString();
-        this.story = in.readString();
-        this.title = in.readString();
+        this.text = in.readString();
+        this.plant = in.readString();
     }
 
 	@Override
-	public int compareTo(Story other) {
+	public int compareTo(Note other) {
 		return (int) (other.date - this.date);
 	}
 }

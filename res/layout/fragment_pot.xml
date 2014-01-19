@@ -30,11 +30,10 @@
         android:layout_width="100dip"
         android:layout_height="150dip"
         android:background="@drawable/cloud_repeat" 
+        android:clickable="true"
         
         android:padding="5dp"
         android:layout_margin="10dp"
-        android:layout_centerHorizontal="true"
-
     >
     </ImageView>
     	

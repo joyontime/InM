@@ -10,15 +10,16 @@ import java.util.Date;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.StoryDataSource;
+import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.note.ComposeActivity;
-import edu.mit.media.inm.note.Story;
+import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.note.NoteFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.util.FileUtil;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -40,15 +41,9 @@ public class PlantFragment extends Fragment {
 	private View rootView;
 	private PlantDataSource datasource;
 	private Plant plant;
-	private ImageView plant_image;
-	private Button note;
-	private Button water;
-	private Button trim;
-	private Button archive;
 	private TextView show_info;
 	private TextView info_text;
 	
-	private int status;
 	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
@@ -79,17 +74,17 @@ public class PlantFragment extends Fragment {
 		datasource.open();
 
 		setupInfoView();
-		setupButtons();
+
+		getFragmentManager().beginTransaction()
+			.replace(R.id.control_space, CommandBoxFragment.newInstance(plant))
+			.setTransition(0)
+			.addToBackStack("plant")
+			.commit();
 		
 		return rootView;
 	}
 
 	private void setupInfoView(){
-
-		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
-		plant_image.setImageResource(Plant.growth[plant.status]);
-		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
-		
 		// Toggle visibility of plant data
 		OnClickListener listener = new OnClickListener(){
 			@Override
@@ -132,46 +127,6 @@ public class PlantFragment extends Fragment {
 		info_text.setText(info_string.toString());
 	}
 	
-	private void setupButtons(){
-		// Buttons
-		water = (Button) rootView.findViewById(R.id.water_btn);
-		water.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				if (status < 8){
-					status +=1;
-					plant_image.setImageResource(Plant.growth[status]);
-					Toast.makeText(ctx, "Plant watered. It grew!", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(ctx, "Plant watered.", Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-		trim = (Button) rootView.findViewById(R.id.trim_btn);
-		trim.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				if (status > 0){
-					status -=1;
-					plant_image.setImageResource(Plant.growth[status]);
-					Toast.makeText(ctx, "Plant trimmed. It's smaller now.", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(ctx, "Plant trimmed.", Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-		note = (Button) rootView.findViewById(R.id.note_btn);
-		note.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ctx, ComposeActivity.class);
-                startActivity(intent);
-			}
-		});
-		archive = (Button) rootView.findViewById(R.id.archive_btn);
-
-	}
-	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -182,7 +137,6 @@ public class PlantFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
-		datasource.updatePlant(plant.server_id, this.status);
 		datasource.close();
 		super.onPause();
 	}
