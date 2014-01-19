@@ -13,7 +13,7 @@ public class UserSQLite extends SQLiteOpenHelper{
 	public static final String COLUMN_ALIAS = "alias";
 	public static final String COLUMN_DATE_JOINED = "date_joined";	
 
-	private static final String STORY_DB = "inm.story.db";
+	private static final String STORY_DB = "inm.user.db";
 	private static final int DATABASE_VERSION = 1;
 	
 	// Database creation sql statement
