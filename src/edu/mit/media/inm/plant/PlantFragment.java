@@ -6,9 +6,11 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.NoteAdapter;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.UserDataSource;
@@ -31,6 +33,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +47,7 @@ public class PlantFragment extends Fragment {
 	private TextView show_info;
 	private TextView info_text;
 	
+	private ListView notes_view;
 	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
@@ -74,6 +78,7 @@ public class PlantFragment extends Fragment {
 		datasource.open();
 
 		setupInfoView();
+		setupNotes();
 
 		getFragmentManager().beginTransaction()
 			.replace(R.id.control_space, CommandBoxFragment.newInstance(plant))
@@ -125,6 +130,16 @@ public class PlantFragment extends Fragment {
 		}
 
 		info_text.setText(info_string.toString());
+	}
+	
+	private void setupNotes(){
+		notes_view = (ListView) rootView.findViewById(R.id.notes);
+		NoteDataSource nds = new NoteDataSource(ctx);
+		nds.open();
+		List<Note> notes = nds.getPlantNotes(plant.server_id);
+		nds.close();
+		NoteAdapter note_adapter = new NoteAdapter(ctx, notes);
+		notes_view.setAdapter(note_adapter);
 	}
 	
 	@Override

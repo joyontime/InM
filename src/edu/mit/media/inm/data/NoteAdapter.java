@@ -1,9 +1,5 @@
 package edu.mit.media.inm.data;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -12,17 +8,12 @@ import java.util.List;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.util.FileUtil;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NoteAdapter extends ArrayAdapter<Note> {
@@ -43,53 +34,38 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
-		StoryHolder holder = null;
-		/*
+		NoteHolder holder = null;
 
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			row = inflater.inflate(layoutResourceId, parent, false);
 
-			holder = new StoryHolder();
-			holder.title = (TextView) row.findViewById(R.id.story_title);
-			holder.author = (TextView) row.findViewById(R.id.story_author);
-			holder.date = (TextView) row.findViewById(R.id.story_date);
-			holder.excerpt = (TextView) row.findViewById(R.id.story_excerpt);
-			holder.image = (ImageView) row.findViewById(R.id.story_image);
+			holder = new NoteHolder();
+			holder.author = (TextView) row.findViewById(R.id.note_author);
+			holder.date = (TextView) row.findViewById(R.id.note_date);
+			holder.excerpt = (TextView) row.findViewById(R.id.note_text);
 
 			row.setTag(holder);
 		} else {
-			holder = (StoryHolder) row.getTag();
+			holder = (NoteHolder) row.getTag();
 		}
 
-		Note story = data.get(position);
-		holder.title.setText(story.title);
-		holder.author.setText(story.author);
+		Note note = data.get(position);
+		holder.author.setText(note.author);
 
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-		holder.date.setText(df.format(new Date(story.date)));
+		holder.date.setText(df.format(new Date(note.date)));
 
-		holder.excerpt.setText(story.story);
-
-		if (story.image.equals("None")){
-			holder.image.setImageBitmap(FileUtil.decodeSampledBitmapFromResource(
-					context, R.drawable.candle_small, 100, 100));
-		} else {
-			holder.image.setImageBitmap(FileUtil.decodeSampledBitmapFromFile(
-					context, story.image, 100, 100));
-		}
+		holder.excerpt.setText(note.text);
+		holder.id = note.id;
 		
-		holder.id = story.id;*/
 		return row;
 	}
 
-	public static class StoryHolder {
-		TextView title;
+	public static class NoteHolder {
 		TextView author;
 		TextView date;
 		TextView excerpt;
-		ImageView image;
-
 		long id;
 
 		public long getId() {

@@ -62,7 +62,6 @@ public class NoteFragment extends Fragment {
 		
 		return rootView;
 	}
-	
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

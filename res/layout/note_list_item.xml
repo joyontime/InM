@@ -3,72 +3,43 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dip" >
- 
-    <LinearLayout android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="3dip"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dip">
- 
-        <ImageView
-            android:id="@+id/story_image"
-            android:layout_width="100dip"
-            android:layout_height="100dip"
-            android:src="@drawable/ic_launcher"/>
- 
-    </LinearLayout>
- 
+    android:padding="5dip">
     <!-- Title Of Note-->
-    <TextView
-        android:id="@+id/story_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="#EEE"
-        android:typeface="sans"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:maxLines="1"/>
  
     <!-- Author Name -->
     <TextView
-        android:id="@+id/story_author"
-        android:layout_width="fill_parent"
+        android:id="@+id/note_author"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/story_title"
-        android:textColor="#CCC"
+        android:textColor="#000"
         android:textSize="12sp"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail" />
+        android:text="author"
+        android:layout_marginTop="1dip"/>
     
-    
-    <!-- Note Excerpt -->
-    <TextView
-        android:id="@+id/story_excerpt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/story_author"
-        android:textColor="#CCC"
-        android:textSize="14sp"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:maxLines="3"/>
- 
     <!-- Rightend Date -->
     <TextView
-        android:id="@+id/story_date"
+        android:id="@+id/note_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/thumbnail"
+        android:layout_toRightOf="@id/note_author"
         android:gravity="right"
         android:text="Unknown"
         android:layout_marginRight="5dip"
         android:textSize="12sp"
-        android:textColor="#CCC"
+        android:textColor="#000"
         android:textStyle="bold"/>
+    
+    <!-- Note Excerpt -->
+    <TextView
+        android:id="@+id/note_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:layout_marginTop="1dip"
+        android:layout_below="@id/note_author"
+        android:maxLines="3"/>
+ 
  
 </RelativeLayout>

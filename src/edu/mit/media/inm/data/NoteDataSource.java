@@ -90,11 +90,12 @@ public class NoteDataSource {
 		return Notes;
 	}
 	
-	public List<Note> getUserStories(String username) {
+	public List<Note> getPlantNotes(String plant) {
 		List<Note> Notes = new ArrayList<Note>();
 
 		Cursor cursor = database.query(NoteSQLite.TABLE_NOTE, allColumns,
-				NoteSQLite.COLUMN_AUTHOR + " = '" + username + "'", null, null, null, null);
+				NoteSQLite.COLUMN_PLANT + " = ?", new String[]{plant},
+				null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
