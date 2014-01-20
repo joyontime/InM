@@ -19,11 +19,14 @@ public class PreferenceHandler{
 	public String username(){
 		return prefs.getString("username_preference", "None");
 	}
-	
+
 	public String password(){
 		return prefs.getString("password_preference", "None");
 	}
 	
+	public String IV(){
+		return prefs.getString("IV_preference", "abcdef1234567890");
+	}
 
 	public boolean prompt(){
 		return prefs.getBoolean("prompt_preference", true);

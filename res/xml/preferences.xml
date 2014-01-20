@@ -13,9 +13,16 @@
         <EditTextPreference
                 android:key="password_preference"
                 android:title="@string/title_password_preference"
-                android:summary="@string/summary_username_preference" 
+                android:summary="@string/summary_password_preference" 
                 android:dialogTitle="@string/dialog_password_preference"
                 android:inputType="textPassword"/>
+        
+        
+        <EditTextPreference
+                android:key="IV_preference"
+                android:title="@string/title_IV_preference"
+                android:summary="@string/summary_IV_preference" 
+                android:dialogTitle="@string/dialog_IV_preference"/>
                 
     </PreferenceCategory>
  

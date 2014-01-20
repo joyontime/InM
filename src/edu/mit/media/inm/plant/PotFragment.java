@@ -2,6 +2,7 @@ package edu.mit.media.inm.plant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import edu.mit.media.inm.R;
@@ -120,10 +121,16 @@ public class PotFragment extends Fragment {
 	   inflater.inflate(R.menu.pot, menu);
 	}
 
-	
-	private String randomString(){
-		String id =  UUID.randomUUID().toString();
-		Log.e(TAG, "New string: " + id);
+	private String randomString() {
+		Random r = new Random();
+		StringBuffer sb = new StringBuffer();
+		while (sb.length() < 32) {
+			sb.append(Integer.toHexString(r.nextInt()));
+
+		}
+
+		String id = sb.toString().substring(0, 32);
+		Log.d(TAG, "New string: " + id);
 		return id;
 	}
 	

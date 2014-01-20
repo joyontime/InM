@@ -8,6 +8,9 @@ import java.util.List;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.plant.Plant;
+import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.util.AesUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,19 +18,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NoteAdapter extends ArrayAdapter<Note> {
 	private static final String TAG = "StoryAdapter";
 
-	Context context;
-	int layoutResourceId;
-	List<Note> data;
+	private Context context;
+	private int layoutResourceId;
+	private List<Note> data;
+	private Plant plant;
 
-	public NoteAdapter(Context context, List<Note> data) {
+	public NoteAdapter(Context context, List<Note> data, Plant plant) {
 		super(context, R.layout.note_list_item, data);
 		this.layoutResourceId = R.layout.note_list_item;
 		this.context = context;
 		this.data = data;
+		this.plant = plant;
 		Collections.sort(this.data);
 	}
 
@@ -56,10 +62,21 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 		holder.date.setText(df.format(new Date(note.date)));
 
-		holder.excerpt.setText(note.text);
+		holder.excerpt.setText(decryptText(note.text));
 		holder.id = note.id;
 		
 		return row;
+	}
+	
+	private String decryptText(String note_text){
+		String IV = new PreferenceHandler(context).IV();
+		String pass = plant.passphrase;
+		String salt = plant.salt;
+
+		AesUtil util = new AesUtil();
+
+        String decrypt = util.decrypt(salt, IV, pass, note_text);
+        return decrypt;
 	}
 
 	public static class NoteHolder {

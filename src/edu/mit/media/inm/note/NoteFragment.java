@@ -5,6 +5,7 @@ import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.plant.Plant;
 import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.util.AesUtil;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -19,14 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NoteFragment extends Fragment {
-	private static final String TAG = "PlantActivity";
+	private static final String TAG = "NoteFragment";
 
 	private Activity ctx;
 	private View rootView;
 	private NoteDataSource datasource;
 	private Plant plant;
 	private TextView note_text;
-	
+	private PreferenceHandler ph;
 	private int status;
 	
 	public static NoteFragment newInstance(Plant p) {
@@ -50,7 +51,7 @@ public class NoteFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ctx = this.getActivity();
-		PreferenceHandler ph = new PreferenceHandler(ctx);
+		ph = new PreferenceHandler(ctx);
 
 		rootView = inflater.inflate(R.layout.mini_fragment_note, container,
 				false);
@@ -76,12 +77,12 @@ public class NoteFragment extends Fragment {
 			// TODO send to server!
 			Toast.makeText(ctx, "Publishing...", Toast.LENGTH_LONG).show();
 
-			PreferenceHandler ph = new PreferenceHandler(ctx);
-			String username = ph.username();
+			String encryptedText = encryptNote();
+			
 			Note n = datasource.createNote(
-					username,
+					ph.username(),
 					System.currentTimeMillis(), 
-					note_text.getText().toString(),
+					encryptedText,
 					plant.server_id);
 			
 			getFragmentManager().popBackStack();
@@ -89,6 +90,19 @@ public class NoteFragment extends Fragment {
 			return true;
 		}
 		return false;
+	}
+	
+	private String encryptNote(){
+		String IV = ph.IV();
+		String pass = plant.passphrase;
+		String salt = plant.salt;
+		String plain_text = note_text.getText().toString();
+
+		Log.d(TAG, "IV "+ IV.length());
+		
+		AesUtil util = new AesUtil();
+        String encrypt = util.encrypt(salt, IV, pass, plain_text);
+        return encrypt;
 	}
 	
 	@Override

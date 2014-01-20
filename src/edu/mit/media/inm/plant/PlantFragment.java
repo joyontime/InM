@@ -138,7 +138,7 @@ public class PlantFragment extends Fragment {
 		nds.open();
 		List<Note> notes = nds.getPlantNotes(plant.server_id);
 		nds.close();
-		NoteAdapter note_adapter = new NoteAdapter(ctx, notes);
+		NoteAdapter note_adapter = new NoteAdapter(ctx, notes, plant);
 		notes_view.setAdapter(note_adapter);
 	}
 	
