@@ -1,0 +1,27 @@
+curl -k -u joy4luck:boo https://localhost:3050
+
+
+export TEXT="text=OotIF88iDiM1Z4bi5e2J7CwLDdQ77bxnmC3Of5hrcUA="
+export PLANT="plant=52d1ede4afbdfe903c1313a8"
+
+//Get Plants
+curl -k -u joy4luck:boo \
+-i 'https://localhost:3050/plants/check?pinged_at=1389378836163'
+
+//get Messages
+curl -k -u joy4luck:boo \
+-i 'https://localhost:3050/messages/check?pinged_at=1389378836163&plants=14&plants=52d1ede4afbdfe903c1313a8'
+
+//New Plant
+export SHARED_WITH='shared_with=["joy4luck"]'
+export TITLE="title=iris"
+export SALT="salt=NaCl"
+export PASS="passphrase=open"
+
+curl \
+-k -u joy4luck:boo \
+--data-urlencode "$SHARED_WITH" \
+--data-urlencode "$TITLE" \
+--data-urlencode "$SALT" \
+--data-urlencode "$PASS" \
+-i https://localhost:3050/plants

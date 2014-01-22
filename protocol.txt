@@ -1,0 +1,35 @@
+//~~~~~~~~~ PLANTS ~~~~~~~~~~~~~
+
+DB Representation
+	each plant = {
+    color: (integer representing color),
+    created_at: (long date)
+    group_id: (hex string)
+    passphrase: (...),
+    plant_id: (hex string),
+    salt: (hex string),
+    shared_with: (comma separated user_id),
+    status: (integer representing growth),
+    title: (...)
+    }
+
+// Get Plants
+
+url: /plants/check?pinged_at=(timestamp)
+
+returns:
+	array of plants
+  each plant{
+    color: (integer representing color),
+    created_at: (long date)
+    passphrase: (...),
+    plant_id: (hex string),
+    salt: (hex string),
+    shared_with: (comma separated user_id),
+    status: (integer representing growth),
+    title: (...)
+    
+// Update Plant
+url: 
+    
+
