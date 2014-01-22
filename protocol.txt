@@ -1,35 +1,130 @@
-//~~~~~~~~~ PLANTS ~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~ NOTES
+// DB Representation
+  each note = {
+    user_id:(mongodb id)
+    text: (...)
+    plant_id: (mongodb id)
+    created_at:(long datetime)
+  }
 
-DB Representation
+// GET Notes
+  url: /messages/check
+  inline_args:
+    pinged_at=(long datetime)
+    plant_ids=(add all the plant ids, one by one)
+  extra_args: None
+
+  returns:
+    array of messages = {
+      server_id:(mongodb id)
+      user_id:(mongodb id)
+      text: (...)
+      plant_id: (mongodb id)
+      created_at:(long datetime)
+    }
+      
+
+// POST Note
+  url:/notes
+  inline_args:None
+  extra_args:
+    text:(...)
+    plant_id:(mongodb id)
+
+  returns:
+      created_at:(long datetime)
+      server_id:(mongodb id)
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~ GROUPS
+// DB Representation
+  each group = {
+    group_id:(mongodb id)
+    members:[array of usernames]
+    IV:(16 byte hex string)
+    date_started:(long datetime)
+    }
+    
+// ~~~~~~~~~~~~~~~~~~~~~~~~ USERS
+// DB Representation
+  each user = {
+    alias:(user chosen display name)
+    user_id:(mongodb id)
+    username:(user chosen login name)
+    is_lead:(bool)
+    group_id: (mongodb id)
+    date_joined:(long datetime)
+  }
+
+// GET Users
+  url: /users/check
+  inline_args: None
+  extra_args: None
+
+  returns:
+  array of users = {
+    alias:(user chosen display name)
+    server_id:(mongodb id)
+    date_joined:(long datetime)
+    is_lead:(bool)
+  }
+
+//~~~~~~~~~ PLANTS ~~~~~~~~~~~~~
+// DB Representation
 	each plant = {
+    archived: (bool)
     color: (integer representing color),
     created_at: (long date)
-    group_id: (hex string)
+    modified_at:date
+    group_id: (mongodb id)
     passphrase: (...),
-    plant_id: (hex string),
+    plant_id: (mongodb id)
     salt: (hex string),
-    shared_with: (comma separated user_id),
+    shared_with: (comma separated usernames)
     status: (integer representing growth),
     title: (...)
     }
 
-// Get Plants
+// GET Plants
+  url: /plants/check
+  inline args: pinged_at=(timestamp)
+  extra args: None
 
-url: /plants/check?pinged_at=(timestamp)
-
-returns:
-	array of plants
-  each plant{
-    color: (integer representing color),
-    created_at: (long date)
-    passphrase: (...),
-    plant_id: (hex string),
-    salt: (hex string),
-    shared_with: (comma separated user_id),
-    status: (integer representing growth),
-    title: (...)
+  returns:
+    array of plants
+    each plant{
+      archived: (bool)
+      color: (integer representing color),
+      created_at: (long date)
+      passphrase: (...),
+      server_id: (mongodb id)
+      salt: (hex string),
+      shared_with: (comma separated usernames)
+      status: (integer representing growth),
+      title: (...)
+      
+// POST Update Plant
+  url: /plants/update
+  inline args: None
+  extra args:
+    state=(...)
+    archived=(boolean)
+    ID=(mongodb id)
+  
+  returns:
+    modified_at:(long date)
+  
+// POST New Plant
+  url: /plants
+  inline args: None
+  extra args:
+    color=(int)
+    passphrase=(hex string)
+    salt=(hex string)
+    shared_with=[array of usernames]
+    title=(...)
     
-// Update Plant
-url: 
-    
-
+  returns:
+    a plant{
+      created_at: (long date)
+      server_id: (mongodb id)
+    }
