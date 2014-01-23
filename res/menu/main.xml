@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="1"
+        android:title="@string/action_refresh"/>
+
+    <item
         android:id="@+id/action_friends"
         android:orderInCategory="98"
         android:title="@string/action_friends"/>

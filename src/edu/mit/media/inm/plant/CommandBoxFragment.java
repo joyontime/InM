@@ -127,6 +127,7 @@ public class CommandBoxFragment extends Fragment {
 	}
 	
 
+	/*
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -136,6 +137,7 @@ public class CommandBoxFragment extends Fragment {
 		}
 		return false;
 	}
+	*/
 	
 	@Override
 	public void onResume() {
