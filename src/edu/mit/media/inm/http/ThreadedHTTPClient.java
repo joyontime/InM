@@ -32,6 +32,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import edu.mit.media.inm.R;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -74,21 +76,16 @@ public class ThreadedHTTPClient {
 	 * @throws IOException 
 	 */
 	public void updateAll() throws IOException {
+		int THREAD_COUNT = 3;
 		try {
 			Log.d(TAG, "Starting update.");
-            // create an array of URIs to perform GETs on
-            String[] urisToGet = {
-                "http://hc.apache.org/",
-                "http://hc.apache.org/httpcomponents-core-ga/",
-                "http://hc.apache.org/httpcomponents-client-ga/",
-            };
 
             // create a thread for each URI
-            RequestThread[] threads = new RequestThread[urisToGet.length];
+            Thread[] threads = new Thread[THREAD_COUNT];
 
-            for (int i = 0; i < threads.length; i++) {
-                threads[i] = new RequestThread(urisToGet[i], i+1);
-            }
+            threads[0] = new GetPlants();
+            threads[1] = new GetUsers(ctx.getResources().getString(R.string.url_users), 1);
+            threads[2] = new GetNotes();
 
             // start the threads
             for (int j = 0; j < threads.length; j++) {
