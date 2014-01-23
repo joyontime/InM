@@ -21,7 +21,7 @@ public class HTTPUtil {
 
 	// HTTP GET request
 	private void sendGet() throws Exception {
-		String url = ctx.getResources().getString(R.string.server_url);
+		String url = ctx.getResources().getString(R.string.url_server);
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();

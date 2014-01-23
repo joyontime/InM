@@ -8,7 +8,12 @@
     <string name="action_about">Help</string>
     <string name="action_done">Done</string>
     
-    <string name="server_url">https://?????</string>
+    <string name="url_server">https://sodiio.media.mit.edu:3050</string>
+    <string name="uri_messages">messages</string>
+    <string name="uri_plants">plants</string>
+    <string name="uri_users">users</string>
+    <string name="uri_check">check</string>
+    <string name="uri_update">update</string>
     
     <string name="hello_world">Hello world!</string>
     <string name="hello">Dummy string :)</string>

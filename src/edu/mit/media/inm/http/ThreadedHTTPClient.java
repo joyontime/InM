@@ -77,15 +77,20 @@ public class ThreadedHTTPClient {
 	 */
 	public void updateAll() throws IOException {
 		int THREAD_COUNT = 3;
+		String server = ctx.getResources().getString(R.string.url_server);
+		String users = ctx.getResources().getString(R.string.uri_users);
+		String plants = ctx.getResources().getString(R.string.uri_plants);
+		String notes = ctx.getResources().getString(R.string.uri_messages);
+		String check = ctx.getResources().getString(R.string.uri_check);
 		try {
 			Log.d(TAG, "Starting update.");
 
             // create a thread for each URI
             Thread[] threads = new Thread[THREAD_COUNT];
 
-            threads[0] = new GetPlants();
-            threads[1] = new GetUsers(ctx.getResources().getString(R.string.url_users), 1);
-            threads[2] = new GetNotes();
+            threads[0] = new GetUsers(server+"/"+users+"/"+check, 0, ctx);
+            threads[1] = new GetUsers(server+"/"+users+"/"+check, 1, ctx);
+            threads[2] = new GetUsers(server+"/"+users+"/"+check, 2, ctx);
 
             // start the threads
             for (int j = 0; j < threads.length; j++) {

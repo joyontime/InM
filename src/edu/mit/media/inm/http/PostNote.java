@@ -8,12 +8,14 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.content.Context;
+
 
 
 public class PostNote extends PostThread{
 
-    public PostNote(String uri, int id) {
-		super(uri, id);
+	public PostNote(String uri, int id, Context ctx) {
+		super(uri, id, ctx);
 	}
 
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();

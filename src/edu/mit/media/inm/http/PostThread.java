@@ -11,6 +11,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
+import android.content.Context;
 import android.util.Log;
 
 public abstract class PostThread extends Thread {
@@ -21,12 +22,16 @@ public abstract class PostThread extends Thread {
     private final HttpContext context;
     protected final HttpPost httpPost;
     private final int id;
+    
+    protected Context ctx;
 
-    public PostThread(String uri, int id) {
+    public PostThread(String uri, int id, Context ctx) {
         this.context = new BasicHttpContext();
         this.httpPost = new HttpPost(uri);
         this.id = id;
         this.httpClient = new DefaultHttpClient();
+        
+        this.ctx = ctx;
     }
     
     public abstract void setupParams() throws UnsupportedEncodingException ;

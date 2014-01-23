@@ -2,11 +2,14 @@ package edu.mit.media.inm.http;
 
 import org.apache.http.params.HttpParams;
 
-public class GetUsers extends GetThread {
+import android.content.Context;
+import android.util.Log;
 
-	public GetUsers(String uri, int id) {
-		super(uri, id);
-		// TODO Auto-generated constructor stub
+public class GetUsers extends GetThread {
+	private static final String TAG = "GetUsers HTTP";
+
+	public GetUsers(String uri, int id, Context ctx) {
+		super(uri, id, ctx);
 	}
 
 	@Override
@@ -17,7 +20,6 @@ public class GetUsers extends GetThread {
 
 	@Override
 	public void processRequest(String result) {
-		// TODO Auto-generated method stub
-
+		Log.d(TAG, result);
 	}
 }

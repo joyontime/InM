@@ -9,6 +9,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
+import android.content.Context;
 import android.util.Log;
 
 public abstract class GetThread extends Thread {
@@ -19,13 +20,16 @@ public abstract class GetThread extends Thread {
     private final HttpContext context;
     protected final HttpGet httpget;
     private final int id;
+    
+    protected final Context ctx;
 
-    public GetThread(String uri, int id) {
+    public GetThread(String uri, int id, Context ctx) {
         this.context = new BasicHttpContext();
         this.httpget = new HttpGet(uri);
-        
         this.id = id;
         this.httpClient = new DefaultHttpClient();
+        
+        this.ctx = ctx;
     }
 
     public abstract void setupParams();
