@@ -26,54 +26,58 @@
  */
 package edu.mit.media.inm.http;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.URL;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
+import android.os.AsyncTask;
 import android.util.Log;
 
 /**
  * An example that performs GETs from multiple threads.
- *
+ * 
  */
 public class ThreadedHTTPClient {
 	private static String TAG = "ThreadedHTTPClient";
-	//private final PoolingHttpClientConnectionManager cm;
-	//private final CloseableHttpClient httpclient;
-	//HttpClient httpclient;
-	
+	// private final PoolingHttpClientConnectionManager cm;
+	// private final CloseableHttpClient httpclient;
+	// HttpClient httpclient;
+
 	private final Context ctx;
-	
+
 	/*
-	public ThreadedHTTPClient(Context ctx){
-        // Create an HttpClient with the ThreadSafeClientConnManager.
-        // This connection manager must be used if more than one thread will
-        // be using the HttpClient.
-        cm = new PoolingHttpClientConnectionManager();
-        cm.setMaxTotal(100);
+	 * public ThreadedHTTPClient(Context ctx){ // Create an HttpClient with the
+	 * ThreadSafeClientConnManager. // This connection manager must be used if
+	 * more than one thread will // be using the HttpClient. cm = new
+	 * PoolingHttpClientConnectionManager(); cm.setMaxTotal(100);
+	 * 
+	 * httpclient = HttpClients.custom() .setConnectionManager(cm) .build();
+	 * 
+	 * this.ctx = ctx; }
+	 */
 
-        httpclient = HttpClients.custom()
-                .setConnectionManager(cm)
-                .build();
-        
-        this.ctx = ctx;
+	public ThreadedHTTPClient(Context ctx) {
+		this.ctx = ctx;
 	}
-	*/
-	
-
-	public ThreadedHTTPClient(Context ctx){
-        this.ctx = ctx;
-	}
-	
 
 	/**
 	 * Contact the server to update everything.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	public void updateAll() throws IOException {
 		int THREAD_COUNT = 3;
@@ -82,31 +86,50 @@ public class ThreadedHTTPClient {
 		String plants = ctx.getResources().getString(R.string.uri_plants);
 		String notes = ctx.getResources().getString(R.string.uri_messages);
 		String check = ctx.getResources().getString(R.string.uri_check);
-		try {
-			Log.d(TAG, "Starting update.");
 
-            // create a thread for each URI
-            Thread[] threads = new Thread[THREAD_COUNT];
+		Log.d(TAG, "Starting update.");
 
-            threads[0] = new GetUsers(server+"/"+users+"/"+check, 0, ctx);
-            threads[1] = new GetUsers(server+"/"+users+"/"+check, 1, ctx);
-            threads[2] = new GetUsers(server+"/"+users+"/"+check, 2, ctx);
+		// create a thread for each URI
+		GetThread[] threads = new GetThread[THREAD_COUNT];
 
-            // start the threads
-            for (int j = 0; j < threads.length; j++) {
-                threads[j].start();
-            }
+		threads[0] = new GetUsers(server, 0, ctx);
+		threads[1] = new GetUsers(server + "/" + users + "/" + check, 1, ctx);
+		threads[2] = new GetUsers("http://www.google.com/", 2, ctx);
 
-            // join the threads
-            for (int j = 0; j < threads.length; j++) {
-                threads[j].join();
-            }
-
-        } catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-            Log.d(TAG, "Update finished");
-        }
+		// start the threads
+		for (int j = 0; j < THREAD_COUNT; j++) {
+			Log.d(TAG, "Executing " + j);
+			threads[j].execute();
+		}
 	}
+
+	public void pingServer() throws IOException {
+		final PreferenceHandler ph = new PreferenceHandler(ctx);
+
+		Authenticator.setDefault(new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(ph.username(), ph.password()
+						.toCharArray());
+			}
+		});
+
+		URL url;
+		try {
+			url = new URL(ctx.getResources().getString(R.string.url_server));
+
+			HttpURLConnection urlConnection = (HttpURLConnection) url
+					.openConnection();
+			InputStream in = new BufferedInputStream(
+					urlConnection.getInputStream());
+
+			urlConnection.disconnect();
+			java.util.Scanner s = new java.util.Scanner(in).useDelimiter("\\A");
+			Log.d(TAG, s.hasNext() ? s.next() : "");
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

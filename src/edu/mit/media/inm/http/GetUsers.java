@@ -19,7 +19,8 @@ public class GetUsers extends GetThread {
 	}
 
 	@Override
-	public void processRequest(String result) {
+	protected void onPostExecute(String result) {
+		Log.d(TAG, "boops");
 		Log.d(TAG, result);
 	}
 }

@@ -62,6 +62,7 @@ public class MainActivity extends FragmentActivity {
 			ThreadedHTTPClient http_client = new ThreadedHTTPClient(this);
 			try {
 				http_client.updateAll();
+				//http_client.pingServer();
 			} catch (IOException e) {
 				Toast.makeText(this, "Failed to contact server!", Toast.LENGTH_LONG);
 				e.printStackTrace();
