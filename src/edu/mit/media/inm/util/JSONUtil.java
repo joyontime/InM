@@ -10,9 +10,13 @@ public class JSONUtil {
 	private static String TAG = "JSONUtil";
 	private JSONObject jsonObj;
 
-    public JSONUtil(String JSONString) throws JSONException {
-        Log.d(TAG, "Parsing: " + JSONString);
-        this.jsonObj = new JSONObject(JSONString);
+    public JSONUtil(String JSONString) {
+        try {
+			this.jsonObj = new JSONObject(JSONString);
+		} catch (JSONException e) {
+			this.jsonObj = new JSONObject();
+			e.printStackTrace();
+		}
     }
     
     public String getPlantID() throws JSONException{
@@ -21,5 +25,15 @@ public class JSONUtil {
     
     public String getServerID() throws JSONException{
     	return this.jsonObj.getString("server_id");
+    }
+    
+    @Override
+    public String toString(){
+    	try {
+			return jsonObj.toString(2);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	return "Failed.";
     }
 }

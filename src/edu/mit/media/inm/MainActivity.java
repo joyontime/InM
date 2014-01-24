@@ -71,19 +71,6 @@ public class MainActivity extends FragmentActivity {
 	        actionBar.setDisplayHomeAsUpEnabled(true);
 
 			return true;
-		case R.id.action_about:
-			UserDataSource datasource = new UserDataSource(this);
-			datasource.open();
-			
-			for (int i = 0; i < 10; i++){
-				datasource.createUser(
-						UUID.randomUUID().toString(),
-						"User " + i,
-						System.currentTimeMillis());
-			}
-
-			datasource.close();
-			return true;
 		case R.id.action_friends:
 			fm.beginTransaction()
 			.replace(android.R.id.content, new FriendFragment())
@@ -91,7 +78,10 @@ public class MainActivity extends FragmentActivity {
 			.addToBackStack("friends").commit();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
-
+		case R.id.action_about:
+			String info = "Email joyc@mit.edu if you have any questions or bugs!";
+			Toast.makeText(this, info, Toast.LENGTH_LONG);
+			return true;
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
 				if (fm.getBackStackEntryCount() == 1){

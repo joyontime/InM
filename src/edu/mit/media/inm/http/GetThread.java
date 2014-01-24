@@ -24,7 +24,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.apache.http.client.methods.HttpGet;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 
 import android.content.Context;
