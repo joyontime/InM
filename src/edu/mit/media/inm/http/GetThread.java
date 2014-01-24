@@ -36,22 +36,18 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 
 	public static String TAG = "RequestThread";
 
-	// private final HttpClient httpClient;
 	private SSLContext context;
-	protected HttpGet httpget;
 	private final int id;
-	protected final String uri;
+	protected String uri;
+	protected static String charset = "UTF-8";
 
 	protected final Context ctx;
 
 	protected final int TIMEOUT = 1000;
 
-	public GetThread(String uri, int id, Context ctx) {
-		this.httpget = new HttpGet(uri);
+	public GetThread(int id, Context ctx) {
 		this.id = id;
-		// this.httpClient = new DefaultHttpClient();
 		this.ctx = ctx;
-		this.uri = uri;
 
 		InputStream caInput;
 		try {
@@ -59,7 +55,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 					.open("server.crt"));
 
 			// Load CAs from an InputStream
-			// (could be from a resource or ByteArrayInputStream or ...)
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			Certificate ca = cf.generateCertificate(caInput);
 
@@ -84,16 +79,12 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 		} catch (CertificateException e) {
 			e.printStackTrace();
 		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (KeyStoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -112,13 +103,8 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	 * Executes the GetMethod and prints some status information.
 	 */
 	protected String doInBackground(Void... arg0) {
+		this.setupParams();
 		try {
-			/*
-			 * } HttpsURLConnection urlConnection = (HttpsURLConnection) url
-			 * .openConnection();
-			 * urlConnection.setSSLSocketFactory(context.getSocketFactory());
-			 * InputStream in; in = urlConnection.getInputStream();
-			 */
 			final PreferenceHandler ph = new PreferenceHandler(ctx);
 
 			URL url = new URL(this.uri);
@@ -129,7 +115,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 
 			conn.setSSLSocketFactory(context.getSocketFactory());
 
-			String charset = "UTF-8";
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "text/html");
 			conn.setRequestProperty("Accept-Charset", charset);
@@ -159,10 +144,8 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 
 			return total.toString();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "Failed.";

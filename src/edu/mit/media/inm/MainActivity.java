@@ -1,28 +1,22 @@
 package edu.mit.media.inm;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.http.ThreadedHTTPClient;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
-import edu.mit.media.inm.util.HTTPUtil;
 
 public class MainActivity extends FragmentActivity {
 	private static String TAG = "MainActivity";
