@@ -44,9 +44,12 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 
 	protected final int TIMEOUT = 1000;
 
+	protected final PreferenceHandler ph;
+
 	public GetThread(int id, Context ctx) {
 		this.id = id;
 		this.ctx = ctx;
+		this.ph = new PreferenceHandler(ctx);
 
 		InputStream caInput;
 		try {
@@ -104,8 +107,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	protected String doInBackground(Void... arg0) {
 		this.setupParams();
 		try {
-			final PreferenceHandler ph = new PreferenceHandler(ctx);
-
 			URL url = new URL(this.uri);
 			Log.d(TAG, this.id + " - Getting from " + url.toString());
 			HttpsURLConnection

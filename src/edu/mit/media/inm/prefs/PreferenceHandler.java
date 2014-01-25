@@ -3,6 +3,7 @@ package edu.mit.media.inm.prefs;
 import edu.mit.media.inm.R;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 
@@ -30,5 +31,15 @@ public class PreferenceHandler{
 
 	public boolean prompt(){
 		return prefs.getBoolean("prompt_preference", true);
+	}
+
+	public long last_pinged(){
+		return prefs.getLong("last_pinged", 0);
+	}
+	
+	public void update_last_pinged(long ts){
+		Editor editor = prefs.edit();
+		editor.putLong("last_pinged", ts);
+		editor.apply();
 	}
 }

@@ -74,8 +74,9 @@
     archived: (bool)
     color: (integer representing color),
     created_at: (long date)
-    modified_at:date
+    owner: (user_id)
     group_id: (mongodb id)
+    modified_at:date
     passphrase: (...),
     plant_id: (mongodb id)
     salt: (hex string),
@@ -95,6 +96,7 @@
       archived: (bool)
       color: (integer representing color),
       created_at: (long date)
+      owner: (user_id)
       passphrase: (...),
       server_id: (mongodb id)
       salt: (hex string),
