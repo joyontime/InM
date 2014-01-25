@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_teal"
-    android:gravity="center">
+    android:gravity="center_horizontal">
     
     <EditText
         android:id="@+id/title_box"

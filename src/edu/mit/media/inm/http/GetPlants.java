@@ -33,6 +33,9 @@ public class GetPlants extends GetThread {
 
 	@Override
 	public void setupParams() {
+		
+		
+		//pinged_at=(timestamp)
 	}
 
 	@Override
