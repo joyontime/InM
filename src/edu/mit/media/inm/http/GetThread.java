@@ -32,7 +32,6 @@ import android.util.Base64;
 import android.util.Log;
 
 public abstract class GetThread extends AsyncTask<Void, Void, String> {
-
 	public static String TAG = "RequestThread";
 
 	private SSLContext context;
@@ -91,8 +90,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 		}
 	}
 
-	public abstract void setupParams();
-
 	public class NullHostNameVerifier implements HostnameVerifier {
 		@Override
 		public boolean verify(String hostname, SSLSession arg1) {
@@ -105,7 +102,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	 * Executes the GetMethod and prints some status information.
 	 */
 	protected String doInBackground(Void... arg0) {
-		this.setupParams();
 		try {
 			URL url = new URL(this.uri);
 			Log.d(TAG, this.id + " - Getting from " + url.toString());

@@ -20,11 +20,6 @@ public class GetIV extends GetThread {
 	}
 
 	@Override
-	public void setupParams() {
-		// GET IV doesn't have params
-	}
-
-	@Override
 	protected void onPostExecute(String result) {
 		PreferenceHandler ph = new PreferenceHandler(ctx);
 

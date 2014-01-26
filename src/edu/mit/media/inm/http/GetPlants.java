@@ -39,11 +39,6 @@ public class GetPlants extends GetThread {
 	}
 
 	@Override
-	public void setupParams() {
-		// GET plants doesn't have additional params
-	}
-
-	@Override
 	protected void onPostExecute(String result) {
 
 		PlantDataSource datasource = new PlantDataSource(ctx);

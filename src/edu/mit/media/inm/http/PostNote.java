@@ -12,24 +12,21 @@ import android.content.Context;
 
 public class PostNote extends PostThread{
 
-	public PostNote(String uri, int id, Context ctx) {
-		super(uri, id, ctx);
+	public PostNote(int id, Context ctx) {
+		super(id, ctx);
 	}
 
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 
 	@Override
-	public void setupParams() throws UnsupportedEncodingException {
-		urlParameters.add(new BasicNameValuePair("sn", "C02G8416DRJM"));
-		urlParameters.add(new BasicNameValuePair("cn", ""));
-		urlParameters.add(new BasicNameValuePair("locale", ""));
-		urlParameters.add(new BasicNameValuePair("caller", ""));
-		urlParameters.add(new BasicNameValuePair("num", "12345"));
-		httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
+	public void setupParams() {
+		// TODO Auto-generated method stub
+		
 	}
 
+
 	@Override
-	public void processRequest(String result) {
+	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		
 	}

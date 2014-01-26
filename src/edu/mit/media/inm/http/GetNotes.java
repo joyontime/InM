@@ -51,11 +51,6 @@ public class GetNotes extends GetThread {
 		
 		Log.d(TAG, "URI to ping: " + this.uri);
 	}
-
-	@Override
-	public void setupParams() {
-	}
-
 	@Override
 	protected void onPostExecute(String result) {
 

@@ -28,11 +28,6 @@ public class GetUsers extends GetThread {
 	}
 
 	@Override
-	public void setupParams() {
-		// GET Users doesn't have params
-	}
-
-	@Override
 	protected void onPostExecute(String result) {
 		UserDataSource datasource = new UserDataSource(ctx);
 		datasource.open();
