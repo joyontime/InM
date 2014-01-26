@@ -69,8 +69,6 @@ public class PlantFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ctx = this.getActivity();
-		PreferenceHandler ph = new PreferenceHandler(ctx);
-
 		rootView = inflater.inflate(R.layout.fragment_plant, container,
 				false);
 		
@@ -140,6 +138,10 @@ public class PlantFragment extends Fragment {
 		nds.close();
 		NoteAdapter note_adapter = new NoteAdapter(ctx, notes, plant);
 		notes_view.setAdapter(note_adapter);
+	}
+	
+	public void refresh(){
+		setupNotes();
 	}
 	
 	@Override

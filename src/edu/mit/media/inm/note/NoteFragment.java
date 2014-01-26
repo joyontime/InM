@@ -75,14 +75,10 @@ public class NoteFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_done:
-			// TODO send to server!
-			Toast.makeText(ctx, "Publishing...", Toast.LENGTH_LONG).show();
-
 			String encryptedText = encryptNote();
 			
 			PostNote http_client = new PostNote(0, ctx);
     		http_client.setupParams(encryptedText, plant.server_id);
-
             Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
                             .show();
             http_client.execute();

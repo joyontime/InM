@@ -29,6 +29,7 @@ public class PlanterFragment extends Fragment {
 	private static final String TAG = "TellFragment";
 
 	private Activity ctx;
+	public PlantFragment plant_frag;
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
@@ -93,8 +94,9 @@ public class PlanterFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					Plant clicked_plant = (Plant) v.getTag();
+					plant_frag = PlantFragment.newInstance(clicked_plant);
 	                ctx.getFragmentManager().beginTransaction()
-					.replace(android.R.id.content, PlantFragment.newInstance(clicked_plant))
+					.replace(android.R.id.content, plant_frag)
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack("plant").commit();
 
