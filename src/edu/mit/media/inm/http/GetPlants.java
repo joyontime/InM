@@ -13,11 +13,9 @@ import org.json.simple.parser.ParseException;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.plant.Plant;
 
 import android.content.Context;
-import android.util.Log;
 
 public class GetPlants extends GetThread {
 	private static final String TAG = "GetPlants HTTP";

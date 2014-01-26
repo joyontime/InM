@@ -22,6 +22,7 @@ public class Note implements Parcelable, Comparable<Note> {
 	public long date;
 	public String text;
 	public String plant;
+	public String server_id;
 
 	@Override
 	public String toString() {
@@ -40,6 +41,7 @@ public class Note implements Parcelable, Comparable<Note> {
 		out.writeLong(date);
 		out.writeString(text);
 		out.writeString(plant);
+		out.writeString(server_id);
 	}
 	
 	/**
@@ -65,6 +67,7 @@ public class Note implements Parcelable, Comparable<Note> {
         this.date = in.readLong();
         this.text = in.readString();
         this.plant = in.readString();
+        this.server_id = in.readString();
     }
 
 	@Override

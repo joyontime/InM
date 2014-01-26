@@ -83,7 +83,8 @@ public class NoteFragment extends Fragment {
 					ph.username(),
 					System.currentTimeMillis(), 
 					encryptedText,
-					plant.server_id);
+					plant.server_id,
+					"server_id");
 			
 			getFragmentManager().popBackStack();
 

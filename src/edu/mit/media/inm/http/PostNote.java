@@ -10,8 +10,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 
-
-
 public class PostNote extends PostThread{
 
 	public PostNote(String uri, int id, Context ctx) {

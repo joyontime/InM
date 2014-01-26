@@ -12,6 +12,7 @@ public class NoteSQLite extends SQLiteOpenHelper{
 	public static final String COLUMN_AUTHOR = "author";
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_TEXT = "text";
+	public static final String COLUMN_SERVER_ID = "server_id";
 	public static final String COLUMN_PLANT = "plant_id";
 
 	private static final String STORY_DB = "inm.note.db";
@@ -23,6 +24,7 @@ public class NoteSQLite extends SQLiteOpenHelper{
 			+ COLUMN_ID + " integer primary key autoincrement, "
 			+ COLUMN_AUTHOR + " text not null, "
 			+ COLUMN_DATE + " integer not null, "
+			+ COLUMN_SERVER_ID + " text not null, "
 			+ COLUMN_TEXT + " text not null, "
 			+ COLUMN_PLANT + " text not null)";
 	

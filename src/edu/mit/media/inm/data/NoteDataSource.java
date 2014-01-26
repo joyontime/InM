@@ -21,7 +21,8 @@ public class NoteDataSource {
 	private NoteSQLite dbHelper;
 	private String[] allColumns = { NoteSQLite.COLUMN_ID,
 			NoteSQLite.COLUMN_AUTHOR, NoteSQLite.COLUMN_DATE,
-			NoteSQLite.COLUMN_TEXT, NoteSQLite.COLUMN_PLANT};
+			NoteSQLite.COLUMN_TEXT, NoteSQLite.COLUMN_PLANT,
+			NoteSQLite.COLUMN_SERVER_ID};
 
 	public NoteDataSource(Context context) {
 		dbHelper = new NoteSQLite(context);
@@ -35,7 +36,7 @@ public class NoteDataSource {
 		dbHelper.close();
 	}
 
-	public Note createNote(String author, long date, String text, String plant) {
+	public Note createNote(String author, long date, String text, String plant, String server_id) {
 
 		// Enter the new Note into the db
 		ContentValues values = new ContentValues();
@@ -43,6 +44,7 @@ public class NoteDataSource {
 		values.put(NoteSQLite.COLUMN_DATE, date);
 		values.put(NoteSQLite.COLUMN_TEXT, text);
 		values.put(NoteSQLite.COLUMN_PLANT, plant);
+		values.put(NoteSQLite.COLUMN_SERVER_ID, server_id);
 		long insertId = database.insert(NoteSQLite.TABLE_NOTE, null, values);
 
 		// Get the entered Note back out as a Note object
@@ -61,7 +63,7 @@ public class NoteDataSource {
 		database.delete(NoteSQLite.TABLE_NOTE, NoteSQLite.COLUMN_ID
 				+ " = " + id, null);
 	}
-	
+
 	public Note getNote(long id) {
 		Log.i(TAG, "Trying to find Note with id: " + id);
 		Cursor cursor = database.query(NoteSQLite.TABLE_NOTE, allColumns,
@@ -73,7 +75,7 @@ public class NoteDataSource {
 		return Note;
 	}
 
-	public List<Note> getAllStories() {
+	public List<Note> getAllNotes() {
 		List<Note> Notes = new ArrayList<Note>();
 
 		Cursor cursor = database.query(NoteSQLite.TABLE_NOTE, allColumns,
@@ -89,7 +91,7 @@ public class NoteDataSource {
 		cursor.close();
 		return Notes;
 	}
-	
+
 	public List<Note> getPlantNotes(String plant) {
 		List<Note> Notes = new ArrayList<Note>();
 
@@ -115,6 +117,7 @@ public class NoteDataSource {
 		Note.date = cursor.getLong(2);
 		Note.text = cursor.getString(3);
 		Note.plant = cursor.getString(4);
+		Note.server_id = cursor.getString(4);
 		return Note;
 	}
 }
