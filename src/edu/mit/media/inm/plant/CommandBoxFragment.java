@@ -3,6 +3,7 @@ package edu.mit.media.inm.plant;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.http.UpdatePlant;
 import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.note.NoteFragment;
 import edu.mit.media.inm.plant.Plant;
@@ -38,6 +39,7 @@ public class CommandBoxFragment extends Fragment {
 	private Button trim;
 	private Button archive;
 	
+	private int status_init;
 	private int status;
 	
 	public static CommandBoxFragment newInstance(Plant p) {
@@ -67,6 +69,7 @@ public class CommandBoxFragment extends Fragment {
 				false);
 
 		status = plant.status;
+		status_init = plant.status;
 		
 		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
 		plant_image.setImageResource(Plant.growth[plant.status]);
@@ -123,9 +126,7 @@ public class CommandBoxFragment extends Fragment {
 			}
 		});
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
-
 	}
-	
 
 	/*
 	@Override
@@ -148,8 +149,11 @@ public class CommandBoxFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
-		// TODO send to server!
-		datasource.updatePlant(plant.server_id, this.status);
+		if (status_init != status){
+			UpdatePlant http_client = new UpdatePlant(0, ctx);
+			http_client.setupParams(this.plant.server_id, status, false);
+			http_client.execute();
+		}
 		datasource.close();
 		super.onPause();
 	}
