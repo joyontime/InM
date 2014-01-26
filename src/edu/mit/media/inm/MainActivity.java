@@ -22,6 +22,7 @@ public class MainActivity extends FragmentActivity {
 	private static String TAG = "MainActivity";
 	private ActionBar actionBar;
 	private FragmentManager fm;
+	public PlanterFragment planter_frag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,9 @@ public class MainActivity extends FragmentActivity {
 
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
+		planter_frag = new PlanterFragment();
 		if (savedInstanceState == null) {
-			fm.beginTransaction().add(android.R.id.content, new PlanterFragment())
+			fm.beginTransaction().add(android.R.id.content, planter_frag)
 					.commit();
 		}
 

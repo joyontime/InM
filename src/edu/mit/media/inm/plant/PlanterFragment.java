@@ -29,7 +29,6 @@ public class PlanterFragment extends Fragment {
 	private static final String TAG = "TellFragment";
 
 	private Activity ctx;
-	private String username;
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
@@ -42,8 +41,6 @@ public class PlanterFragment extends Fragment {
 		Log.d(TAG, "OnCreateView");
 		
 		ctx = this.getActivity();
-		PreferenceHandler ph = new PreferenceHandler(ctx);
-		username = ph.username();
 
 		View rootView = inflater.inflate(R.layout.fragment_planter, container,
 				false);
@@ -73,16 +70,12 @@ public class PlanterFragment extends Fragment {
 
 		planter = (HorizontalScrollView) getView().findViewById(R.id.planter);
 		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.d(TAG, "onResume");
-		datasource.open();
-
-		List<Plant> values = datasource.getAllPlants();
 		
+		this.refresh();
+	}
+	
+	public void refresh(){
+		List<Plant> values = datasource.getAllPlants();
 		if (values.size() == 0){
 			// If there are no plants to display, show a message instead.
 			planter.setVisibility(View.INVISIBLE);
@@ -131,6 +124,13 @@ public class PlanterFragment extends Fragment {
 			text.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(text);
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume");
+		datasource.open();
 	}
 
 	@Override

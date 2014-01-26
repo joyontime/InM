@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.plant.Plant;
@@ -30,11 +31,15 @@ public class PostPlant extends PostThread{
 	private String salt;
 	private String shared_with;
 	private String title;
+	
+	private MainActivity main;
 
 	public PostPlant(int id, Context ctx) {
 		super(id, ctx);
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
+		
+		main = (MainActivity) ctx;
 
 		String server = ctx.getResources().getString(R.string.url_server);
 		String plants = ctx.getResources().getString(R.string.uri_plants);
@@ -81,6 +86,7 @@ public class PostPlant extends PostThread{
 			
 			Log.d(TAG, "Published " + s);                                        
 
+			main.planter_frag.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} finally {

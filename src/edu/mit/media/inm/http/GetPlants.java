@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.plant.Plant;
@@ -19,9 +20,12 @@ import android.content.Context;
 
 public class GetPlants extends GetThread {
 	private static final String TAG = "GetPlants HTTP";
+	private MainActivity main;
 
 	public GetPlants(int id, Context ctx) {
 		super(id, ctx);
+		
+		main = (MainActivity) ctx;
 		
 		String query;
 		query = "";
@@ -95,6 +99,7 @@ public class GetPlants extends GetThread {
 					}
 				}
 			}
+			main.planter_frag.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
