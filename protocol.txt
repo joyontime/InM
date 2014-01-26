@@ -68,6 +68,13 @@
     is_lead:(bool)
   }
 
+// GET group code
+  url: /users/IV
+  None
+
+  returns:
+    IV: (...)
+
 //~~~~~~~~~ PLANTS ~~~~~~~~~~~~~
 // DB Representation
 	each plant = {
