@@ -75,6 +75,7 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void refresh(){
+		datasource.open();
 		List<Plant> values = datasource.getAllPlants();
 		if (values.size() == 0){
 			// If there are no plants to display, show a message instead.

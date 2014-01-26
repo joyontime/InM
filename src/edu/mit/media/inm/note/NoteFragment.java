@@ -2,6 +2,8 @@ package edu.mit.media.inm.note;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
+import edu.mit.media.inm.http.PostNote;
+import edu.mit.media.inm.http.PostPlant;
 import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.plant.Plant;
 import edu.mit.media.inm.prefs.PreferenceHandler;
@@ -28,7 +30,6 @@ public class NoteFragment extends Fragment {
 	private Plant plant;
 	private TextView note_text;
 	private PreferenceHandler ph;
-	private int status;
 	
 	public static NoteFragment newInstance(Plant p) {
         NoteFragment f = new NoteFragment();
@@ -79,12 +80,12 @@ public class NoteFragment extends Fragment {
 
 			String encryptedText = encryptNote();
 			
-			Note n = datasource.createNote(
-					ph.username(),
-					System.currentTimeMillis(), 
-					encryptedText,
-					plant.server_id,
-					"server_id");
+			PostNote http_client = new PostNote(0, ctx);
+    		http_client.setupParams(encryptedText, plant.server_id);
+
+            Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
+                            .show();
+            http_client.execute();
 			
 			getFragmentManager().popBackStack();
 

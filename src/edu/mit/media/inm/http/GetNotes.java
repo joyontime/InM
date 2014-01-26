@@ -38,6 +38,10 @@ public class GetNotes extends GetThread {
 			
 			PlantDataSource datasource = new PlantDataSource(ctx);
 			datasource.open();
+			if (datasource.getAllPlants().size() < 1){
+				this.cancel(true);
+			}
+			
 			for (Plant p: datasource.getAllPlants()){
 				query.append("&");
 				query.append("plants=");
