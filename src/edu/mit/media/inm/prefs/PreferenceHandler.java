@@ -1,6 +1,6 @@
 package edu.mit.media.inm.prefs;
 
-import edu.mit.media.inm.R;
+import edu.mit.media.inm.http.GetIV;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -10,10 +10,10 @@ import android.preference.PreferenceManager;
 
 public class PreferenceHandler{
 	private SharedPreferences prefs;
-	private Context ctx;
+	
+	public static final String default_IV = "abcdef1234567890";
 
 	public PreferenceHandler(Context ctx){
-		this.ctx = ctx;
 		this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 	}
 	
@@ -24,9 +24,9 @@ public class PreferenceHandler{
 	public String password(){
 		return prefs.getString("password_preference", "None");
 	}
-	
+
 	public String IV(){
-		return prefs.getString("IV_preference", "abcdef1234567890");
+		return prefs.getString("IV_preference", default_IV);
 	}
 
 	public boolean prompt(){
@@ -36,8 +36,14 @@ public class PreferenceHandler{
 	public long last_pinged(){
 		return prefs.getLong("last_pinged", 0);
 	}
+
+	public void set_IV(String IV){
+		Editor editor = prefs.edit();
+		editor.putString("IV_preference", IV);
+		editor.apply();
+	}
 	
-	public void update_last_pinged(long ts){
+	public void set_last_pinged(long ts){
 		Editor editor = prefs.edit();
 		editor.putLong("last_pinged", ts);
 		editor.apply();

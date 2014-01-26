@@ -3,6 +3,7 @@ package edu.mit.media.inm.prefs;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.R.string;
 import edu.mit.media.inm.R.xml;
+import edu.mit.media.inm.http.GetIV;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -12,7 +13,7 @@ public class PrefsFragment extends PreferenceFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Load the preferences from an XML resource
-		addPreferencesFromResource(R.xml.preferences);		
+		addPreferencesFromResource(R.xml.preferences);
 	}
 	
 	@Override

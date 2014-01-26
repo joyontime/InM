@@ -1,8 +1,5 @@
 package edu.mit.media.inm;
 
-import java.io.IOException;
-import java.util.UUID;
-
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentManager;
@@ -12,9 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.http.ThreadedHTTPClient;
+import edu.mit.media.inm.http.GetIV;
+import edu.mit.media.inm.http.GetNotes;
+import edu.mit.media.inm.http.GetPlants;
+import edu.mit.media.inm.http.GetThread;
+import edu.mit.media.inm.http.GetUsers;
 import edu.mit.media.inm.plant.PlanterFragment;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
 
@@ -52,14 +53,21 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
-			Log.d(TAG, "Refreshing views.");
-			ThreadedHTTPClient http_client = new ThreadedHTTPClient(this);
-			try {
-				http_client.updateAll();
-				//http_client.pingServer();
-			} catch (IOException e) {
-				Toast.makeText(this, "Failed to contact server!", Toast.LENGTH_LONG);
-				e.printStackTrace();
+			int THREAD_COUNT = 4;
+			Log.d(TAG, "Starting update.");
+
+			// create a thread for each URI
+			GetThread[] threads = new GetThread[THREAD_COUNT];
+
+			threads[0] = new GetPlants(0, this);
+			threads[1] = new GetUsers(1, this);
+			threads[2] = new GetNotes(2, this);
+			threads[3] = new GetIV(3, this);
+
+			// start the threads
+			for (int j = 0; j < THREAD_COUNT; j++) {
+				Log.d(TAG, "Executing " + j);
+				threads[j].execute();
 			}
 			
 			return true;

@@ -14,6 +14,7 @@
     <string name="uri_users">users</string>
     <string name="uri_check">check</string>
     <string name="uri_update">update</string>
+    <string name="uri_IV">IV</string>
     
     <string name="hello_world">Hello world!</string>
     <string name="hello">Dummy string :)</string>
