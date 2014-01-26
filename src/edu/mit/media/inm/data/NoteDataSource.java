@@ -117,7 +117,7 @@ public class NoteDataSource {
 		Note.date = cursor.getLong(2);
 		Note.text = cursor.getString(3);
 		Note.plant = cursor.getString(4);
-		Note.server_id = cursor.getString(4);
+		Note.server_id = cursor.getString(5);
 		return Note;
 	}
 }

@@ -1,11 +1,9 @@
 package edu.mit.media.inm.http;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
@@ -18,16 +16,15 @@ public class PostNote extends PostThread{
 
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 
-	@Override
-	public void setupParams() {
-		// TODO Auto-generated method stub
-		
-	}
 
+	public void setupParams() {
+		params.add(new BasicNameValuePair("firstParam", "one"));
+		params.add(new BasicNameValuePair("secondParam", "two"));
+		params.add(new BasicNameValuePair("thirdParam", "three"));
+	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
-		
 	}
 }

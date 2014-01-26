@@ -15,7 +15,6 @@ import edu.mit.media.inm.http.GetPlants;
 import edu.mit.media.inm.http.GetThread;
 import edu.mit.media.inm.http.GetUsers;
 import edu.mit.media.inm.plant.PlanterFragment;
-import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
 

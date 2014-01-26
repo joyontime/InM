@@ -8,6 +8,7 @@ import java.util.UUID;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.http.PostPlant;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.user.User;
 import android.app.Activity;
@@ -43,7 +44,6 @@ public class PotFragment extends Fragment {
 	private static final String TAG = "NewPotFragment";
 
 	private String username;
-	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
 	private Activity ctx;
@@ -66,9 +66,6 @@ public class PotFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_pot, container,
 				false);
-
-		datasource = new PlantDataSource(ctx);
-		datasource.open();
 
 		setHasOptionsMenu(true);
 
@@ -113,7 +110,6 @@ public class PotFragment extends Fragment {
 		super.onResume();
 		Log.d(TAG, "onResume");
 		ctx.getActionBar().setTitle(R.string.pot_fragment);
-		datasource.open();
 	}
 	
 	@Override
@@ -121,19 +117,6 @@ public class PotFragment extends Fragment {
 	   inflater.inflate(R.menu.pot, menu);
 	}
 
-	private String randomString() {
-		Random r = new Random();
-		StringBuffer sb = new StringBuffer();
-		while (sb.length() < 32) {
-			sb.append(Integer.toHexString(r.nextInt()));
-
-		}
-
-		String id = sb.toString().substring(0, 32);
-		Log.d(TAG, "New string: " + id);
-		return id;
-	}
-	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
@@ -141,27 +124,34 @@ public class PotFragment extends Fragment {
             	//TODO Send to server!
         		SparseBooleanArray checked = friend_list.getCheckedItemPositions();
         		
-        		StringBuilder share = new StringBuilder();
+        		StringBuilder share_server = new StringBuilder();
+        		share_server.append('[');
         		for (int i =0; i<friends.size(); i++){
         			if (checked.get(i)){
-        				share.append(friends.get(i).server_id);
-        				share.append(',');
+        				share_server.append('"');
+        				share_server.append(friends.get(i).server_id);
+        				share_server.append('"');
+        				share_server.append(',');
         			}
         		}
+        		share_server.deleteCharAt(share_server.length()-1); 
+        		share_server.append(']');
+        		
+        		StringBuilder share_local = new StringBuilder();
+        		for (int i =0; i<friends.size(); i++){
+        			if (checked.get(i)){
+        				share_local.append(friends.get(i).server_id);
+        				share_local.append(',');
+        			}
+        		}
+        		
+        		PostPlant http_client = new PostPlant(0, ctx);
+        		http_client.setupParams(username, pot_color, share_server.toString(),
+        				share_local.toString(), title_box.getText().toString());
 
-                Plant s = datasource.createPlant(
-                		username,
-                		System.currentTimeMillis(),		// TODO get date from server
-                		randomString(),
-                		pot_color,
-                		randomString(),
-                		randomString(),					// TODO get server id from server
-                		share.toString(),
-                		0,
-                		title_box.getText().toString());
-
-                Toast.makeText(getActivity(), "Publishing: " + s.toString(), Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
                                 .show();
+                http_client.execute();
 
                 // Send it back to the main screen.
                 ctx.onBackPressed();
@@ -173,7 +163,6 @@ public class PotFragment extends Fragment {
 
 	@Override
 	public void onPause() {
-		datasource.close();
 		super.onPause();
 	}
 }
