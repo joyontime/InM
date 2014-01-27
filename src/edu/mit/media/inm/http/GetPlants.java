@@ -17,6 +17,7 @@ import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.plant.Plant;
 
 import android.content.Context;
+import android.util.Log;
 
 public class GetPlants extends GetThread {
 	private static final String TAG = "GetPlants HTTP";
@@ -44,7 +45,6 @@ public class GetPlants extends GetThread {
 
 	@Override
 	protected void onPostExecute(String result) {
-
 		PlantDataSource datasource = new PlantDataSource(ctx);
 		datasource.open();
 
@@ -57,22 +57,23 @@ public class GetPlants extends GetThread {
 		DateTimeFormatter joda_ISO_parser = ISODateTimeFormat
 				.dateTimeParser();
 		try {
-			JSONArray Plants_json = (JSONArray) js.parse(result);
-			for (int i = 0; i < Plants_json.size(); i++) {
-				JSONObject plant = (JSONObject) Plants_json.get(i);
+			JSONArray plants_json = (JSONArray) js.parse(result);
+
+			for (int i = 0; i < plants_json.size(); i++) {
+				JSONObject plant = (JSONObject) plants_json.get(i);
 				String iso_date = (String) plant.get("created_at");
+				Log.d(TAG, "plant: " + plant.get("title"));
 				
 				String plant_id = (String) plant.get("server_id");
 				if (!server_ids.contains(plant_id)) {
 					JSONArray shared_users_json = (JSONArray) plant.get("shared_with");
 					
 					StringBuilder shared_with = new StringBuilder();
-					for (int j =0; i< shared_users_json.size(); i++){
+					for (int j =0; j< shared_users_json.size(); j++){
 						String user_id = (String) shared_users_json.get(j);
 						shared_with.append(user_id);
         				shared_with.append(',');
 	        		}
-					
 					
 					datasource.createPlant(
 							(String) plant.get("owner"),
@@ -85,6 +86,9 @@ public class GetPlants extends GetThread {
 							shared_with.toString(),
 							Integer.parseInt((String) plant.get("status")),
 							(String) plant.get("title"));
+					
+					Log.d(TAG, "Refreshing.");
+					main.planter_frag.refresh();
 				} else {
 					server_ids.remove(plant_id);
 				}
@@ -99,11 +103,14 @@ public class GetPlants extends GetThread {
 					}
 				}
 			}
-			main.planter_frag.refresh();
+
+			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
+		GetNotes check_message = new GetNotes(0, ctx);
+		check_message.execute();
 		datasource.close();
 	}
 }

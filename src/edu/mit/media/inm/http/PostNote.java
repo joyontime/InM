@@ -47,7 +47,7 @@ public class PostNote extends PostThread{
 		this.plant_id = plant_id;
 		
 		params.add(new BasicNameValuePair("text", text));
-		params.add(new BasicNameValuePair("plant_id", plant_id));
+		params.add(new BasicNameValuePair("plant", plant_id));
 	}
 
 	@Override

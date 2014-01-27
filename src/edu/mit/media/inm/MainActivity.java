@@ -54,7 +54,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
-			int THREAD_COUNT = 4;
+			int THREAD_COUNT = 3;
 			Log.d(TAG, "Starting update.");
 
 			// create a thread for each URI
@@ -62,8 +62,7 @@ public class MainActivity extends FragmentActivity {
 
 			threads[0] = new GetPlants(0, this);
 			threads[1] = new GetUsers(1, this);
-			threads[2] = new GetNotes(2, this);
-			threads[3] = new GetIV(3, this);
+			threads[2] = new GetIV(3, this);
 
 			// start the threads
 			for (int j = 0; j < THREAD_COUNT; j++) {
