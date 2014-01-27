@@ -140,6 +140,14 @@ public class CommandBoxFragment extends Fragment {
 	}
 	*/
 	
+	public void updatePlant(){
+		if (status_init != status){
+			UpdatePlant http_client = new UpdatePlant(0, ctx);
+			http_client.setupParams(this.plant.server_id, status, false);
+			http_client.execute();
+		}
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -149,11 +157,6 @@ public class CommandBoxFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
-		if (status_init != status){
-			UpdatePlant http_client = new UpdatePlant(0, ctx);
-			http_client.setupParams(this.plant.server_id, status, false);
-			http_client.execute();
-		}
 		datasource.close();
 		super.onPause();
 	}

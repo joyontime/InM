@@ -31,8 +31,9 @@ public class MainActivity extends FragmentActivity {
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
 		if (savedInstanceState == null) {
-			fm.beginTransaction().add(android.R.id.content, new PlanterFragment(), "planter")
-					.commit();
+			fm.beginTransaction()
+			.add(android.R.id.content, new PlanterFragment(), "planter")
+			.commit();
 		}
 
 		// Initilization

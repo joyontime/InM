@@ -49,6 +49,8 @@ public class PlantFragment extends Fragment {
 	
 	private ListView notes_view;
 	
+	private CommandBoxFragment cmd_box_frag;
+	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
 
@@ -78,10 +80,10 @@ public class PlantFragment extends Fragment {
 		setupInfoView();
 		setupNotes();
 
+		cmd_box_frag = CommandBoxFragment.newInstance(plant);
 		getFragmentManager().beginTransaction()
-			.replace(R.id.control_space, CommandBoxFragment.newInstance(plant))
+			.replace(R.id.control_space, cmd_box_frag)
 			.setTransition(0)
-			.addToBackStack("plant")
 			.commit();
 		
 		return rootView;
@@ -154,6 +156,7 @@ public class PlantFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
+		cmd_box_frag.updatePlant();
 		datasource.close();
 		super.onPause();
 	}

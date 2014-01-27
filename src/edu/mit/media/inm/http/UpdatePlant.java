@@ -51,7 +51,7 @@ public class UpdatePlant extends PostThread{
 	protected void onPostExecute(String result) {
 		// Save the plant locally
 		datasource.updatePlant(plant_id, this.status);
-		main.refresh();
 		datasource.close();
+		main.refresh();
 	}
 }
