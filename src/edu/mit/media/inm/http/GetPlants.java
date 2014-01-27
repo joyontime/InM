@@ -88,7 +88,7 @@ public class GetPlants extends GetThread {
 							(String) plant.get("title"));
 					
 					Log.d(TAG, "Refreshing.");
-					main.planter_frag.refresh();
+					main.refresh();
 				} else {
 					server_ids.remove(plant_id);
 				}

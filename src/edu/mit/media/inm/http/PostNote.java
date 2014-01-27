@@ -73,7 +73,7 @@ public class PostNote extends PostThread{
 			
 			Log.d(TAG, "Published " + n);                                        
 
-			main.planter_frag.plant_frag.refresh();
+			main.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} finally {

@@ -84,7 +84,7 @@ public class PostPlant extends PostThread{
 			
 			Log.d(TAG, "Published " + s);                                        
 
-			main.planter_frag.refresh();
+			main.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} finally {

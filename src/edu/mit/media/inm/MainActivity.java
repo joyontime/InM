@@ -14,6 +14,7 @@ import edu.mit.media.inm.http.GetNotes;
 import edu.mit.media.inm.http.GetPlants;
 import edu.mit.media.inm.http.GetThread;
 import edu.mit.media.inm.http.GetUsers;
+import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
@@ -22,7 +23,6 @@ public class MainActivity extends FragmentActivity {
 	private static String TAG = "MainActivity";
 	private ActionBar actionBar;
 	private FragmentManager fm;
-	public PlanterFragment planter_frag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +30,8 @@ public class MainActivity extends FragmentActivity {
 
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
-		planter_frag = new PlanterFragment();
 		if (savedInstanceState == null) {
-			fm.beginTransaction().add(android.R.id.content, planter_frag)
+			fm.beginTransaction().add(android.R.id.content, new PlanterFragment(), "planter")
 					.commit();
 		}
 
@@ -54,6 +53,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
+			this.refresh();
 			int THREAD_COUNT = 3;
 			Log.d(TAG, "Starting update.");
 
@@ -103,6 +103,18 @@ public class MainActivity extends FragmentActivity {
 			}
 		}
 		return false;
+	}
+	
+	public void refresh(){
+		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
+				.findFragmentByTag("planter");
+		planter_frag.refresh();
+
+		PlantFragment plant_frag = (PlantFragment) getFragmentManager()
+				.findFragmentByTag("plant");
+		if (plant_frag != null){
+			plant_frag.refresh();
+		}
 	}
 
 	@Override
