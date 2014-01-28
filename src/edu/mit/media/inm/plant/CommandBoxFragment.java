@@ -126,26 +126,30 @@ public class CommandBoxFragment extends Fragment {
 			}
 		});
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
+		archive.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				//Archive the plant.
+				archivePlant();
+				
+				//return to planter screen
+				getFragmentManager().popBackStack();
+			}
+		});
 	}
 
-	/*
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			Toast.makeText(ctx, "Pop!", Toast.LENGTH_SHORT).show();
-			getFragmentManager().popBackStack();
-		}
-		return false;
-	}
-	*/
-	
 	public void updatePlant(){
 		if (status_init != status){
 			UpdatePlant http_client = new UpdatePlant(0, ctx);
 			http_client.setupParams(this.plant.server_id, status, false);
 			http_client.execute();
 		}
+	}
+	
+	public void archivePlant() {
+		UpdatePlant http_client = new UpdatePlant(0, ctx);
+		http_client.setupParams(this.plant.server_id, status, true);
+		http_client.execute();
 	}
 	
 	@Override
