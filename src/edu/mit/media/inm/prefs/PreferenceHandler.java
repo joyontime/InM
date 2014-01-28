@@ -28,11 +28,16 @@ public class PreferenceHandler{
 	public String IV(){
 		return prefs.getString("IV_preference", default_IV);
 	}
+	
+
+	public String server_id(){
+		return prefs.getString("server_id_preference","None");
+	}
 
 	public boolean prompt(){
 		return prefs.getBoolean("prompt_preference", true);
 	}
-
+	
 	public long last_pinged(){
 		return prefs.getLong("last_pinged", 0);
 	}
@@ -40,6 +45,12 @@ public class PreferenceHandler{
 	public void set_IV(String IV){
 		Editor editor = prefs.edit();
 		editor.putString("IV_preference", IV);
+		editor.apply();
+	}
+
+	public void set_server_id(String server_id){
+		Editor editor = prefs.edit();
+		editor.putString("server_id_preference", server_id);
 		editor.apply();
 	}
 	

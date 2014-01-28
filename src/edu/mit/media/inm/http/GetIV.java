@@ -27,6 +27,7 @@ public class GetIV extends GetThread {
 		try {
 			JSONObject iv = (JSONObject) js.parse(result);
 			ph.set_IV((String)iv.get("IV"));
+			ph.set_server_id((String)iv.get("server_id"));
 			
 		} catch (ParseException e) {
 			e.printStackTrace();

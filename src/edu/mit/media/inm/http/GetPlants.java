@@ -71,8 +71,10 @@ public class GetPlants extends GetThread {
 					StringBuilder shared_with = new StringBuilder();
 					for (int j =0; j< shared_users_json.size(); j++){
 						String user_id = (String) shared_users_json.get(j);
-						shared_with.append(user_id);
-        				shared_with.append(',');
+						if (!user_id.equalsIgnoreCase(ph.server_id())){
+							shared_with.append(user_id);
+	        				shared_with.append(',');
+						}
 	        		}
 					
 					datasource.createPlant(

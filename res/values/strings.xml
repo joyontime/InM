@@ -78,10 +78,13 @@
     <string name = "summary_password_preference">Set the password used to communicate with the server.</string>
     <string name = "dialog_password_preference">Enter Your Password</string>
     
-    
     <string name = "title_IV_preference">Initialization Vector (IV)</string>
-    <string name = "summary_IV_preference">Set the IV used within your group.</string>
+    <string name = "summary_IV_preference">Set the IV used within your group. (This is set automatically on login and refresh.)</string>
     <string name = "dialog_IV_preference">Enter Your IV</string>
+    
+    <string name = "title_server_id_preference">Server ID</string>
+    <string name = "summary_server_id_preference">The server uses this to identify you. (This is set automatically on login and refresh.)</string>
+    <string name = "dialog_server_id_preference">Enter Your Server ID</string>
     
     <string name = "usage_prefs">Usage Preferences</string>
     <string name = "title_prompt_preference">Turn On Prompts</string>

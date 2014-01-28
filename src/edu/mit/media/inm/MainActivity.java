@@ -16,6 +16,7 @@ import edu.mit.media.inm.http.GetThread;
 import edu.mit.media.inm.http.GetUsers;
 import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
 
@@ -54,23 +55,22 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
-			this.refresh();
-			int THREAD_COUNT = 3;
 			Log.d(TAG, "Starting update.");
+
+			int THREAD_COUNT = 3;
 
 			// create a thread for each URI
 			GetThread[] threads = new GetThread[THREAD_COUNT];
 
-			threads[0] = new GetPlants(0, this);
-			threads[1] = new GetUsers(1, this);
-			threads[2] = new GetIV(3, this);
+			threads[0] = new GetIV(0, this);
+			threads[1] = new GetPlants(1, this);
+			threads[2] = new GetUsers(2, this);
 
 			// start the threads
 			for (int j = 0; j < THREAD_COUNT; j++) {
 				Log.d(TAG, "Executing " + j);
 				threads[j].execute();
 			}
-			
 			return true;
 		case R.id.action_settings:
 			fm.beginTransaction()

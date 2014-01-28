@@ -44,9 +44,8 @@ public class PotFragment extends Fragment {
 	private static final String TAG = "NewPotFragment";
 
 	private String username;
-	private HorizontalScrollView planter;
-	private LinearLayout my_plants;
 	private Activity ctx;
+	private PreferenceHandler ph;
 
 	private EditText title_box;
 	private ImageView pot_image;
@@ -61,7 +60,7 @@ public class PotFragment extends Fragment {
 		Log.d(TAG, "OnCreateView");
 		ctx = this.getActivity();
 		
-		PreferenceHandler ph = new PreferenceHandler(ctx);
+		ph = new PreferenceHandler(ctx);
 		username = ph.username();
 
 		View rootView = inflater.inflate(R.layout.fragment_pot, container,
@@ -90,11 +89,16 @@ public class PotFragment extends Fragment {
 		});
 		
 		// Database call for friends
-
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
 		friends = user_data.getAllUsers();
 		ArrayList<String> friend_aliases = new ArrayList<String>(); 
+		for (User u: friends){
+			if (u.server_id.equals(ph.server_id())){
+				friends.remove(u);
+				break;
+			}
+		}
 		for (User u: friends){
 			friend_aliases.add(u.alias);
 		}
@@ -121,20 +125,19 @@ public class PotFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
             case R.id.action_done:
-            	//TODO Send to server!
         		SparseBooleanArray checked = friend_list.getCheckedItemPositions();
         		
         		StringBuilder share_server = new StringBuilder();
         		share_server.append('[');
+        		share_server.append('"' + ph.server_id() + '"');
         		for (int i =0; i<friends.size(); i++){
         			if (checked.get(i)){
+        				share_server.append(',');
         				share_server.append('"');
         				share_server.append(friends.get(i).server_id);
         				share_server.append('"');
-        				share_server.append(',');
         			}
         		}
-        		share_server.deleteCharAt(share_server.length()-1); 
         		share_server.append(']');
         		
         		StringBuilder share_local = new StringBuilder();

@@ -17,12 +17,17 @@
                 android:dialogTitle="@string/dialog_password_preference"
                 android:inputType="textPassword"/>
         
-        
         <EditTextPreference
                 android:key="IV_preference"
                 android:title="@string/title_IV_preference"
                 android:summary="@string/summary_IV_preference" 
                 android:dialogTitle="@string/dialog_IV_preference"/>
+                
+        <EditTextPreference
+                android:key="server_id_preference"
+                android:title="@string/title_server_id_preference"
+                android:summary="@string/summary_server_id_preference" 
+                android:dialogTitle="@string/dialog_server_id_preference"/>
                 
     </PreferenceCategory>
  
