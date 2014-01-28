@@ -78,7 +78,7 @@ public class PostPlant extends PostThread{
 			String server_id = (String) plant_data.get("server_id");
 
 			// Save the plant locally
-			Plant s = datasource.createPlant(this.username, created_at,
+			Plant s = datasource.createPlant(this.username, false, created_at,
 					this.passphrase, this.pot_color, this.salt, server_id,
 					this.shared_with, 0, this.title);
 			

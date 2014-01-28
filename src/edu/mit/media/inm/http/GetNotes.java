@@ -14,6 +14,7 @@ import org.json.simple.parser.ParseException;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.plant.Plant;
 
@@ -60,6 +61,8 @@ public class GetNotes extends GetThread {
 
 		NoteDataSource datasource = new NoteDataSource(ctx);
 		datasource.open();
+		UserDataSource userdata = new UserDataSource(ctx);
+		userdata.open();
 
 		HashSet<String> server_ids = new HashSet<String>();
 		for (Note n : datasource.getAllNotes()) {
@@ -78,7 +81,7 @@ public class GetNotes extends GetThread {
 				String note_id = (String) note.get("server_id");
 				if (!server_ids.contains(note_id)) {
 					datasource.createNote(
-							(String) note.get("user_id"),
+							userdata.getUserAlias((String) note.get("user_id")),
 							joda_ISO_parser.parseDateTime(iso_date)
 									.getMillis(),
 							(String) note.get("text"),
@@ -92,6 +95,7 @@ public class GetNotes extends GetThread {
 			e.printStackTrace();
 		}
 		datasource.close();
+		userdata.close();
 		Log.d(TAG, result);
 	}
 }

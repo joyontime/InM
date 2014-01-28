@@ -79,6 +79,7 @@ public class GetPlants extends GetThread {
 					
 					datasource.createPlant(
 							(String) plant.get("owner"),
+							(Boolean) plant.get("archived"),
 							joda_ISO_parser.parseDateTime(iso_date)
 									.getMillis(),
 							(String) plant.get("passphrase"),
