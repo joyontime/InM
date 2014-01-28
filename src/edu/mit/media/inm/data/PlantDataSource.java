@@ -20,7 +20,9 @@ public class PlantDataSource {
 	private SQLiteDatabase database;
 	private PlantSQLite dbHelper;
 	private String[] allColumns = { PlantSQLite.COLUMN_ID,
-			PlantSQLite.COLUMN_AUTHOR, PlantSQLite.COLUMN_DATE,
+			PlantSQLite.COLUMN_AUTHOR,
+			PlantSQLite.COLUMN_ARCHIVED, 
+			PlantSQLite.COLUMN_DATE,
 			PlantSQLite.COLUMN_PASSPHRASE, 
 			PlantSQLite.COLUMN_POT, PlantSQLite.COLUMN_SALT,
 			PlantSQLite.COLUMN_SERVER_ID, PlantSQLite.COLUMN_SHARED_WITH,
@@ -44,6 +46,7 @@ public class PlantDataSource {
 
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
+		values.put(PlantSQLite.COLUMN_ARCHIVED, 0);
 		values.put(PlantSQLite.COLUMN_DATE, date);
 		values.put(PlantSQLite.COLUMN_PASSPHRASE, pass);
 		values.put(PlantSQLite.COLUMN_POT, pot_color);
@@ -113,10 +116,11 @@ public class PlantDataSource {
 		return Plants;
 	}
 
-	public void updatePlant(String server_id, int status){
+	public void updatePlant(String server_id, int status, boolean archived){
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_STATUS, status);
-		
+		values.put(PlantSQLite.COLUMN_ARCHIVED, archived ? 1 : 0);
+
 		database.update(PlantSQLite.TABLE_PLANT,
 				values, PlantSQLite.COLUMN_SERVER_ID + " = ?",
 				new String[]{server_id,});
@@ -126,14 +130,15 @@ public class PlantDataSource {
 		Plant Plant = new Plant();
 		Plant.id = cursor.getLong(0);
 		Plant.author = cursor.getString(1);
-		Plant.date = cursor.getLong(2);
-		Plant.passphrase = cursor.getString(3);
-		Plant.pot = cursor.getInt(4);
-		Plant.salt = cursor.getString(5);
-		Plant.server_id = cursor.getString(6);
-		Plant.shared_with = cursor.getString(7);
-		Plant.status = cursor.getInt(8);
-		Plant.title = cursor.getString(9);
+		Plant.archived = cursor.getLong(2) == 1;
+		Plant.date = cursor.getLong(3);
+		Plant.passphrase = cursor.getString(4);
+		Plant.pot = cursor.getInt(5);
+		Plant.salt = cursor.getString(6);
+		Plant.server_id = cursor.getString(7);
+		Plant.shared_with = cursor.getString(8);
+		Plant.status = cursor.getInt(9);
+		Plant.title = cursor.getString(10);
 		return Plant;
 	}
 }

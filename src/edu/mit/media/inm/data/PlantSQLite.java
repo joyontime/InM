@@ -11,6 +11,7 @@ public class PlantSQLite extends SQLiteOpenHelper{
 	public static final String TABLE_PLANT = "plant";
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_AUTHOR = "author";
+	public static final String COLUMN_ARCHIVED = "archived";
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_PASSPHRASE = "passphrase";
 	public static final String COLUMN_POT = "pot";
@@ -32,6 +33,7 @@ public class PlantSQLite extends SQLiteOpenHelper{
 			+ TABLE_PLANT + "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, "
 			+ COLUMN_AUTHOR + text
+			+ COLUMN_ARCHIVED + integer
 			+ COLUMN_DATE + integer
 			+ COLUMN_PASSPHRASE + text
 			+ COLUMN_POT + text

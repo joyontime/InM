@@ -19,6 +19,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	
 	public long id;
 	public String author;
+	public boolean archived;
 	public long date;
 	public String passphrase;
 	public int pot;

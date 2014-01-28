@@ -88,6 +88,11 @@ public class PlanterFragment extends Fragment {
 			planter.setVisibility(View.VISIBLE);
 		}
 		for (Plant p : values){
+			if (p.archived){
+				// Don't show archived plants.
+				continue;
+			}
+			
 			// Set up the plant container
 			LinearLayout plant = new LinearLayout(ctx);
 			plant.setOrientation(LinearLayout.VERTICAL);
