@@ -8,7 +8,7 @@
     <string name="action_about">Help</string>
     <string name="action_done">Done</string>
     
-    <string name="url_server">https://sodiio.media.mit.edu:3050</string>
+    <string name="url_server">https://sodiio.media.mit.edu</string>
     <string name="uri_messages">messages</string>
     <string name="uri_plants">plants</string>
     <string name="uri_users">users</string>
