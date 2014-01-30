@@ -10,6 +10,7 @@ import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.util.AesUtil;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ public class NoteFragment extends Fragment {
 	private Plant plant;
 	private TextView note_text;
 	private PreferenceHandler ph;
+	
+	private InputMethodManager imm;
 	
 	public static NoteFragment newInstance(Plant p) {
         NoteFragment f = new NoteFragment();
@@ -46,6 +50,10 @@ public class NoteFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
+		
+		this.ctx = getActivity();
+
+        imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 
 	@Override
@@ -58,6 +66,7 @@ public class NoteFragment extends Fragment {
 				false);
 		
 		note_text = (TextView) rootView.findViewById(R.id.note_text);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 		
 		datasource = new NoteDataSource(ctx);
 		datasource.open();
@@ -82,6 +91,8 @@ public class NoteFragment extends Fragment {
             Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
                             .show();
             http_client.execute();
+            
+            imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
 			
 			getFragmentManager().popBackStack();
 

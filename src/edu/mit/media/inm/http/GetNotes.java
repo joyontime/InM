@@ -58,7 +58,6 @@ public class GetNotes extends GetThread {
 	}
 	@Override
 	protected void onPostExecute(String result) {
-
 		NoteDataSource datasource = new NoteDataSource(ctx);
 		datasource.open();
 		UserDataSource userdata = new UserDataSource(ctx);
@@ -96,6 +95,5 @@ public class GetNotes extends GetThread {
 		}
 		datasource.close();
 		userdata.close();
-		Log.d(TAG, result);
 	}
 }
