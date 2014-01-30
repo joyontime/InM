@@ -61,7 +61,7 @@ public class PotFragment extends Fragment {
 		ctx = this.getActivity();
 		
 		ph = new PreferenceHandler(ctx);
-		username = ph.username();
+		username = ph.server_id();
 
 		View rootView = inflater.inflate(R.layout.fragment_pot, container,
 				false);

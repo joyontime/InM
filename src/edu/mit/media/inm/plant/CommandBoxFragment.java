@@ -75,7 +75,13 @@ public class CommandBoxFragment extends Fragment {
 		plant_image.setImageResource(Plant.growth[plant.status]);
 		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
 		
-		setupButtons();
+		
+		setupNoteButton();
+		if (plant.author.equals(ph.server_id())){
+			setupButtons();
+		} else {
+			disableButtons();
+		}
 		
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
@@ -83,6 +89,21 @@ public class CommandBoxFragment extends Fragment {
 		return rootView;
 	}
 	
+	private void setupNoteButton(){
+		note = (Button) rootView.findViewById(R.id.note_btn);
+		note.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// Swap out the contents of the plant view and controls
+				// Push onto backstack so back button handles correctly.
+				getFragmentManager().beginTransaction()
+					.replace(R.id.control_space, NoteFragment.newInstance(plant))
+					.setTransition(0)
+					.addToBackStack("note")
+					.commit();
+			}
+		});
+	}
 	
 	private void setupButtons(){
 		// Buttons
@@ -112,19 +133,7 @@ public class CommandBoxFragment extends Fragment {
 				}
 			}
 		});
-		note = (Button) rootView.findViewById(R.id.note_btn);
-		note.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// Swap out the contents of the plant view and controls
-				// Push onto backstack so back button handles correctly.
-				getFragmentManager().beginTransaction()
-					.replace(R.id.control_space, NoteFragment.newInstance(plant))
-					.setTransition(0)
-					.addToBackStack("note")
-					.commit();
-			}
-		});
+		
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
 		archive.setOnClickListener(new OnClickListener(){
 			@Override
@@ -136,6 +145,15 @@ public class CommandBoxFragment extends Fragment {
 				getFragmentManager().popBackStack();
 			}
 		});
+	}
+	
+	private void disableButtons(){
+		water = (Button) rootView.findViewById(R.id.water_btn);
+		water.setEnabled(false);
+		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim.setEnabled(false);
+		archive = (Button) rootView.findViewById(R.id.archive_btn);
+		archive.setEnabled(false);
 	}
 
 	public void updatePlant(){
