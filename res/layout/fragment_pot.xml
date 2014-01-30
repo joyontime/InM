@@ -2,47 +2,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/light_teal"
-    android:gravity="center_horizontal">
-    
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
     <EditText
         android:id="@+id/title_box"
         android:layout_width="match_parent"
         android:layout_height="50dip"
-        android:background="@color/faded_teal"
-        
-        android:paddingLeft="10dp"
         android:layout_margin="10dp"
-        
+        android:background="@color/faded_teal"
         android:hint="@string/name_pot"
-        android:singleLine="true"
+        android:inputType="textCapWords"
         android:maxLength="30"
-        android:inputType="textCapWords">
+        android:paddingLeft="10dp"
+        android:singleLine="true" >
 
         <requestFocus />
-     </EditText>
-        
-     
-    <ImageView
-        android:id="@+id/pot_image"
-        android:contentDescription="@string/pot"
-        android:layout_width="100dip"
-        android:layout_height="150dip"
-        android:background="@drawable/cloud_repeat" 
-        android:clickable="true"
-        
-        android:padding="5dp"
-        android:layout_margin="10dp"
-    >
-    </ImageView>
-    	
-    <ListView
-        android:id="@+id/friend_list"
-        android:contentDescription="@string/friends"
+    </EditText>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-    ></ListView>
+        android:gravity="center"
+        android:padding="10dip" >
+
+        <ImageView
+            android:id="@+id/pot_image"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dip"
+            android:layout_marginLeft="56dp"
+            android:background="@drawable/cloud_repeat"
+            android:clickable="true"
+            android:contentDescription="@string/pot" />
+
+        <ScrollView
+            android:layout_width="100dip"
+            android:layout_height="150dip"
+            android:layout_toRightOf="@id/pot_image"
+            android:background="@drawable/window_border"
+            android:padding="10dip">
+
+            <LinearLayout
+                android:id="@+id/pot_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/friend_list"
+        android:layout_width="300dip"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/friends"
+        android:padding="10dp" >
+    </ListView>
 
 </LinearLayout>
