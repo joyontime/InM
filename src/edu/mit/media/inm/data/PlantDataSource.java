@@ -45,7 +45,11 @@ public class PlantDataSource {
 			String share, int status, String title) {
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
+<<<<<<< HEAD
 		values.put(PlantSQLite.COLUMN_ARCHIVED, archived ? 1:0);
+=======
+		values.put(PlantSQLite.COLUMN_ARCHIVED, 0);
+>>>>>>> a74c796b84cec2884039ccf15712fbca830ab243
 		values.put(PlantSQLite.COLUMN_DATE, date);
 		values.put(PlantSQLite.COLUMN_PASSPHRASE, pass);
 		values.put(PlantSQLite.COLUMN_POT, pot_color);
@@ -129,7 +133,7 @@ public class PlantDataSource {
 		Plant Plant = new Plant();
 		Plant.id = cursor.getLong(0);
 		Plant.author = cursor.getString(1);
-		Plant.archived = cursor.getInt(2) == 1;
+		Plant.archived = cursor.getLong(2) == 1;
 		Plant.date = cursor.getLong(3);
 		Plant.passphrase = cursor.getString(4);
 		Plant.pot = cursor.getInt(5);
@@ -138,7 +142,6 @@ public class PlantDataSource {
 		Plant.shared_with = cursor.getString(8);
 		Plant.status = cursor.getInt(9);
 		Plant.title = cursor.getString(10);
-		
 		return Plant;
 	}
 }
