@@ -32,5 +32,8 @@ public class GetIV extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		GetUsers user_thread = new GetUsers(this.id +1, ctx);
+		user_thread.execute();
 	}
 }

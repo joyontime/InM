@@ -112,7 +112,7 @@ public class GetPlants extends GetThread {
 			e.printStackTrace();
 		}
 		
-		GetNotes check_message = new GetNotes(0, ctx);
+		GetNotes check_message = new GetNotes(this.id + 1, ctx);
 		check_message.execute();
 		datasource.close();
 	}

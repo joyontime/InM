@@ -72,6 +72,9 @@ public class GetUsers extends GetThread {
 			e.printStackTrace();
 		}
 		
+		GetPlants plant_thread = new GetPlants(this.id +1, ctx);
+		plant_thread.execute();
+		
 		datasource.close();
 	}
 }

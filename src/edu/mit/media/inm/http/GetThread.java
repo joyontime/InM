@@ -35,7 +35,7 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	public static String TAG = "RequestThread";
 
 	private SSLContext context;
-	private final int id;
+	protected final int id;
 	protected String uri;
 	protected static String charset = "UTF-8";
 

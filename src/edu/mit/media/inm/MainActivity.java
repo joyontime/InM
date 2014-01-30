@@ -1,6 +1,8 @@
 package edu.mit.media.inm;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -25,6 +27,7 @@ public class MainActivity extends FragmentActivity {
 	private static String TAG = "MainActivity";
 	private ActionBar actionBar;
 	private FragmentManager fm;
+	private PreferenceHandler ph;
 	
 	private Intent notifyService;
 
@@ -46,13 +49,15 @@ public class MainActivity extends FragmentActivity {
 		// actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
-		PreferenceHandler ph = new PreferenceHandler(this);
+		ph = new PreferenceHandler(this);
 		notifyService = new Intent(this, NotifyService.class);
 		if (ph.prompt() && !ph.password().equals("None")){
 			startService(notifyService);
 		} else {
 			stopService(notifyService);
 		}
+		
+		pingServer();
 	}
 
 	@Override
@@ -66,22 +71,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
-			Log.d(TAG, "Starting update.");
-
-			int THREAD_COUNT = 3;
-
-			// create a thread for each URI
-			GetThread[] threads = new GetThread[THREAD_COUNT];
-
-			threads[0] = new GetIV(0, this);
-			threads[1] = new GetPlants(1, this);
-			threads[2] = new GetUsers(2, this);
-
-			// start the threads
-			for (int j = 0; j < THREAD_COUNT; j++) {
-				Log.d(TAG, "Executing " + j);
-				threads[j].execute();
-			}
+			pingServer();
 			return true;
 		case R.id.action_settings:
 			fm.beginTransaction()
@@ -115,6 +105,17 @@ public class MainActivity extends FragmentActivity {
 			}
 		}
 		return false;
+	}
+	
+	private void pingServer(){
+		Log.d(TAG, "Starting update.");
+		if (ph.IV().equals(PreferenceHandler.default_IV)){
+			final GetIV iv_thread = new GetIV(0, this);
+			iv_thread.execute();
+		} else {
+			final GetUsers user_thread = new GetUsers(0, this);
+			user_thread.execute();
+		}
 	}
 	
 	public void refresh(){
