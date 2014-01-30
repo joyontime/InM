@@ -20,8 +20,8 @@ public class NotifyUtil {
 		NotificationCompat.Builder mBuilder = new NotificationCompat
 				.Builder(ctx)
 				.setSmallIcon(R.drawable.bookmark)
-				.setContentTitle("My notification")
-				.setContentText("Hello World!");
+				.setContentTitle("What's On Your Mind?")
+				.setContentText("Check InMind for a new prompt!");
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(ctx, MainActivity.class);
 
@@ -31,6 +31,6 @@ public class NotifyUtil {
 		mBuilder.setAutoCancel(true);
 		NotificationManager mNotificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 		// mId allows you to update the notification later on.
-		mNotificationManager.notify(dummy_notify, mBuilder.build());	
+		mNotificationManager.notify(dummy_notify, mBuilder.build());
 	}
 }

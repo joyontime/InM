@@ -17,7 +17,6 @@ public class NotifyReceiver extends BroadcastReceiver {
 	}
 
 	public void SetAlarm(Context context) {
-		Log.d(TAG, "Setting Alarm.");
 		AlarmManager am = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, NotifyReceiver.class);
