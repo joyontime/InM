@@ -112,6 +112,13 @@ public class PlantFragment extends Fragment {
 		// Load plant data.
 		StringBuilder info_string = new StringBuilder();
 
+		UserDataSource user_data = new UserDataSource(ctx);
+		user_data.open();
+		// Pretty Print date
+				info_string.append("Owned by: ");
+				info_string.append(user_data.getUserAlias(plant.author));
+				info_string.append("\n");
+
 		// Pretty Print date
 		info_string.append("Created at: ");
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
@@ -120,8 +127,6 @@ public class PlantFragment extends Fragment {
 
 		// Pretty Print friends shared with
 		info_string.append("Shared with: ");
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
 		for (String s: plant.shared_with.split(",")){
 			if (!s.trim().isEmpty()){
 				info_string.append("\n\t");
@@ -129,6 +134,7 @@ public class PlantFragment extends Fragment {
 			}		
 		}
 
+		user_data.close();
 		info_text.setText(info_string.toString());
 	}
 	

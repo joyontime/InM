@@ -6,14 +6,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 public class NotifyReceiver extends BroadcastReceiver {
 	private static String TAG = "NotifyReceiver";
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.d(TAG, "AlarmManager Received.");
-        Toast.makeText(context, "Tok", Toast.LENGTH_SHORT).show();
 		NotifyUtil nu = new NotifyUtil(context);
 		nu.sendNotification();
 	}
@@ -24,10 +22,6 @@ public class NotifyReceiver extends BroadcastReceiver {
 				.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, NotifyReceiver.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-		/*
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-				1000 * 60 * 60 * 24, pi);
-		*/		
 		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
 				AlarmManager.INTERVAL_HALF_HOUR, pi);
 	}

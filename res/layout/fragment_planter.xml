@@ -21,9 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/new_plant"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/cloud_repeat"
         android:fadeScrollbars="false"
+        android:layout_centerHorizontal="true"
         android:requiresFadingEdge="horizontal"
         android:text="@string/my_plants" >
 
@@ -34,9 +34,18 @@
             android:background="@drawable/window_border"
             android:orientation="horizontal"
             android:padding="20dp"
-            android:requiresFadingEdge="vertical"
-            android:text="@string/my_plants" >
+            android:requiresFadingEdge="vertical">
         </LinearLayout>
     </HorizontalScrollView>
+    
+    <TextView 
+        android:id="@+id/planter_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_plant"
+        android:text="@string/default_message"
+        android:layout_centerHorizontal="true"
+        android:padding="20dp"
+        />
 
 </RelativeLayout>

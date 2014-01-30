@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import android.app.Activity;
@@ -32,6 +33,7 @@ public class PlanterFragment extends Fragment {
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
+	private TextView message;
 
 	private Button new_plant_btn;
 
@@ -70,6 +72,7 @@ public class PlanterFragment extends Fragment {
 
 		planter = (HorizontalScrollView) getView().findViewById(R.id.planter);
 		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
+		message = (TextView) getView().findViewById(R.id.planter_message);
 		
 		this.refresh();
 	}
@@ -78,21 +81,34 @@ public class PlanterFragment extends Fragment {
 		datasource.open();
 		Log.d(TAG, "Refreshing");
 		List<Plant> values = datasource.getAllPlants();
+
+		// If there are no plants to display, show a message instead.
 		if (values.size() == 0){
-			// If there are no plants to display, show a message instead.
-			planter.setVisibility(View.INVISIBLE);
-		} else if (my_plants.getChildAt(0)!=null){
-			// If there are child elements, remove them so we can refresh.
-			my_plants.removeAllViews();
+			planter.setVisibility(View.GONE);
+			message.setVisibility(View.VISIBLE);
+			
+
+			PreferenceHandler ph = new PreferenceHandler(ctx);
+			if (ph.username().equals("None")){
+				message.setText("Welcome to InMind! Please log in under settings.");
+			}
 		} else {
 			planter.setVisibility(View.VISIBLE);
+			message.setVisibility(View.GONE);
 		}
+
+		// If there are child elements, remove them so we can refresh.
+		if (my_plants.getChildAt(0)!=null){
+			my_plants.removeAllViews();
+		} 
+
+		UserDataSource user_data = new UserDataSource(ctx);
+		user_data.open();
 		for (Plant p : values){
 			if (p.archived){
 				// Don't show archived plants.
 				continue;
 			}
-			
 			// Set up the plant container
 			LinearLayout plant = new LinearLayout(ctx);
 			plant.setOrientation(LinearLayout.VERTICAL);
@@ -110,6 +126,19 @@ public class PlanterFragment extends Fragment {
 				}
 		    });
 			my_plants.addView(plant);
+			
+			// Label the plant with its topic
+			TextView text = new TextView(ctx);
+			text.setPadding(10, 10, 10, 10);
+			text.setMaxLines(2);
+			text.setMinLines(2);
+			text.setLayoutParams(
+					new LayoutParams(
+							300,
+							LayoutParams.WRAP_CONTENT));
+			text.setText(p.title);
+			text.setGravity(Gravity.CENTER_HORIZONTAL);
+			plant.addView(text);
 
 			// Choose a plant image
 			ImageView image = new ImageView(ctx);
@@ -121,18 +150,20 @@ public class PlanterFragment extends Fragment {
 							300,
 							LayoutParams.WRAP_CONTENT));
 			plant.addView(image);
-			
-			// Label the plant with its topic
-			TextView text = new TextView(ctx);
-			text.setPadding(10, 10, 10, 10);
-			text.setLayoutParams(
-					new LayoutParams(
-							300,
-							LayoutParams.WRAP_CONTENT));
-			text.setText(p.title);
-			text.setGravity(Gravity.CENTER_HORIZONTAL);
-			plant.addView(text);
+
+
+			// Label the plant with its owner
+			TextView owner = new TextView(ctx);
+			owner.setPadding(10, 10, 10, 10);
+			owner.setMaxLines(1);
+			owner.setLayoutParams(new LayoutParams(300,
+					LayoutParams.WRAP_CONTENT));
+			owner.setText(user_data.getUserAlias(p.author));
+			owner.setGravity(Gravity.CENTER_HORIZONTAL);
+			plant.addView(owner);
 		}
+
+		user_data.close();
 	}
 
 	@Override
