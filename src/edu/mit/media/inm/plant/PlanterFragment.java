@@ -34,8 +34,29 @@ public class PlanterFragment extends Fragment {
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
 	private TextView message;
+	
+	private boolean archived = false;
 
 	private Button new_plant_btn;
+	
+
+	public static PlanterFragment newInstance(boolean archived) {
+        PlanterFragment f = new PlanterFragment();
+
+        Bundle args = new Bundle();
+        Plant plant = new Plant();
+        plant.archived = archived;
+        args.putParcelable("plant", plant);
+        f.setArguments(args);
+
+        return f;
+    }
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		this.archived = (getArguments() != null ? ((Plant) getArguments().get("plant")).archived : false);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,17 +79,22 @@ public class PlanterFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		new_plant_btn = (Button) getView().findViewById(R.id.new_plant);
-		new_plant_btn.setOnClickListener(new View.OnClickListener() {
-			// Switch to pot fragment
-			@Override
-			public void onClick(View v) {
-				getFragmentManager().beginTransaction()
-				.replace(android.R.id.content, new PotFragment())
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-				.addToBackStack("pot").commit();
-		        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
-			}
-		});
+		if (this.archived){
+			new_plant_btn.setVisibility(View.GONE);
+		} else {
+			new_plant_btn.setVisibility(View.VISIBLE);
+			new_plant_btn.setOnClickListener(new View.OnClickListener() {
+				// Switch to pot fragment
+				@Override
+				public void onClick(View v) {
+					getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, new PotFragment())
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack("pot").commit();
+			        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
+				}
+			});
+		}
 
 		planter = (HorizontalScrollView) getView().findViewById(R.id.planter);
 		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
@@ -82,21 +108,6 @@ public class PlanterFragment extends Fragment {
 		Log.d(TAG, "Refreshing");
 		List<Plant> values = datasource.getAllPlants();
 
-		// If there are no plants to display, show a message instead.
-		if (values.size() == 0){
-			planter.setVisibility(View.GONE);
-			message.setVisibility(View.VISIBLE);
-			
-
-			PreferenceHandler ph = new PreferenceHandler(ctx);
-			if (ph.username().equals("None")){
-				message.setText("Welcome to InMind! Please log in under settings.");
-			}
-		} else {
-			planter.setVisibility(View.VISIBLE);
-			message.setVisibility(View.GONE);
-		}
-
 		// If there are child elements, remove them so we can refresh.
 		if (my_plants.getChildAt(0)!=null){
 			my_plants.removeAllViews();
@@ -105,7 +116,7 @@ public class PlanterFragment extends Fragment {
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
 		for (Plant p : values){
-			if (p.archived){
+			if (this.archived ^ p.archived){
 				// Don't show archived plants.
 				continue;
 			}
@@ -162,6 +173,23 @@ public class PlanterFragment extends Fragment {
 			owner.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(owner);
 		}
+		
+
+		// If there are no plants to display, show a message instead.
+		if (my_plants.getChildAt(0) == null){
+			planter.setVisibility(View.GONE);
+			message.setVisibility(View.VISIBLE);
+
+			PreferenceHandler ph = new PreferenceHandler(ctx);
+			if (ph.username().equals("None")){
+				message.setText("Welcome to InMind! Please log in under settings.");
+			} else if (this.archived){
+				message.setText("There are no archived plants.");
+			}
+		} else {
+			planter.setVisibility(View.VISIBLE);
+			message.setVisibility(View.GONE);
+		}
 
 		user_data.close();
 	}
@@ -169,6 +197,10 @@ public class PlanterFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		if (archived){
+			ctx.getActionBar().setTitle("Archived Plants");
+		}
 		Log.d(TAG, "onResume");
 		datasource.open();
 	}

@@ -3,9 +3,11 @@
 
     <!-- General -->
     <string name="app_name">InM</string>
-    <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_archived">Archived Plants</string>
+    <string name="action_friends">My Friends</string>
     <string name="action_about">Help</string>
+    <string name="action_settings">Settings</string>
     <string name="action_done">Done</string>
     
     <string name="url_server">https://sodiio.media.mit.edu</string>
@@ -50,24 +52,11 @@
     <string name="name_pot">Name your plant</string>
     <string name="pot">Pot</string>
     <string name="friends">Friends</string>
-
-    <string-array name="mood_list">
-        <item>Bad</item>
-        <item>Meh</item>
-        <item>Cheerful</item>
-    </string-array>
-
-    <string-array name="availability_list">
-        <item>Please do not disturb.</item>
-        <item>I\'m flexible today.</item>
-        <item>Come on in!</item>
-    </string-array>
     
     <!--  Note -->
     <string name="note_hint">Write your note here.</string>
     
     <!-- User -->
-    <string name="action_friends">My Friends</string>
     
     <!-- Preferences -->
     <string name="user_prefs">User Preferences</string>

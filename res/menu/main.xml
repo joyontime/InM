@@ -6,6 +6,11 @@
         android:title="@string/action_refresh"/>
 
     <item
+        android:id="@+id/action_archived"
+        android:orderInCategory="97"
+        android:title="@string/action_archived"/>
+
+    <item
         android:id="@+id/action_friends"
         android:orderInCategory="98"
         android:title="@string/action_friends"/>

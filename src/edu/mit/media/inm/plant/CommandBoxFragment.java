@@ -75,12 +75,23 @@ public class CommandBoxFragment extends Fragment {
 		plant_image.setImageResource(Plant.growth[plant.status]);
 		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
 		
-		
-		setupNoteButton();
-		if (plant.author.equals(ph.server_id())){
-			setupButtons();
+		//Chose which buttons to turn on and off.
+		if (plant.archived){
+			disableNote();
+			disableWater();
+			disableTrim();
+			enableArchive(true);
 		} else {
-			disableButtons();
+			enableNote();
+			if (plant.author.equals(ph.server_id())){
+				enableWater();
+				enableTrim();
+				enableArchive(false);
+			} else {
+				disableWater();
+				disableTrim();
+				disableArchive();
+			}
 		}
 		
 		datasource = new PlantDataSource(ctx);
@@ -88,8 +99,29 @@ public class CommandBoxFragment extends Fragment {
 		
 		return rootView;
 	}
+
+	private void disableNote() {
+		note = (Button) rootView.findViewById(R.id.note_btn);
+		note.setEnabled(false);
+	}
+
+	private void disableWater() {
+		water = (Button) rootView.findViewById(R.id.water_btn);
+		water.setEnabled(false);
+	}
+
+
+	private void disableTrim() {
+		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim.setEnabled(false);
+	}
+
+	private void disableArchive() {
+		archive = (Button) rootView.findViewById(R.id.archive_btn);
+		archive.setEnabled(false);
+	}
 	
-	private void setupNoteButton(){
+	private void enableNote() {
 		note = (Button) rootView.findViewById(R.id.note_btn);
 		note.setOnClickListener(new OnClickListener(){
 			@Override
@@ -104,9 +136,8 @@ public class CommandBoxFragment extends Fragment {
 			}
 		});
 	}
-	
-	private void setupButtons(){
-		// Buttons
+
+	private void enableWater() {
 		water = (Button) rootView.findViewById(R.id.water_btn);
 		water.setOnClickListener(new OnClickListener(){
 			@Override
@@ -120,6 +151,9 @@ public class CommandBoxFragment extends Fragment {
 				}
 			}
 		});
+	}
+
+	private void enableTrim() {
 		trim = (Button) rootView.findViewById(R.id.trim_btn);
 		trim.setOnClickListener(new OnClickListener(){
 			@Override
@@ -133,27 +167,22 @@ public class CommandBoxFragment extends Fragment {
 				}
 			}
 		});
-		
+	}
+
+	private void enableArchive(final boolean archived) {
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
+		if (archived){
+			archive.setText("Bring Back");
+		}
 		archive.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				//Archive the plant.
-				archivePlant();
-				
+				archivePlant(!archived);
 				//return to planter screen
 				getFragmentManager().popBackStack();
 			}
 		});
-	}
-	
-	private void disableButtons(){
-		water = (Button) rootView.findViewById(R.id.water_btn);
-		water.setEnabled(false);
-		trim = (Button) rootView.findViewById(R.id.trim_btn);
-		trim.setEnabled(false);
-		archive = (Button) rootView.findViewById(R.id.archive_btn);
-		archive.setEnabled(false);
 	}
 
 	public void updatePlant(){
@@ -163,10 +192,10 @@ public class CommandBoxFragment extends Fragment {
 			http_client.execute();
 		}
 	}
-	
-	public void archivePlant() {
+
+	public void archivePlant(boolean archived) {
 		UpdatePlant http_client = new UpdatePlant(0, ctx);
-		http_client.setupParams(this.plant.server_id, status, true);
+		http_client.setupParams(this.plant.server_id, status, archived);
 		http_client.execute();
 	}
 	

@@ -13,9 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import edu.mit.media.inm.http.GetIV;
-import edu.mit.media.inm.http.GetPlants;
-import edu.mit.media.inm.http.GetThread;
 import edu.mit.media.inm.http.GetUsers;
+import edu.mit.media.inm.plant.Plant;
 import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
@@ -73,13 +72,13 @@ public class MainActivity extends FragmentActivity {
 		case R.id.action_refresh:
 			pingServer();
 			return true;
-		case R.id.action_settings:
-			fm.beginTransaction()
-					.replace(android.R.id.content, new PrefsFragment())
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.addToBackStack("prefs").commit();
-	        actionBar.setDisplayHomeAsUpEnabled(true);
-
+		case R.id.action_archived:
+            fm.beginTransaction()
+			.replace(android.R.id.content, PlanterFragment.newInstance(true), "archived")
+			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+			.addToBackStack("archived").commit();
+			
+			actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
 		case R.id.action_friends:
 			fm.beginTransaction()
@@ -91,6 +90,13 @@ public class MainActivity extends FragmentActivity {
 		case R.id.action_about:
 			String info = "Email joyc@mit.edu if you have any questions or bugs to report!";
 			Toast.makeText(this, info, Toast.LENGTH_LONG).show();
+			return true;
+		case R.id.action_settings:
+			fm.beginTransaction()
+					.replace(android.R.id.content, new PrefsFragment())
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack("prefs").commit();
+	        actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
@@ -122,6 +128,12 @@ public class MainActivity extends FragmentActivity {
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		planter_frag.refresh();
+		
+		PlanterFragment archived_frag = (PlanterFragment) getFragmentManager()
+				.findFragmentByTag("archived");
+		if (archived_frag != null){
+			archived_frag.refresh();
+		}
 
 		PlantFragment plant_frag = (PlantFragment) getFragmentManager()
 				.findFragmentByTag("plant");
