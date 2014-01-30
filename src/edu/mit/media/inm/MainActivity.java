@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import edu.mit.media.inm.http.GetIV;
-import edu.mit.media.inm.http.GetNotes;
 import edu.mit.media.inm.http.GetPlants;
 import edu.mit.media.inm.http.GetThread;
 import edu.mit.media.inm.http.GetUsers;
@@ -19,11 +19,14 @@ import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
+import edu.mit.media.inm.util.NotifyService;
 
 public class MainActivity extends FragmentActivity {
 	private static String TAG = "MainActivity";
 	private ActionBar actionBar;
 	private FragmentManager fm;
+	
+	private Intent notifyService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,14 @@ public class MainActivity extends FragmentActivity {
 
 		// actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		
+		PreferenceHandler ph = new PreferenceHandler(this);
+		notifyService = new Intent(this, NotifyService.class);
+		if (ph.prompt() && !ph.password().equals("None")){
+			startService(notifyService);
+		} else {
+			stopService(notifyService);
+		}
 	}
 
 	@Override
@@ -88,8 +99,8 @@ public class MainActivity extends FragmentActivity {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
 		case R.id.action_about:
-			String info = "Email joyc@mit.edu if you have any questions or bugs!";
-			Toast.makeText(this, info, Toast.LENGTH_LONG);
+			String info = "Email joyc@mit.edu if you have any questions or bugs to report!";
+			Toast.makeText(this, info, Toast.LENGTH_LONG).show();
 			return true;
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
