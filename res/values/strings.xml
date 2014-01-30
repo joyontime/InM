@@ -32,7 +32,7 @@
     
     <string name="planter">Planter,</string>
     <string name="my_plants">My Plants.</string>
-    <string name="default_message">You don\'t have plants. :( Get new pots!</string>
+    <string name="default_message">Prompt of the day will appear here.</string>
     
     <string name="plant_name">Plant Page</string>
     
@@ -55,6 +55,9 @@
     
     <!--  Note -->
     <string name="note_hint">Write your note here.</string>
+    <string name="note_author">Author</string>
+    <string name="note_date">Date String</string>
+    <string name="note_text">This is the body of the note.</string>
     
     <!-- User -->
     
