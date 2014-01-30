@@ -80,7 +80,11 @@ public class CommandBoxFragment extends Fragment {
 			disableNote();
 			disableWater();
 			disableTrim();
-			enableArchive(true);
+			if (plant.author.equals(ph.server_id())){
+				enableArchive(true);
+			} else {
+				disableArchive();
+			}
 		} else {
 			enableNote();
 			if (plant.author.equals(ph.server_id())){

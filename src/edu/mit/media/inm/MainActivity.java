@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import edu.mit.media.inm.http.GetIV;
-import edu.mit.media.inm.http.GetUsers;
-import edu.mit.media.inm.plant.Plant;
 import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
@@ -115,13 +113,8 @@ public class MainActivity extends FragmentActivity {
 	
 	private void pingServer(){
 		Log.d(TAG, "Starting update.");
-		if (ph.IV().equals(PreferenceHandler.default_IV)){
-			final GetIV iv_thread = new GetIV(0, this);
-			iv_thread.execute();
-		} else {
-			final GetUsers user_thread = new GetUsers(0, this);
-			user_thread.execute();
-		}
+		final GetIV iv_thread = new GetIV(0, this);
+		iv_thread.execute();
 	}
 	
 	public void refresh(){
@@ -154,5 +147,11 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			super.onBackPressed();
 		}
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		this.refresh();
 	}
 }

@@ -90,8 +90,6 @@ public class GetPlants extends GetThread {
 							Integer.parseInt((String) plant.get("status")),
 							(String) plant.get("title"));
 					
-					Log.d(TAG, "Refreshing.");
-					main.refresh();
 				} else {
 					server_ids.remove(plant_id);
 				}
@@ -111,6 +109,9 @@ public class GetPlants extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
+		Log.d(TAG, "Refreshing.");
+		main.refresh();
 		
 		GetNotes check_message = new GetNotes(this.id + 1, ctx);
 		check_message.execute();

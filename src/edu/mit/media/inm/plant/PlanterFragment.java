@@ -173,22 +173,35 @@ public class PlanterFragment extends Fragment {
 			owner.setGravity(Gravity.CENTER_HORIZONTAL);
 			plant.addView(owner);
 		}
+
+		PreferenceHandler ph = new PreferenceHandler(ctx);
 		
 
-		// If there are no plants to display, show a message instead.
+		if (ph.IV().equals(PreferenceHandler.default_IV)){
+			message.setText("Welcome to InMind! Please log in under settings.");
+		} else {
+			if (this.archived){
+				message.setText("Archived plants are kept here." +
+						"You can\'t do anything with them " +
+						"unless you bring them back.");
+			} else {
+				StringBuilder potd = new StringBuilder();
+				potd.append("Some thoughts to consider today: \n");
+				potd.append(ph.POTD_neut());
+				potd.append('\n');
+				potd.append(ph.POTD_happy());
+				potd.append('\n');
+				potd.append(ph.POTD_sad());
+				message.setText(potd.toString());
+			}
+		}
+		
+
+		// If there are no plants to display, don't show the planter.
 		if (my_plants.getChildAt(0) == null){
 			planter.setVisibility(View.GONE);
-			message.setVisibility(View.VISIBLE);
-
-			PreferenceHandler ph = new PreferenceHandler(ctx);
-			if (ph.username().equals("None")){
-				message.setText("Welcome to InMind! Please log in under settings.");
-			} else if (this.archived){
-				message.setText("There are no archived plants.");
-			}
 		} else {
 			planter.setVisibility(View.VISIBLE);
-			message.setVisibility(View.GONE);
 		}
 
 		user_data.close();

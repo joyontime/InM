@@ -59,4 +59,22 @@ public class PreferenceHandler{
 		editor.putLong("last_pinged", ts);
 		editor.apply();
 	}
+
+	public String POTD_neut(){
+		return prefs.getString("potd_neut", "");
+	}
+	public String POTD_sad(){
+		return prefs.getString("potd_sad", "");
+	}
+	public String POTD_happy(){
+		return prefs.getString("potd_happy", "");
+	}
+
+	public void set_POTD(String neut, String happy, String sad){
+		Editor editor = prefs.edit();
+		editor.putString("potd_neut", neut);
+		editor.putString("potd_happy", happy);
+		editor.putString("potd_sad", sad);
+		editor.apply();
+	}
 }
