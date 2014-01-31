@@ -12,6 +12,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,6 +38,7 @@ public class PlanterFragment extends Fragment {
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
 	private TextView message;
+	private int plant_width;
 	
 	private boolean archived = false;
 
@@ -56,6 +61,11 @@ public class PlanterFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		this.archived = (getArguments() != null ? ((Plant) getArguments().get("plant")).archived : false);
+		
+		BitmapDrawable bd=(BitmapDrawable) this.getResources().getDrawable(R.drawable.plant_0);
+		plant_width=bd.getBitmap().getWidth();
+		
+		Log.d(TAG, "Each plant width: " + plant_width);
 	}
 
 	@Override
@@ -124,6 +134,8 @@ public class PlanterFragment extends Fragment {
 			LinearLayout plant = new LinearLayout(ctx);
 			plant.setOrientation(LinearLayout.VERTICAL);
 			plant.setTag(p);
+			plant.setLayoutParams(new LayoutParams(this.plant_width,
+					LayoutParams.WRAP_CONTENT));
 			plant.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -143,34 +155,32 @@ public class PlanterFragment extends Fragment {
 			text.setPadding(10, 10, 10, 10);
 			text.setMaxLines(2);
 			text.setMinLines(2);
-			text.setLayoutParams(
-					new LayoutParams(
-							300,
-							LayoutParams.WRAP_CONTENT));
 			text.setText(p.title);
 			text.setGravity(Gravity.CENTER_HORIZONTAL);
+			text.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.WRAP_CONTENT));
+			if (p.updated){
+				text.setTypeface(null, Typeface.BOLD);
+			}
 			plant.addView(text);
 
 			// Choose a plant image
 			ImageView image = new ImageView(ctx);
-			//image.setImageResource(R.drawable.demo_plant);
 			image.setImageResource(Plant.growth[p.status]);
 			image.setBackgroundResource(Plant.pots[p.pot]);
-			image.setLayoutParams(
-					new LayoutParams(
-							300,
-							LayoutParams.WRAP_CONTENT));
 			plant.addView(image);
-
 
 			// Label the plant with its owner
 			TextView owner = new TextView(ctx);
 			owner.setPadding(10, 10, 10, 10);
 			owner.setMaxLines(1);
-			owner.setLayoutParams(new LayoutParams(300,
+			owner.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 					LayoutParams.WRAP_CONTENT));
 			owner.setText(user_data.getUserAlias(p.author));
 			owner.setGravity(Gravity.CENTER_HORIZONTAL);
+			if (p.updated){
+				owner.setTypeface(null, Typeface.BOLD);
+			}
 			plant.addView(owner);
 		}
 

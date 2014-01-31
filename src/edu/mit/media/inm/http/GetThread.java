@@ -104,7 +104,7 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	protected String doInBackground(Void... arg0) {
 		try {
 			URL url = new URL(this.uri);
-			Log.d(TAG, this.id + " - Getting from " + url.toString());
+			Log.d(TAG, this.id + " - Getting from server.");
 			HttpsURLConnection
 					.setDefaultHostnameVerifier(new NullHostNameVerifier());
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -121,11 +121,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 									.password()).getBytes(), Base64.NO_WRAP));
 
 			conn.setConnectTimeout(TIMEOUT);
-
-			Map<String, List<String>> hdrs = conn.getRequestProperties();
-			Set<String> hdrKeys = hdrs.keySet();
-			for (String k : hdrKeys)
-				Log.d(TAG, "Key: " + k + "  Value: " + hdrs.get(k));
 
 			InputStream in = new BufferedInputStream(conn.getInputStream());
 

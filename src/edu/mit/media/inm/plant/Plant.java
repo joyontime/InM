@@ -10,10 +10,7 @@ import android.os.Parcelable;
  * @author joyc4luck
  * 
  */
-public class Plant implements Parcelable, Comparable<Plant> {
-	public static final String EVERYONE = "everyone";
-	public static final String INNER = "inner";
-	
+public class Plant implements Parcelable, Comparable<Plant> {	
 	public static final String NEW_STORY = "new_plant";
 	public static final String OPEN_PLANT = "open_plant";
 	
@@ -27,6 +24,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public String server_id;
 	public String shared_with;
 	public int status;
+	public boolean updated;
 	public String title;
 	
 
@@ -72,6 +70,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public void writeToParcel(Parcel out, int flags) {
 		out.writeLong(id);
 		out.writeString(author);
+		out.writeInt(archived? 1:0);
 		out.writeLong(date);
 		out.writeString(passphrase);
 		out.writeInt(pot);
@@ -80,6 +79,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		out.writeString(shared_with);
 		out.writeInt(status);
 		out.writeString(title);
+		out.writeInt(updated? 1:0);
 	}
 	
 	/**
@@ -102,6 +102,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
     private Plant(Parcel in) {
         this.id = in.readLong();
         this.author = in.readString();
+        this.archived = in.readInt() == 1;
         this.date = in.readLong();
         this.passphrase = in.readString();
         this.pot = in.readInt();
@@ -110,6 +111,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
         this.shared_with = in.readString();
         this.status = in.readInt();
         this.title = in.readString();
+        this.updated = in.readInt() == 1;
     }
 
 	@Override

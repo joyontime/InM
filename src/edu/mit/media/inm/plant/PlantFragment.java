@@ -76,6 +76,8 @@ public class PlantFragment extends Fragment {
 		
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
+		
+		datasource.seenPlant(plant.server_id);
 
 		setupInfoView();
 		setupNotes();

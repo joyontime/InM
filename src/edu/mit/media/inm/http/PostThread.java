@@ -124,11 +124,6 @@ public abstract class PostThread extends AsyncTask<Void, Void, String> {
 									.password()).getBytes(), Base64.NO_WRAP));
 
 			conn.setConnectTimeout(TIMEOUT);
-
-			Map<String, List<String>> hdrs = conn.getRequestProperties();
-			Set<String> hdrKeys = hdrs.keySet();
-			for (String k : hdrKeys)
-				Log.d(TAG, "Key: " + k + "  Value: " + hdrs.get(k));
 			
 			// Set up parameters in output stream
 			OutputStream os = conn.getOutputStream();

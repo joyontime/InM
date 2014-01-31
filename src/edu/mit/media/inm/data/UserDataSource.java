@@ -61,7 +61,6 @@ public class UserDataSource {
 	}
 	
 	public User getUser(long id) {
-		Log.i(TAG, "Trying to find User with id: " + id);
 		Cursor cursor = database.query(UserSQLite.TABLE_USER, allColumns,
 				UserSQLite.COLUMN_ID + " = " + id, null, null, null, null);
 		cursor.moveToFirst();
@@ -72,7 +71,6 @@ public class UserDataSource {
 	}
 	
 	public String getUserAlias(String server_id) {
-		Log.i(TAG, "Trying to find User with id: " + server_id);
 		Cursor cursor = database.query(UserSQLite.TABLE_USER, allColumns,
 				UserSQLite.COLUMN_SERVER_ID + " = \"" + server_id + "\"", null, null, null, null);
 		cursor.moveToFirst();

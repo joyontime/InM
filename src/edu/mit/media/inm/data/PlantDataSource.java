@@ -25,8 +25,11 @@ public class PlantDataSource {
 			PlantSQLite.COLUMN_DATE,
 			PlantSQLite.COLUMN_PASSPHRASE, 
 			PlantSQLite.COLUMN_POT, PlantSQLite.COLUMN_SALT,
-			PlantSQLite.COLUMN_SERVER_ID, PlantSQLite.COLUMN_SHARED_WITH,
-			PlantSQLite.COLUMN_STATUS,PlantSQLite.COLUMN_TITLE };
+			PlantSQLite.COLUMN_SERVER_ID,
+			PlantSQLite.COLUMN_SHARED_WITH,
+			PlantSQLite.COLUMN_STATUS,
+			PlantSQLite.COLUMN_TITLE,
+			PlantSQLite.COLUMN_UPDATED};
 
 	public PlantDataSource(Context context) {
 		dbHelper = new PlantSQLite(context);
@@ -54,6 +57,7 @@ public class PlantDataSource {
 		values.put(PlantSQLite.COLUMN_SHARED_WITH, share);
 		values.put(PlantSQLite.COLUMN_STATUS, status);
 		values.put(PlantSQLite.COLUMN_TITLE, title);
+		values.put(PlantSQLite.COLUMN_UPDATED, 1);
 		long insertId = database.insert(PlantSQLite.TABLE_PLANT, null, values);
 
 		// Get the entered plant back out as a Plant object
@@ -74,7 +78,6 @@ public class PlantDataSource {
 	}
 	
 	public Plant getPlant(long id) {
-		Log.i(TAG, "Trying to find plant with id: " + id);
 		Cursor cursor = database.query(PlantSQLite.TABLE_PLANT, allColumns,
 				PlantSQLite.COLUMN_ID + " = " + id, null, null, null, null);
 		cursor.moveToFirst();
@@ -124,6 +127,15 @@ public class PlantDataSource {
 				values, PlantSQLite.COLUMN_SERVER_ID + " = ?",
 				new String[]{server_id,});
 	}
+
+	public void seenPlant(String server_id){
+		ContentValues values = new ContentValues();
+		values.put(PlantSQLite.COLUMN_UPDATED, 0);
+
+		database.update(PlantSQLite.TABLE_PLANT,
+				values, PlantSQLite.COLUMN_SERVER_ID + " = ?",
+				new String[]{server_id,});
+	}
 	
 	private Plant cursorToPlant(Cursor cursor) {
 		Plant Plant = new Plant();
@@ -138,6 +150,7 @@ public class PlantDataSource {
 		Plant.shared_with = cursor.getString(8);
 		Plant.status = cursor.getInt(9);
 		Plant.title = cursor.getString(10);
+		Plant.updated = cursor.getInt(11) == 1;
 		return Plant;
 	}
 }
