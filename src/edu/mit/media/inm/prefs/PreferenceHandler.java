@@ -1,6 +1,5 @@
 package edu.mit.media.inm.prefs;
 
-import edu.mit.media.inm.http.GetIV;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

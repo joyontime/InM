@@ -1,13 +1,5 @@
 package edu.mit.media.inm.note;
 
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.http.PostNote;
-import edu.mit.media.inm.http.PostPlant;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.plant.Plant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
-import edu.mit.media.inm.util.AesUtil;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -22,6 +14,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.NoteDataSource;
+import edu.mit.media.inm.http.PostNote;
+import edu.mit.media.inm.plant.Plant;
+import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.util.AesUtil;
 
 public class NoteFragment extends Fragment {
 	private static final String TAG = "NoteFragment";

@@ -7,18 +7,15 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import edu.mit.media.inm.R;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
+import edu.mit.media.inm.R;
 
 public class FileUtil {
 	public static String TAG = "FileUtil";

@@ -4,14 +4,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.prefs.PreferenceHandler;
-import android.content.Context;
 
 public class GetIV extends GetThread {
 	protected static final String TAG = "GetIV HTTP";
 
-	public GetIV(int id, Context ctx) {
+	public GetIV(int id, MainActivity ctx) {
 		super(id, ctx);
 		String server = ctx.getResources().getString(R.string.url_server);
 		String users = ctx.getResources().getString(R.string.uri_users);

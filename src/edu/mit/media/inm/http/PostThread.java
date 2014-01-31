@@ -21,8 +21,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -32,12 +30,11 @@ import javax.net.ssl.TrustManagerFactory;
 
 import org.apache.http.NameValuePair;
 
-import edu.mit.media.inm.prefs.PreferenceHandler;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public abstract class PostThread extends AsyncTask<Void, Void, String> {
 	public static String TAG = "PostThread";

@@ -1,11 +1,8 @@
 package edu.mit.media.inm.prefs;
 
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.R.string;
-import edu.mit.media.inm.R.xml;
-import edu.mit.media.inm.http.GetIV;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import edu.mit.media.inm.R;
 
 public class PrefsFragment extends PreferenceFragment {
 

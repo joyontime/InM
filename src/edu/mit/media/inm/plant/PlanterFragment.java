@@ -2,18 +2,9 @@ package edu.mit.media.inm.plant;
 
 import java.util.List;
 
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.prefs.PreferenceHandler;
-import edu.mit.media.inm.prefs.PrefsFragment;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -29,9 +20,13 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public class PlanterFragment extends Fragment {
-	private static final String TAG = "TellFragment";
+	private static final String TAG = "PlanterFragment";
 
 	private Activity ctx;
 	private PlantDataSource datasource;
@@ -115,7 +110,7 @@ public class PlanterFragment extends Fragment {
 	
 	public void refresh(){
 		datasource.open();
-		Log.d(TAG, "Refreshing");
+		Log.d(TAG, "Refreshing all views.");
 		List<Plant> values = datasource.getAllPlants();
 
 		// If there are child elements, remove them so we can refresh.
@@ -134,7 +129,8 @@ public class PlanterFragment extends Fragment {
 			LinearLayout plant = new LinearLayout(ctx);
 			plant.setOrientation(LinearLayout.VERTICAL);
 			plant.setTag(p);
-			plant.setLayoutParams(new LayoutParams(this.plant_width,
+			plant.setLayoutParams(new LayoutParams(
+					this.plant_width,
 					LayoutParams.WRAP_CONTENT));
 			plant.setOnClickListener(new OnClickListener() {
 				@Override
@@ -152,15 +148,15 @@ public class PlanterFragment extends Fragment {
 			
 			// Label the plant with its topic
 			TextView text = new TextView(ctx);
-			text.setPadding(10, 10, 10, 10);
-			text.setMaxLines(2);
-			text.setMinLines(2);
+			text.setLines(2);
 			text.setText(p.title);
-			text.setGravity(Gravity.CENTER_HORIZONTAL);
-			text.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+			text.setGravity(Gravity.CENTER);
+			text.setLayoutParams(new LayoutParams(
+					LayoutParams.MATCH_PARENT,
 					LayoutParams.WRAP_CONTENT));
-			if (p.updated){
+			if (p.shiny){
 				text.setTypeface(null, Typeface.BOLD);
+				text.setBackgroundResource(R.drawable.glow);
 			}
 			plant.addView(text);
 
@@ -172,14 +168,16 @@ public class PlanterFragment extends Fragment {
 
 			// Label the plant with its owner
 			TextView owner = new TextView(ctx);
-			owner.setPadding(10, 10, 10, 10);
-			owner.setMaxLines(1);
-			owner.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+			owner.setLines(2);
+			owner.setPadding(0, 5, 0, 0);
+			owner.setLayoutParams(new LayoutParams(
+					LayoutParams.MATCH_PARENT,
 					LayoutParams.WRAP_CONTENT));
 			owner.setText(user_data.getUserAlias(p.author));
-			owner.setGravity(Gravity.CENTER_HORIZONTAL);
-			if (p.updated){
+			owner.setGravity(Gravity.CENTER);
+			if (p.shiny){
 				owner.setTypeface(null, Typeface.BOLD);
+				owner.setBackgroundResource(R.drawable.glow);
 			}
 			plant.addView(owner);
 		}

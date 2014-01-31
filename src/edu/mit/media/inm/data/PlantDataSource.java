@@ -3,14 +3,13 @@ package edu.mit.media.inm.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.mit.media.inm.plant.Plant;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import edu.mit.media.inm.plant.Plant;
 
 public class PlantDataSource {
 
@@ -159,7 +158,7 @@ public class PlantDataSource {
 		Plant.shared_with = cursor.getString(8);
 		Plant.status = cursor.getInt(9);
 		Plant.title = cursor.getString(10);
-		Plant.updated = cursor.getInt(11) == 1;
+		Plant.shiny = cursor.getInt(11) == 1;
 		return Plant;
 	}
 }

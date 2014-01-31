@@ -2,6 +2,7 @@ package edu.mit.media.inm.http;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.format.DateTimeFormatter;
@@ -10,14 +11,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.content.Context;
+import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.note.Note;
-
-import android.content.Context;
-import android.util.Log;
 
 public class PostNote extends PostThread{
 	private NoteDataSource datasource;

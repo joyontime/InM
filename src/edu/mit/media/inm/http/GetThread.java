@@ -14,9 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -24,12 +21,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
 
-import edu.mit.media.inm.prefs.PreferenceHandler;
-
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import edu.mit.media.inm.MainActivity;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	public static String TAG = "RequestThread";
@@ -39,13 +35,13 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	protected String uri;
 	protected static String charset = "UTF-8";
 
-	protected final Context ctx;
+	protected final MainActivity ctx;
 
 	protected final int TIMEOUT = 1000;
 
 	protected final PreferenceHandler ph;
 
-	public GetThread(int id, Context ctx) {
+	public GetThread(int id, MainActivity ctx) {
 		this.id = id;
 		this.ctx = ctx;
 		this.ph = new PreferenceHandler(ctx);
@@ -132,7 +128,6 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 			}
 
 			conn.disconnect();
-
 			return total.toString();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();

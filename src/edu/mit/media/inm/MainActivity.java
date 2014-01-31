@@ -1,10 +1,10 @@
 package edu.mit.media.inm;
 
-import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -118,7 +118,9 @@ public class MainActivity extends FragmentActivity {
 	public void refresh(){
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
-		planter_frag.refresh();
+		if (planter_frag !=null){
+			planter_frag.refresh();
+		}
 		
 		PlanterFragment archived_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("archived");

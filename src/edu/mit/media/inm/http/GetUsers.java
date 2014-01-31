@@ -9,16 +9,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.user.User;
 
-import android.content.Context;
-
 public class GetUsers extends GetThread {
-	private static final String TAG = "GetUsers HTTP";
 
-	public GetUsers(int id, Context ctx) {
+	public GetUsers(int id, MainActivity ctx) {
 		super(id, ctx);
 
 		String server = ctx.getResources().getString(R.string.url_server);

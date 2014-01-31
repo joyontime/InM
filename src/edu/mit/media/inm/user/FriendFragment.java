@@ -1,12 +1,8 @@
 package edu.mit.media.inm.user;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.prefs.PreferenceHandler;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -15,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public class FriendFragment extends Fragment {
 	private Activity ctx;

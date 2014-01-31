@@ -11,22 +11,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.plant.Plant;
 
-import android.content.Context;
-import android.util.Log;
-
 public class GetPlants extends GetThread {
 	private static final String TAG = "GetPlants HTTP";
-	private MainActivity main;
 
-	public GetPlants(int id, Context ctx) {
+	public GetPlants(int id, MainActivity ctx) {
 		super(id, ctx);
-		
-		main = (MainActivity) ctx;
 		
 		String query;
 		query = "";
@@ -115,17 +110,14 @@ public class GetPlants extends GetThread {
 					}
 				}
 			}
-
-			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-		Log.d(TAG, "Refreshing.");
-		main.refresh();
-		
 		GetNotes check_message = new GetNotes(this.id + 1, ctx);
 		check_message.execute();
 		datasource.close();
+
+		Log.d(TAG, "Refreshing.");
+		ctx.refresh();
 	}
 }

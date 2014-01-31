@@ -1,28 +1,21 @@
 package edu.mit.media.inm.plant;
 
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.http.UpdatePlant;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.note.NoteFragment;
-import edu.mit.media.inm.plant.Plant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.http.UpdatePlant;
+import edu.mit.media.inm.note.NoteFragment;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public class CommandBoxFragment extends Fragment {
 	private static final String TAG = "PlantActivity";

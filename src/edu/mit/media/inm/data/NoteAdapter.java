@@ -6,11 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.plant.Plant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
-import edu.mit.media.inm.util.AesUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.plant.Plant;
+import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.util.AesUtil;
 
 public class NoteAdapter extends ArrayAdapter<Note> {
-	private static final String TAG = "StoryAdapter";
-
 	private Context context;
 	private int layoutResourceId;
 	private List<Note> data;

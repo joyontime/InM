@@ -2,11 +2,7 @@ package edu.mit.media.inm.plant;
 
 import java.util.ArrayList;
 import java.util.List;
-import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.http.PostPlant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
-import edu.mit.media.inm.user.User;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -27,6 +23,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+import edu.mit.media.inm.R;
+import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.http.PostPlant;
+import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.user.User;
 
 public class PotFragment extends Fragment {
 	private static final String TAG = "NewPotFragment";

@@ -1,8 +1,8 @@
 package edu.mit.media.inm.plant;
 
-import edu.mit.media.inm.R;
 import android.os.Parcel;
 import android.os.Parcelable;
+import edu.mit.media.inm.R;
 
 /**
  * Represents a Plant in the Feed, or composed by Tell.
@@ -24,7 +24,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public String server_id;
 	public String shared_with;
 	public int status;
-	public boolean updated;
+	public boolean shiny;
 	public String title;
 	
 
@@ -79,7 +79,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		out.writeString(shared_with);
 		out.writeInt(status);
 		out.writeString(title);
-		out.writeInt(updated? 1:0);
+		out.writeInt(shiny? 1:0);
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
         this.shared_with = in.readString();
         this.status = in.readInt();
         this.title = in.readString();
-        this.updated = in.readInt() == 1;
+        this.shiny = in.readInt() == 1;
     }
 
 	@Override

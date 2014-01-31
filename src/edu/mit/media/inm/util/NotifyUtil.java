@@ -1,12 +1,12 @@
 package edu.mit.media.inm.util;
 
-import edu.mit.media.inm.MainActivity;
-import edu.mit.media.inm.R;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import edu.mit.media.inm.MainActivity;
+import edu.mit.media.inm.R;
 
 public class NotifyUtil {
 	private final Context ctx;

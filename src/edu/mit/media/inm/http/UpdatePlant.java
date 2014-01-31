@@ -2,14 +2,15 @@ package edu.mit.media.inm.http;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.content.Context;
+import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
-import android.content.Context;
-import android.util.Log;
 
 public class UpdatePlant extends PostThread{
 	private PlantDataSource datasource;

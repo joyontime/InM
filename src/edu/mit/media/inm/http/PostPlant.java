@@ -12,13 +12,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.content.Context;
+import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.plant.Plant;
-
-import android.content.Context;
-import android.util.Log;
 
 public class PostPlant extends PostThread{
 	private PlantDataSource datasource;

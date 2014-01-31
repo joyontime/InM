@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.util.Log;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.PlantDataSource;
@@ -18,13 +20,10 @@ import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.plant.Plant;
 
-import android.content.Context;
-import android.util.Log;
-
 public class GetNotes extends GetThread {
 	private static final String TAG = "GetNotes HTTP";
 
-	public GetNotes(int id, Context ctx) {
+	public GetNotes(int id, MainActivity ctx) {
 		super(id, ctx);
 
 		String server = ctx.getResources().getString(R.string.url_server);
@@ -99,5 +98,8 @@ public class GetNotes extends GetThread {
 		datasource.close();
 		userdata.close();
 		plantdata.close();
+		
+		Log.d(TAG, "Refreshing.");
+		ctx.refresh();
 	}
 }

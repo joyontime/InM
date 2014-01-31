@@ -3,14 +3,13 @@ package edu.mit.media.inm.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.mit.media.inm.note.Note;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import edu.mit.media.inm.note.Note;
 
 public class NoteDataSource {
 
