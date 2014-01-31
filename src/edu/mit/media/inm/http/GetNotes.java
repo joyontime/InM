@@ -62,6 +62,8 @@ public class GetNotes extends GetThread {
 		datasource.open();
 		UserDataSource userdata = new UserDataSource(ctx);
 		userdata.open();
+		PlantDataSource plantdata = new PlantDataSource(ctx);
+		plantdata.open();
 
 		HashSet<String> server_ids = new HashSet<String>();
 		for (Note n : datasource.getAllNotes()) {
@@ -86,6 +88,7 @@ public class GetNotes extends GetThread {
 							(String) note.get("text"),
 							(String) note.get("plant_id"),
 							note_id);
+					plantdata.setPlantShiny((String) note.get("plant_id"), true);
 				} else {
 					server_ids.remove(note_id);
 				}
@@ -95,5 +98,6 @@ public class GetNotes extends GetThread {
 		}
 		datasource.close();
 		userdata.close();
+		plantdata.close();
 	}
 }

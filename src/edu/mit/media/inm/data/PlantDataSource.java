@@ -128,13 +128,22 @@ public class PlantDataSource {
 				new String[]{server_id,});
 	}
 
-	public void seenPlant(String server_id){
+	public void setPlantShiny(String server_id, boolean shiny){
 		ContentValues values = new ContentValues();
-		values.put(PlantSQLite.COLUMN_UPDATED, 0);
+		values.put(PlantSQLite.COLUMN_UPDATED, shiny? 1:0);
 
 		database.update(PlantSQLite.TABLE_PLANT,
 				values, PlantSQLite.COLUMN_SERVER_ID + " = ?",
 				new String[]{server_id,});
+	}
+
+	public Plant getPlantByServerID(String server_id) {
+		Cursor cursor = database.query(PlantSQLite.TABLE_PLANT, allColumns,
+				PlantSQLite.COLUMN_SERVER_ID + " = '" + server_id + "'", null, null, null, null);
+		cursor.moveToFirst();
+		Plant plant = cursorToPlant(cursor);
+		cursor.close();
+		return plant;
 	}
 	
 	private Plant cursorToPlant(Cursor cursor) {

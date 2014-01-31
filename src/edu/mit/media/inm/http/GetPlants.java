@@ -91,6 +91,17 @@ public class GetPlants extends GetThread {
 							(String) plant.get("title"));
 					
 				} else {
+					Plant old_plant = datasource.getPlantByServerID(plant_id);
+					String status = (String) plant.get("status");
+					Boolean archived = (Boolean) plant.get("archived");
+					if ((old_plant.archived ^ archived)
+							|| (old_plant.status != Integer.valueOf(status))) {
+						datasource.updatePlant(plant_id,
+								Integer.valueOf(status), archived);
+						Log.d(TAG, "SHINY   " + status + "  " + archived);
+						datasource.setPlantShiny(plant_id, true);
+					}
+
 					server_ids.remove(plant_id);
 				}
 			}

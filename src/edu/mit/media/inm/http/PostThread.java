@@ -168,8 +168,7 @@ public abstract class PostThread extends AsyncTask<Void, Void, String> {
 
 	    for (NameValuePair pair : params)
 	    {
-	        if (first)
-	            first = false;
+	        if (first) first = false;
 	        else
 	            result.append("&");
 	        result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
