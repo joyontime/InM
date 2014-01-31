@@ -1,5 +1,7 @@
 package edu.mit.media.inm;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -147,8 +149,20 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	@Override
+	  public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+
+	@Override
 	public void onResume(){
 		super.onResume();
 		this.refresh();
 	}
+	
+	@Override
+	  public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
 }
