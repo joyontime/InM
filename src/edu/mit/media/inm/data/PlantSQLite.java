@@ -23,8 +23,6 @@ public class PlantSQLite extends SQLiteOpenHelper{
 
 	private static final String STORY_DB = "inm.plant.db";
 	private static final int DATABASE_VERSION = 1;
-	
-	// Database creation sql statement
 	private static String integer = " integer not null, ";
 	private static String text = " text not null, ";
 	

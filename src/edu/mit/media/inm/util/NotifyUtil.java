@@ -22,7 +22,7 @@ public class NotifyUtil {
 				.setSmallIcon(R.drawable.bookmark)
 				.setContentTitle("What's On Your Mind?")
 				.setContentText("Check InMind for a new prompt!");
-		// Creates an explicit intent for an Activity in your app
+
 		Intent resultIntent = new Intent(ctx, MainActivity.class);
 
 		PendingIntent resultPendingIntent = PendingIntent.getActivity(ctx, 0,
@@ -30,7 +30,7 @@ public class NotifyUtil {
 		mBuilder.setContentIntent(resultPendingIntent);
 		mBuilder.setAutoCancel(true);
 		NotificationManager mNotificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-		// mId allows you to update the notification later on.
+		
 		mNotificationManager.notify(dummy_notify, mBuilder.build());
 	}
 }

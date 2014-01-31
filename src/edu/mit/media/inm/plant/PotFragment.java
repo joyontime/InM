@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -40,6 +42,8 @@ public class PotFragment extends Fragment {
 	private ImageView pot_image;
 	private ListView friend_list;
 	private List<User> friends;
+
+	private InputMethodManager imm;
 	
 	private int selected_color = 0;
 
@@ -56,6 +60,9 @@ public class PotFragment extends Fragment {
 				false);
 
 		setHasOptionsMenu(true);
+
+        imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
 		return rootView;
 	}
@@ -160,6 +167,7 @@ public class PotFragment extends Fragment {
         				share_local.append(',');
         			}
         		}
+                imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
         		
         		PostPlant http_client = new PostPlant(0, ctx);
         		http_client.setupParams(username, selected_color, share_server.toString(),

@@ -38,10 +38,8 @@ public class MainActivity extends FragmentActivity {
 			.commit();
 		}
 
-		// Initilization
 		actionBar = getActionBar();
 
-		// actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
 		ph = new PreferenceHandler(this);
@@ -57,7 +55,6 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
