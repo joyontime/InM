@@ -1,0 +1,47 @@
+
+// EVENT TRACKING
+
+// Main Activity
+{
+  category = "ui_action"
+  action = "access main"
+  label = "lead" or "not lead"
+  value = time of day
+}
+
+
+// Status change
+{
+  category = "ui_action"
+  action = "feature_used"
+  label = "status"
+  value = time of day
+}
+
+
+// USER TIMING
+
+
+// Main Activity
+{
+  category = "engagement"
+  value = time on screen
+  name = "main"
+  label = "reading"
+}
+
+// Plant Fragment
+{
+  category = "engagement"
+  value = time on screen
+  name = "plant"
+  label = "reading"
+}
+
+// Note Fragment
+{
+  category = "engagement"
+  value = time on screen
+  name = "note"
+  label = "writing"
+}
