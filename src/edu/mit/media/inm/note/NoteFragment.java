@@ -35,7 +35,6 @@ public class NoteFragment extends Fragment {
 	
 	public static NoteFragment newInstance(Plant p) {
         NoteFragment f = new NoteFragment();
-
         Bundle args = new Bundle();
         args.putParcelable("plant", p);
         f.setArguments(args);

@@ -27,6 +27,8 @@ public class MainActivity extends FragmentActivity {
 	private PreferenceHandler ph;
 	
 	private Intent notifyService;
+	
+	private EasyTracker tracker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class MainActivity extends FragmentActivity {
 			stopService(notifyService);
 		}
 		
+		tracker = EasyTracker.getInstance(this);
+
 		pingServer();
 	}
 
@@ -151,18 +155,18 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	  public void onStart() {
 	    super.onStart();
-	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	    tracker.activityStart(this);  // Add this method.
+		this.refresh();
 	  }
 
 	@Override
 	public void onResume(){
 		super.onResume();
-		this.refresh();
 	}
 	
 	@Override
 	  public void onStop() {
 	    super.onStop();
-	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	    tracker.activityStop(this);  // Add this method.
 	  }
 }

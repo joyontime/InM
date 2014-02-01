@@ -203,7 +203,6 @@ public class PlanterFragment extends Fragment {
 				message.setText(potd.toString());
 			}
 		}
-		
 
 		// If there are no plants to display, don't show the planter.
 		if (my_plants.getChildAt(0) == null){
