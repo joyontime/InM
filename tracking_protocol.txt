@@ -4,8 +4,8 @@
 // Main Activity
 {
   category = "ui_action"
-  action = "access main"
-  label = "lead" or "not lead"
+  action = "access_main"
+  label = user server_id
   value = time of day
 }
 
@@ -13,8 +13,8 @@
 // Status change
 {
   category = "ui_action"
-  action = "feature_used"
-  label = "status"
+  action = "status_changed"
+  label = user server_id
   value = time of day
 }
 

@@ -1,5 +1,10 @@
 package edu.mit.media.inm.plant;
 
+import java.util.Calendar;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -35,6 +40,8 @@ public class CommandBoxFragment extends Fragment {
 	private int status_init;
 	private int status;
 	
+	private EasyTracker tracker;
+	
 	public static CommandBoxFragment newInstance(Plant p) {
         CommandBoxFragment f = new CommandBoxFragment();
 
@@ -50,12 +57,15 @@ public class CommandBoxFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
+
+		ctx = this.getActivity();
+		tracker = EasyTracker.getInstance(ctx);
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ctx = this.getActivity();
 		PreferenceHandler ph = new PreferenceHandler(ctx);
 
 		rootView = inflater.inflate(R.layout.mini_fragment_command_box, container,
@@ -142,10 +152,9 @@ public class CommandBoxFragment extends Fragment {
 				if (status < 8){
 					status +=1;
 					plant_image.setImageResource(Plant.growth[status]);
-					Toast.makeText(ctx, "Plant watered. It grew!", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(ctx, "Plant watered.", Toast.LENGTH_SHORT).show();
+
 				}
+
 			}
 		});
 	}
@@ -158,9 +167,6 @@ public class CommandBoxFragment extends Fragment {
 				if (status > 0){
 					status -=1;
 					plant_image.setImageResource(Plant.growth[status]);
-					Toast.makeText(ctx, "Plant trimmed. It's smaller now.", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(ctx, "Plant trimmed.", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -187,6 +193,17 @@ public class CommandBoxFragment extends Fragment {
 			UpdatePlant http_client = new UpdatePlant(0, ctx);
 			http_client.setupParams(this.plant.server_id, status, false);
 			http_client.execute();
+			
+
+			Calendar cal = Calendar.getInstance();
+			Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
+					+ cal.get(Calendar.MINUTE));
+			PreferenceHandler ph = new PreferenceHandler(ctx);
+			tracker.send(MapBuilder
+				      .createEvent("ui_action",
+				                   "status_changed",
+				                   ph.server_id(),
+				                   minute).build());
 		}
 	}
 

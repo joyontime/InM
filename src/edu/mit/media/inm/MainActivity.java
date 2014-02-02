@@ -1,6 +1,9 @@
 package edu.mit.media.inm;
 
+import java.util.Calendar;
+
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import android.app.ActionBar;
 import android.app.FragmentManager;
@@ -53,8 +56,17 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			stopService(notifyService);
 		}
-		
+		Calendar cal = Calendar.getInstance();
+		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
+				+ cal.get(Calendar.MINUTE));
+        
 		tracker = EasyTracker.getInstance(this);
+		tracker.send(MapBuilder
+			      .createEvent("ui_action",
+			                   "access_main",
+			                   ph.server_id(),
+			                   minute)
+			      .build());
 
 		pingServer();
 	}
