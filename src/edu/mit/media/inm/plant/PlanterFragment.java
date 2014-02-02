@@ -105,6 +105,17 @@ public class PlanterFragment extends Fragment {
 		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
 		message = (TextView) getView().findViewById(R.id.planter_message);
 		
+		PreferenceHandler ph = new PreferenceHandler(ctx);
+		
+		if (!ph.IV().equals(PreferenceHandler.default_IV)){
+			UserDataSource userdata = new UserDataSource(ctx);
+			userdata.open();
+			String name = userdata.getUserAlias(ph.server_id());
+			ctx.getActionBar().setTitle(name + "\'s Collection");
+		} else {
+			ctx.getActionBar().setTitle("Your Collection");
+		}
+		
 		this.refresh();
 	}
 	

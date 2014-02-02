@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">InM</string>
+    <string name="app_name">InMind</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_archived">Archived Plants</string>
     <string name="action_friends">My Friends</string>

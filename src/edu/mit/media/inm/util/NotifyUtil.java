@@ -19,7 +19,7 @@ public class NotifyUtil {
 	public void sendNotification() {
 		NotificationCompat.Builder mBuilder = new NotificationCompat
 				.Builder(ctx)
-				.setSmallIcon(R.drawable.bookmark)
+				.setSmallIcon(R.drawable.ic_alert)
 				.setContentTitle("What's On Your Mind?")
 				.setContentText("Check InMind for a new prompt!");
 
