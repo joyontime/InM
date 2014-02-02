@@ -7,8 +7,10 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,9 +19,10 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="edu.mit.media.inm.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
-            android:launchMode="singleTask">
-            
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +31,15 @@
         </activity>
         <activity
             android:name="edu.mit.media.inm.note.ComposeActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/compose_name" >
+            android:label="@string/compose_name"
+            android:screenOrientation="portrait" >
         </activity>
+
         <service android:name="edu.mit.media.inm.util.NotifyService" />
-        <receiver android:process=":remote" android:name="edu.mit.media.inm.util.NotifyReceiver"/>
+
+        <receiver
+            android:name="edu.mit.media.inm.util.NotifyReceiver"
+            android:process=":remote" />
     </application>
 
 </manifest>
