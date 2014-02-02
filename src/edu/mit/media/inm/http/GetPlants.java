@@ -100,16 +100,6 @@ public class GetPlants extends GetThread {
 					server_ids.remove(plant_id);
 				}
 			}
-			
-			if (server_ids.size() > 0){
-				for (String id: server_ids){
-					for (Plant p : datasource.getAllPlants()) {
-						if (id.equalsIgnoreCase(p.server_id)){
-							datasource.deletePlant(p);
-						}
-					}
-				}
-			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

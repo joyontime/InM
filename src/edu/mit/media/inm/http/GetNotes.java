@@ -99,6 +99,8 @@ public class GetNotes extends GetThread {
 		userdata.close();
 		plantdata.close();
 		
+		ph.set_last_pinged(System.currentTimeMillis() - 1000 * 60 * 5);
+		
 		Log.d(TAG, "Refreshing.");
 		ctx.refresh();
 	}
