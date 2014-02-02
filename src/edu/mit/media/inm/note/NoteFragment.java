@@ -1,5 +1,8 @@
 package edu.mit.media.inm.note;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -33,6 +36,9 @@ public class NoteFragment extends Fragment {
 	
 	private InputMethodManager imm;
 	
+	private EasyTracker tracker;
+	private long start_time;
+	
 	public static NoteFragment newInstance(Plant p) {
         NoteFragment f = new NoteFragment();
         Bundle args = new Bundle();
@@ -49,6 +55,9 @@ public class NoteFragment extends Fragment {
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
 		
 		this.ctx = getActivity();
+
+		tracker = EasyTracker.getInstance(ctx);
+		start_time = System.currentTimeMillis();
 
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
@@ -123,5 +132,17 @@ public class NoteFragment extends Fragment {
 	public void onPause() {
 		datasource.close();
 		super.onPause();
+	}
+	
+	@Override
+	public void onStop(){
+	    tracker.send(MapBuilder
+	    	      .createTiming("engagement",
+	                      System.currentTimeMillis()-this.start_time, 
+	                      "note",
+	                      ph.server_id())
+	        .build()
+	    );
+		super.onStop();
 	}
 }

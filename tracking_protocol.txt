@@ -27,7 +27,7 @@
   category = "engagement"
   value = time on screen
   name = "main"
-  label = "reading"
+  label = user server_id
 }
 
 // Plant Fragment
@@ -35,7 +35,7 @@
   category = "engagement"
   value = time on screen
   name = "plant"
-  label = "reading"
+  label = user server_id
 }
 
 // Note Fragment
@@ -43,5 +43,5 @@
   category = "engagement"
   value = time on screen
   name = "note"
-  label = "writing"
+  label = user server_id
 }

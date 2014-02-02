@@ -32,6 +32,8 @@ public class MainActivity extends FragmentActivity {
 	private Intent notifyService;
 	
 	private EasyTracker tracker;
+	
+	private long start_time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,8 @@ public class MainActivity extends FragmentActivity {
 			                   ph.server_id(),
 			                   minute)
 			      .build());
+		
+		start_time = System.currentTimeMillis();
 
 		pingServer();
 	}
@@ -180,5 +184,12 @@ public class MainActivity extends FragmentActivity {
 	  public void onStop() {
 	    super.onStop();
 	    tracker.activityStop(this);  // Add this method.
+	    tracker.send(MapBuilder
+	    	      .createTiming("engagement",
+	                      System.currentTimeMillis()-this.start_time, 
+	                      "main",
+	                      ph.server_id())
+	        .build()
+	    );
 	  }
 }

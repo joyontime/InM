@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public class PlantFragment extends Fragment {
 	private static final String TAG = "PlantActivity";
@@ -36,6 +40,9 @@ public class PlantFragment extends Fragment {
 	
 	private CommandBoxFragment cmd_box_frag;
 	
+	private EasyTracker tracker;
+	private long start_time;
+	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
 
@@ -50,6 +57,9 @@ public class PlantFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
+
+		tracker = EasyTracker.getInstance(ctx);
+		start_time = System.currentTimeMillis();
 	}
 
 	@Override
@@ -153,4 +163,18 @@ public class PlantFragment extends Fragment {
 		datasource.close();
 		super.onPause();
 	}
+	
+
+	@Override
+	  public void onStop() {
+	    super.onStop();
+	    PreferenceHandler ph = new PreferenceHandler(ctx);
+	    tracker.send(MapBuilder
+	    	      .createTiming("engagement",
+	                      System.currentTimeMillis()-this.start_time, 
+	                      "plant",
+	                      ph.server_id())
+	        .build()
+	    );
+	  }
 }
