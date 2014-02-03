@@ -22,8 +22,8 @@ public class NotifyReceiver extends BroadcastReceiver {
 		Intent i = new Intent(context, NotifyReceiver.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 		am.setRepeating(AlarmManager.RTC_WAKEUP,
-				System.currentTimeMillis() +  AlarmManager.INTERVAL_HALF_DAY,
-				AlarmManager.INTERVAL_HALF_DAY, pi);
+				System.currentTimeMillis() + AlarmManager.INTERVAL_HALF_DAY / 2,
+				AlarmManager.INTERVAL_HALF_DAY / 2, pi);
 	}
 
 	public void CancelAlarm(Context context) {

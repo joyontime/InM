@@ -205,7 +205,7 @@ public class PlanterFragment extends Fragment {
 						"unless you bring them back.");
 			} else {
 				StringBuilder potd = new StringBuilder();
-				potd.append("Some thoughts to consider today: \n");
+				potd.append("Consider: \n");
 				potd.append(ph.POTD_neut());
 				potd.append('\n');
 				potd.append(ph.POTD_happy());
