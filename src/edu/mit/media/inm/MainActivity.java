@@ -108,13 +108,6 @@ public class MainActivity extends FragmentActivity {
 			.addToBackStack("archived").commit();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
-		case R.id.action_friends:
-			fm.beginTransaction()
-			.replace(android.R.id.content, new FriendFragment())
-			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-			.addToBackStack("friends").commit();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			return true;
 		case R.id.action_about:
 			String info = "Email joyc@mit.edu if you have any questions or bugs to report!";
 			Toast.makeText(this, info, Toast.LENGTH_LONG).show();

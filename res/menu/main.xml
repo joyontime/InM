@@ -17,11 +17,6 @@
         android:title="@string/action_archived"/>
 
     <item
-        android:id="@+id/action_friends"
-        android:orderInCategory="98"
-        android:title="@string/action_friends"/>
-    
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="99"
         android:icon="@drawable/ic_action_settings"
