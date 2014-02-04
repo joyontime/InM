@@ -24,7 +24,7 @@
     <!-- Login -->
 
     <string name="action_login">Log In</string>
-    <string name="username">userame</string>
+    <string name="username">username</string>
     <string name="password">password</string>
     
     <!-- Plants -->

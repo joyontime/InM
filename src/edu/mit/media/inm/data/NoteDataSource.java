@@ -109,6 +109,10 @@ public class NoteDataSource {
 		return Notes;
 	}
 
+	public void deleteAll(){
+		database.delete(NoteSQLite.TABLE_NOTE, null, null);
+	}
+
 	private Note cursorToNote(Cursor cursor) {
 		Note Note = new Note();
 		Note.id = cursor.getLong(0);

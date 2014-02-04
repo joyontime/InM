@@ -11,6 +11,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -23,6 +24,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import edu.mit.media.inm.data.NoteDataSource;
+import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.http.GetIV;
 import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
@@ -144,14 +148,13 @@ public class MainActivity extends FragmentActivity {
 		
 		AlertDialog.Builder login_dialog = new AlertDialog.Builder(this)
 	    .setTitle(R.string.action_login)
-	    .setMessage("Please enter your username and password.")
 	    .setView(login_view);
-	    
 	    
 	    login_dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
-	        	ph.setPassword(((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
-	        	ph.setUsername(((EditText)login_view.findViewById(R.id.login_username)).getText().toString());
+	        	clearAllDb(
+	        			((EditText)login_view.findViewById(R.id.login_username)).getText().toString(),
+	        			((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
 	        	pingServer();
 	        }
 	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -159,6 +162,26 @@ public class MainActivity extends FragmentActivity {
 	            // Do nothing.
 	        }
 	    }).show();
+	}
+	
+	private void clearAllDb(String username, String password){
+		ph.set_server_id("None");
+		ph.set_IV(PreferenceHandler.default_IV);
+		ph.set_last_pinged(0);
+    	ph.setPassword(password);
+    	ph.setUsername(username);
+		UserDataSource userdata = new UserDataSource(this);
+		userdata.open();
+		userdata.deleteAll();
+		userdata.close();
+		PlantDataSource plantdata = new PlantDataSource(this);
+		plantdata.open();
+		plantdata.deleteAll();
+		plantdata.close();
+		NoteDataSource notedata = new NoteDataSource(this);
+		notedata.open();
+		notedata.deleteAll();
+		notedata.close();
 	}
 	
 	private void pingServer(){

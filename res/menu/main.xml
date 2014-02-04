@@ -2,13 +2,13 @@
 
     <item
         android:id="@+id/action_refresh"
-        android:orderInCategory="1"
+        android:orderInCategory="10"
         android:title="@string/action_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_login"
-        android:orderInCategory="2"
+        android:orderInCategory="11"
         android:title="@string/action_login"/>
 
     <item
@@ -32,7 +32,6 @@
         android:id="@+id/action_about"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_about"
-        android:title="@string/action_about"
-        android:showAsAction="ifRoom"/>
+        android:title="@string/action_about"/>
     
 </menu>

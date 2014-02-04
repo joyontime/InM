@@ -102,6 +102,10 @@ public class UserDataSource {
 		return Users;
 	}
 
+	public void deleteAll(){
+		database.delete(UserSQLite.TABLE_USER, null, null);
+	}
+
 	private User cursorToUser(Cursor cursor) {
 		User User = new User();
 		User.id = cursor.getLong(0);

@@ -145,6 +145,11 @@ public class PlantDataSource {
 		return plant;
 	}
 	
+
+	public void deleteAll(){
+		database.delete(PlantSQLite.TABLE_PLANT, null, null);
+	}
+	
 	private Plant cursorToPlant(Cursor cursor) {
 		Plant Plant = new Plant();
 		Plant.id = cursor.getLong(0);
