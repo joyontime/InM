@@ -58,6 +58,18 @@ public class PreferenceHandler{
 		editor.putLong("last_pinged", ts);
 		editor.apply();
 	}
+	
+	public void setUsername(String user){
+		Editor editor = prefs.edit();
+		editor.putString("username_preference", user);
+		editor.apply();
+	}
+	
+	public void setPassword(String pass){
+		Editor editor = prefs.edit();
+		editor.putString("password_preference", pass);
+		editor.apply();
+	}
 
 	public String POTD_neut(){
 		return prefs.getString("potd_neut", "");

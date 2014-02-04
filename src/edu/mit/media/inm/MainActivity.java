@@ -6,14 +6,22 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import edu.mit.media.inm.http.GetIV;
 import edu.mit.media.inm.plant.PlantFragment;
@@ -87,12 +95,14 @@ public class MainActivity extends FragmentActivity {
 		case R.id.action_refresh:
 			pingServer();
 			return true;
+		case R.id.action_login:
+			loginDialog();
+			return true;
 		case R.id.action_archived:
             fm.beginTransaction()
 			.replace(android.R.id.content, PlanterFragment.newInstance(true), "archived")
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 			.addToBackStack("archived").commit();
-			
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			return true;
 		case R.id.action_friends:
@@ -126,6 +136,29 @@ public class MainActivity extends FragmentActivity {
 			}
 		}
 		return false;
+	}
+	
+	public void loginDialog(){
+		LayoutInflater inflater = this.getLayoutInflater();
+		final View login_view = inflater.inflate(R.layout.dialog_signin, null);
+		
+		AlertDialog.Builder login_dialog = new AlertDialog.Builder(this)
+	    .setTitle(R.string.action_login)
+	    .setMessage("Please enter your username and password.")
+	    .setView(login_view);
+	    
+	    
+	    login_dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	        	ph.setPassword(((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
+	        	ph.setUsername(((EditText)login_view.findViewById(R.id.login_username)).getText().toString());
+	        	pingServer();
+	        }
+	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            // Do nothing.
+	        }
+	    }).show();
 	}
 	
 	private void pingServer(){

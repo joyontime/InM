@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -70,13 +71,18 @@ public class UserDataSource {
 	}
 	
 	public String getUserAlias(String server_id) {
-		Cursor cursor = database.query(UserSQLite.TABLE_USER, allColumns,
-				UserSQLite.COLUMN_SERVER_ID + " = \"" + server_id + "\"", null, null, null, null);
-		cursor.moveToFirst();
-		User user = cursorToUser(cursor);
-		// make sure to close the cursor
-		cursor.close();
-		return user.alias;
+		try {
+			Cursor cursor = database.query(UserSQLite.TABLE_USER, allColumns,
+					UserSQLite.COLUMN_SERVER_ID + " = \"" + server_id + "\"",
+					null, null, null, null);
+			cursor.moveToFirst();
+			User user = cursorToUser(cursor);
+			// make sure to close the cursor
+			cursor.close();
+			return user.alias;
+		} catch (CursorIndexOutOfBoundsException e) {
+			return "Unknown";
+		}
 	}
 
 	public List<User> getAllUsers() {

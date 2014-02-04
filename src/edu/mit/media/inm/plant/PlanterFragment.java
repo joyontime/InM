@@ -3,11 +3,14 @@ package edu.mit.media.inm.plant;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,10 +19,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.UserDataSource;
@@ -28,7 +33,7 @@ import edu.mit.media.inm.prefs.PreferenceHandler;
 public class PlanterFragment extends Fragment {
 	private static final String TAG = "PlanterFragment";
 
-	private Activity ctx;
+	private MainActivity ctx;
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
@@ -68,7 +73,7 @@ public class PlanterFragment extends Fragment {
 			Bundle savedInstanceState) {
 		Log.d(TAG, "OnCreateView");
 
-		ctx = this.getActivity();
+		ctx = (MainActivity) this.getActivity();
 
 		View rootView = inflater.inflate(R.layout.fragment_planter, container,
 				false);
@@ -197,7 +202,7 @@ public class PlanterFragment extends Fragment {
 		
 
 		if (ph.IV().equals(PreferenceHandler.default_IV)){
-			message.setText("Welcome to InMind! Please log in under settings.");
+			message.setText("Welcome to InMind! Please log in.");
 		} else {
 			if (this.archived){
 				message.setText("Archived plants are kept here." +

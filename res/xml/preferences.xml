@@ -1,47 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-              
-    <PreferenceCategory
-            android:title="@string/user_prefs">
- 
-        <EditTextPreference
-                android:key="username_preference"
-                android:title="@string/title_username_preference"
-                android:summary="@string/summary_username_preference" 
-                android:dialogTitle="@string/dialog_username_preference" />
-        
-        <EditTextPreference
-                android:key="password_preference"
-                android:title="@string/title_password_preference"
-                android:summary="@string/summary_password_preference" 
-                android:dialogTitle="@string/dialog_password_preference"
-                android:inputType="textPassword"/>
-        
-        <EditTextPreference
-                android:key="IV_preference"
-                android:title="@string/title_IV_preference"
-                android:summary="@string/summary_IV_preference" 
-                android:dialogTitle="@string/dialog_IV_preference"/>
-                
-        <EditTextPreference
-                android:key="server_id_preference"
-                android:title="@string/title_server_id_preference"
-                android:summary="@string/summary_server_id_preference" 
-                android:dialogTitle="@string/dialog_server_id_preference"/>
-                
-    </PreferenceCategory>
- 
-    <PreferenceCategory
-            android:title="@string/usage_prefs">
- 
-        <!-- This PreferenceScreen tag serves as a screen break (similar to page break
-            in word processing). Like for other preference types, we assign a key
-            here so it is able to save and restore its instance state. -->
+
+    <PreferenceCategory android:title="@string/usage_prefs" >
         <CheckBoxPreference
-                android:key="prompt_preference"
-                android:defaultValue="true"
-                android:title="@string/title_prompt_preference"
-                android:summary="@string/summary_prompt_preference" />
- 
-    </PreferenceCategory>    
+            android:defaultValue="true"
+            android:key="prompt_preference"
+            android:summary="@string/summary_prompt_preference"
+            android:title="@string/title_prompt_preference" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/user_prefs" >
+        <EditTextPreference
+            android:dialogTitle="@string/dialog_username_preference"
+            android:key="username_preference"
+            android:summary="@string/summary_username_preference"
+            android:title="@string/title_username_preference" />
+        <EditTextPreference
+            android:dialogTitle="@string/dialog_password_preference"
+            android:inputType="textPassword"
+            android:key="password_preference"
+            android:summary="@string/summary_password_preference"
+            android:title="@string/title_password_preference" />
+        <EditTextPreference
+            android:dialogTitle="@string/dialog_IV_preference"
+            android:key="IV_preference"
+            android:summary="@string/summary_IV_preference"
+            android:title="@string/title_IV_preference" />
+        <EditTextPreference
+            android:dialogTitle="@string/dialog_server_id_preference"
+            android:key="server_id_preference"
+            android:summary="@string/summary_server_id_preference"
+            android:title="@string/title_server_id_preference" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
