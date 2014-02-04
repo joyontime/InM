@@ -57,6 +57,7 @@
     <string name="name_pot">Name your plant</string>
     <string name="pot">Pot</string>
     <string name="friends">Friends</string>
+    <string name="share_with">Share with:</string>
     
     <!--  Note -->
     <string name="note_hint">Write your note here.</string>

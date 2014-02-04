@@ -8,6 +8,7 @@
             android:summary="@string/summary_prompt_preference"
             android:title="@string/title_prompt_preference" />
     </PreferenceCategory>
+    <!-- 
     <PreferenceCategory android:title="@string/user_prefs" >
         <EditTextPreference
             android:dialogTitle="@string/dialog_username_preference"
@@ -31,5 +32,6 @@
             android:summary="@string/summary_server_id_preference"
             android:title="@string/title_server_id_preference" />
     </PreferenceCategory>
+    -->
 
 </PreferenceScreen>

@@ -4,6 +4,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.widget.Toast;
+
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.prefs.PreferenceHandler;
@@ -31,12 +33,13 @@ public class GetIV extends GetThread {
 			ph.set_POTD((String) iv.get("POTD_neut"),
 					(String) iv.get("POTD_happy"),
 					(String) iv.get("POTD_sad"));
-			
+
+			GetUsers user_thread = new GetUsers(this.id +1, ctx);
+			user_thread.execute();
 		} catch (ParseException e) {
 			e.printStackTrace();
+			Toast.makeText(ctx, "Login Failed! Try again.", Toast.LENGTH_LONG).show();
 		}
 		
-		GetUsers user_thread = new GetUsers(this.id +1, ctx);
-		user_thread.execute();
 	}
 }

@@ -96,6 +96,7 @@ public class PotFragment extends Fragment {
 		for (int i = 0; i < num_pots; i++){
 			ImageView pot = new ImageView(ctx);
 			pot.setImageBitmap(only_pots[i]);
+			pot.setMaxHeight(only_pots[i].getHeight()/2);
 			final int pot_color = i;
 
 			pot.setOnClickListener(new OnClickListener(){
@@ -138,7 +139,8 @@ public class PotFragment extends Fragment {
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	   inflater.inflate(R.menu.pot, menu);
+		menu.clear();
+		inflater.inflate(R.menu.pot, menu);
 	}
 
 	@Override

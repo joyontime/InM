@@ -82,6 +82,7 @@ public class NoteFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
 		inflater.inflate(R.menu.compose, menu);
 	    super.onCreateOptionsMenu(menu, inflater);
 	}

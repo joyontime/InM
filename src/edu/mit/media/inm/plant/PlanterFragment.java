@@ -78,8 +78,6 @@ public class PlanterFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_planter, container,
 				false);
 
-		datasource = new PlantDataSource(ctx);
-		datasource.open();
 
 		return rootView;
 	}
@@ -125,6 +123,9 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void refresh(){
+		if (datasource == null){
+			datasource = new PlantDataSource(ctx);
+		}
 		datasource.open();
 		Log.d(TAG, "Refreshing all views.");
 		List<Plant> values = datasource.getAllPlants();

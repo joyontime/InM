@@ -81,7 +81,6 @@ public class MainActivity extends FragmentActivity {
 			                   ph.server_id(),
 			                   minute)
 			      .build());
-		
 		start_time = System.currentTimeMillis();
 
 		pingServer();
