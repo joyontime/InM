@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.util.Log;
+import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.PlantDataSource;
@@ -84,6 +85,7 @@ public class GetPlants extends GetThread {
 							shared_with.toString(),
 							Integer.parseInt((String) plant.get("status")),
 							(String) plant.get("title"));
+					Toast.makeText(ctx, "You got something new!", Toast.LENGTH_SHORT).show();
 					
 				} else {
 					Plant old_plant = datasource.getPlantByServerID(plant_id);

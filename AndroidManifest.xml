@@ -29,11 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="edu.mit.media.inm.note.ComposeActivity"
-            android:label="@string/compose_name"
-            android:screenOrientation="portrait" >
-        </activity>
 
         <service android:name="edu.mit.media.inm.util.NotifyService" />
 
