@@ -90,16 +90,10 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
-
 		// This is checking for log in status!
 		if (!ph.IV().equals(PreferenceHandler.default_IV)){
-			UserDataSource userdata = new UserDataSource(this);
-			userdata.open();
-			String name = userdata.getUserAlias(ph.server_id());
-			actionBar.setTitle(name + "\'s Collection");
 			menu.removeItem(R.id.action_login);
 		} else {
-			actionBar.setTitle("Your Collection");
 			menu.removeItem(R.id.action_logout);
 		}
 		
@@ -148,7 +142,7 @@ public class MainActivity extends FragmentActivity {
 			if (fm.getBackStackEntryCount() > 0) {
 				if (fm.getBackStackEntryCount() == 1){
 					actionBar.setDisplayHomeAsUpEnabled(false);
-			        actionBar.setTitle(R.string.app_name);
+					refresh();
 				}
 				fm.popBackStack();
 			} else {
@@ -208,6 +202,16 @@ public class MainActivity extends FragmentActivity {
 	
 	public void refresh(){
 		invalidateOptionsMenu();
+		// This is checking for log in status!
+		if (!ph.IV().equals(PreferenceHandler.default_IV)){
+			UserDataSource userdata = new UserDataSource(this);
+			userdata.open();
+			String name = userdata.getUserAlias(ph.server_id());
+			actionBar.setTitle(name + "\'s Collection");
+		} else {
+			actionBar.setTitle("Your Collection");
+		}
+
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){
@@ -233,7 +237,7 @@ public class MainActivity extends FragmentActivity {
 		if (fm.getBackStackEntryCount() > 0) {
 			if (fm.getBackStackEntryCount() == 1){
 				actionBar.setDisplayHomeAsUpEnabled(false);
-		        actionBar.setTitle(R.string.app_name);
+				refresh();
 			}
 			fm.popBackStack();
 		} else {
@@ -245,7 +249,6 @@ public class MainActivity extends FragmentActivity {
 	  public void onStart() {
 	    super.onStart();
 	    tracker.activityStart(this);  // Add this method.
-		this.refresh();
 	  }
 
 	@Override

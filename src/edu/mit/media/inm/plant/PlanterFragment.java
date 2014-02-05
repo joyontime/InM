@@ -202,12 +202,12 @@ public class PlanterFragment extends Fragment {
 
 	@Override
 	public void onResume() {
+		Log.d(TAG, "onResume");
 		super.onResume();
-
+		refresh();
 		if (archived){
 			ctx.getActionBar().setTitle("Archived Plants");
 		}
-		Log.d(TAG, "onResume");
 		datasource.open();
 	}
 
