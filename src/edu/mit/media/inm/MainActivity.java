@@ -30,6 +30,7 @@ import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.http.GetIV;
 import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
+import edu.mit.media.inm.plant.PotFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.FriendFragment;
@@ -89,14 +90,38 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+
+		// This is checking for log in status!
+		if (!ph.IV().equals(PreferenceHandler.default_IV)){
+			UserDataSource userdata = new UserDataSource(this);
+			userdata.open();
+			String name = userdata.getUserAlias(ph.server_id());
+			actionBar.setTitle(name + "\'s Collection");
+			menu.removeItem(R.id.action_login);
+		} else {
+			actionBar.setTitle("Your Collection");
+			menu.removeItem(R.id.action_logout);
+		}
+		
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.action_new:
+			fm.beginTransaction()
+			.replace(android.R.id.content, new PotFragment())
+			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+			.addToBackStack("pot").commit();
+	        actionBar.setDisplayHomeAsUpEnabled(true);
+	        return true;
 		case R.id.action_refresh:
 			pingServer();
+			return true;
+		case R.id.action_logout:
+			clearAllDb();
+			refresh();
 			return true;
 		case R.id.action_login:
 			loginDialog();
@@ -144,9 +169,8 @@ public class MainActivity extends FragmentActivity {
 	    
 	    login_dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
-	        	clearAllDb(
-	        			((EditText)login_view.findViewById(R.id.login_username)).getText().toString(),
-	        			((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
+	        	ph.setPassword(((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
+	        	ph.setUsername(((EditText)login_view.findViewById(R.id.login_username)).getText().toString());
 	        	pingServer();
 	        }
 	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -156,12 +180,12 @@ public class MainActivity extends FragmentActivity {
 	    }).show();
 	}
 	
-	private void clearAllDb(String username, String password){
+	private void clearAllDb(){
 		ph.set_server_id("None");
 		ph.set_IV(PreferenceHandler.default_IV);
 		ph.set_last_pinged(0);
-    	ph.setPassword(password);
-    	ph.setUsername(username);
+    	ph.setPassword("");
+    	ph.setUsername("");
 		UserDataSource userdata = new UserDataSource(this);
 		userdata.open();
 		userdata.deleteAll();
@@ -183,6 +207,7 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public void refresh(){
+		invalidateOptionsMenu();
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){

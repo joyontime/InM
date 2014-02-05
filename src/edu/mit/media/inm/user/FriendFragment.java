@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.prefs.PreferenceHandler;
 
 public class FriendFragment extends Fragment {
 	private Activity ctx;
@@ -31,7 +30,6 @@ public class FriendFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ctx = this.getActivity();
-		PreferenceHandler ph = new PreferenceHandler(ctx);
 
 		rootView = inflater.inflate(R.layout.fragment_friends, container,
 				false);
@@ -55,6 +53,6 @@ public class FriendFragment extends Fragment {
 	@Override
 	public void onResume(){
 		super.onResume();
-		getActivity().getActionBar().setTitle(R.string.action_friends);
+		getActivity().getActionBar().setTitle("My Group");
 	}
 }

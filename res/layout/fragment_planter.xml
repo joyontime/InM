@@ -5,6 +5,7 @@
     android:background="#ACC"
     android:orientation="vertical" >
 
+    <!--
     <Button
         android:id="@+id/new_plant"
         android:layout_width="match_parent"
@@ -15,12 +16,12 @@
         android:text="@string/new_pot"
         android:background="@color/faded_teal"
         android:textColor="#FFF" />
+    -->
 
     <HorizontalScrollView
         android:id="@+id/planter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/new_plant"
         android:background="@drawable/cloud_repeat"
         android:fadeScrollbars="false"
         android:layout_centerHorizontal="true"

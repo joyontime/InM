@@ -8,6 +8,7 @@
     <string name="action_about">Help</string>
     <string name="action_settings">Settings</string>
     <string name="action_done">Done</string>
+    <string name="action_new">New Item</string>
     
     <string name="url_server">https://sodiio.media.mit.edu</string>
     <string name="uri_messages">messages</string>
@@ -23,6 +24,7 @@
     <!-- Login -->
 
     <string name="action_login">Log In</string>
+    <string name="action_logout">Log Out</string>
     <string name="username">username</string>
     <string name="password">password</string>
     

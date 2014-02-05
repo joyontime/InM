@@ -41,8 +41,6 @@ public class PlanterFragment extends Fragment {
 	private int plant_width;
 	
 	private boolean archived = false;
-
-	private Button new_plant_btn;
 	
 
 	public static PlanterFragment newInstance(boolean archived) {
@@ -86,38 +84,9 @@ public class PlanterFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		new_plant_btn = (Button) getView().findViewById(R.id.new_plant);
-		if (this.archived){
-			new_plant_btn.setVisibility(View.GONE);
-		} else {
-			new_plant_btn.setVisibility(View.VISIBLE);
-			new_plant_btn.setOnClickListener(new View.OnClickListener() {
-				// Switch to pot fragment
-				@Override
-				public void onClick(View v) {
-					getFragmentManager().beginTransaction()
-					.replace(android.R.id.content, new PotFragment())
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.addToBackStack("pot").commit();
-			        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
-				}
-			});
-		}
-
 		planter = (HorizontalScrollView) getView().findViewById(R.id.planter);
 		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
 		message = (TextView) getView().findViewById(R.id.planter_message);
-		
-		PreferenceHandler ph = new PreferenceHandler(ctx);
-		
-		if (!ph.IV().equals(PreferenceHandler.default_IV)){
-			UserDataSource userdata = new UserDataSource(ctx);
-			userdata.open();
-			String name = userdata.getUserAlias(ph.server_id());
-			ctx.getActionBar().setTitle(name + "\'s Collection");
-		} else {
-			ctx.getActionBar().setTitle("Your Collection");
-		}
 		
 		this.refresh();
 	}
