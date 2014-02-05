@@ -14,6 +14,8 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -58,6 +60,7 @@ public class PlanterFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		this.archived = (getArguments() != null ? ((Plant) getArguments().get("plant")).archived : false);
 		
 		BitmapDrawable bd=(BitmapDrawable) this.getResources().getDrawable(R.drawable.plant_0);
@@ -70,14 +73,19 @@ public class PlanterFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d(TAG, "OnCreateView");
-
 		ctx = (MainActivity) this.getActivity();
 
 		View rootView = inflater.inflate(R.layout.fragment_planter, container,
 				false);
 
-
 		return rootView;
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		if (this.archived){
+			menu.removeItem(R.id.action_new);
+		}
 	}
 
 	@Override
@@ -108,7 +116,10 @@ public class PlanterFragment extends Fragment {
 		user_data.open();
 		for (Plant p : values){
 			if (this.archived ^ p.archived){
-				// Don't show archived plants.
+				// Don't show archived plants if in archive, etc.
+				continue;
+			} else if (this.archived && !p.author.equals(ctx.user_id)){
+				// Don't show other people's archived plants
 				continue;
 			}
 			// Set up the plant container
@@ -170,7 +181,6 @@ public class PlanterFragment extends Fragment {
 		}
 
 		PreferenceHandler ph = new PreferenceHandler(ctx);
-		
 
 		if (ph.IV().equals(PreferenceHandler.default_IV)){
 			message.setText("Welcome to InMind! Please log in.");

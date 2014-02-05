@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.util.Log;
+import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
@@ -98,7 +99,8 @@ public class GetNotes extends GetThread {
 		datasource.close();
 		userdata.close();
 		plantdata.close();
-		
+
+		Toast.makeText(ctx, "You are up to date!", Toast.LENGTH_LONG).show();
 		ph.set_last_pinged(System.currentTimeMillis() - 1000 * 60 * 5);
 		
 		Log.d(TAG, "Refreshing.");

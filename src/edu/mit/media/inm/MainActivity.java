@@ -41,12 +41,12 @@ public class MainActivity extends FragmentActivity {
 	private ActionBar actionBar;
 	private FragmentManager fm;
 	private PreferenceHandler ph;
-	
 	private Intent notifyService;
 	
 	private EasyTracker tracker;
-	
 	private long start_time;
+	
+	public String user_id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class MainActivity extends FragmentActivity {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
 		ph = new PreferenceHandler(this);
+		this.user_id = ph.server_id();
 		notifyService = new Intent(this, NotifyService.class);
 		if (ph.prompt() && !ph.password().equals("None")){
 			startService(notifyService);

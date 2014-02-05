@@ -72,7 +72,9 @@ public class PlantFragment extends Fragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		Log.d(TAG, "Plant Create Menu");
 		menu.clear();
-		inflater.inflate(R.menu.plant, menu);
+		if (!plant.archived){
+			inflater.inflate(R.menu.plant, menu);
+		}
 	    super.onCreateOptionsMenu(menu, inflater);
 	}
 

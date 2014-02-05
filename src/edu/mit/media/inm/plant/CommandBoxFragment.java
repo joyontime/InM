@@ -10,8 +10,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,13 +33,12 @@ public class CommandBoxFragment extends Fragment {
 	
 	private ImageView plant_image;
 
-	private Button note;
 	private Button water;
 	private Button trim;
 	private Button archive;
 	
 	private int status_init;
-	private int status;
+	private int status = 1000;
 	
 	private EasyTracker tracker;
 	
@@ -69,20 +66,20 @@ public class CommandBoxFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		PreferenceHandler ph = new PreferenceHandler(ctx);
-
 		rootView = inflater.inflate(R.layout.mini_fragment_command_box, container,
 				false);
 
-		status = plant.status;
-		status_init = plant.status;
+		if (status == 1000){
+			status = plant.status;
+			status_init = plant.status;
+		}
 		
 		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
-		plant_image.setImageResource(Plant.growth[plant.status]);
+		plant_image.setImageResource(Plant.growth[status]);
 		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
 		
 		//Choose which buttons to turn on and off.
 		if (plant.archived){
-			disableNote();
 			disableWater();
 			disableTrim();
 			if (plant.author.equals(ph.server_id())){
@@ -91,7 +88,6 @@ public class CommandBoxFragment extends Fragment {
 				disableArchive();
 			}
 		} else {
-			enableNote();
 			if (plant.author.equals(ph.server_id())){
 				enableWater();
 				enableTrim();
@@ -109,11 +105,6 @@ public class CommandBoxFragment extends Fragment {
 		return rootView;
 	}
 
-	private void disableNote() {
-		note = (Button) rootView.findViewById(R.id.note_btn);
-		note.setEnabled(false);
-	}
-
 	private void disableWater() {
 		water = (Button) rootView.findViewById(R.id.water_btn);
 		water.setEnabled(false);
@@ -128,22 +119,6 @@ public class CommandBoxFragment extends Fragment {
 	private void disableArchive() {
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
 		archive.setEnabled(false);
-	}
-	
-	private void enableNote() {
-		note = (Button) rootView.findViewById(R.id.note_btn);
-		note.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// Swap out the contents of the plant view and controls
-				// Push onto backstack so back button handles correctly.
-				getFragmentManager().beginTransaction()
-					.replace(R.id.control_space, NoteFragment.newInstance(plant))
-					.setTransition(0)
-					.addToBackStack("note")
-					.commit();
-			}
-		});
 	}
 
 	private void enableWater() {
@@ -196,6 +171,13 @@ public class CommandBoxFragment extends Fragment {
 			http_client.setupParams(this.plant.server_id, status, false);
 			http_client.execute();
 			
+			if (status_init < status) {
+				Toast.makeText(ctx, "That's great! Keep it up!",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(ctx, "You trimmed that down to size!",
+						Toast.LENGTH_SHORT).show();
+			}
 
 			Calendar cal = Calendar.getInstance();
 			Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
@@ -207,6 +189,7 @@ public class CommandBoxFragment extends Fragment {
 				                   ph.server_id(),
 				                   minute).build());
 		}
+		status_init = status;
 	}
 
 	public void archivePlant(boolean archived) {
@@ -219,6 +202,7 @@ public class CommandBoxFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_edit:
+			updatePlant();
 			getFragmentManager().beginTransaction()
 			.replace(R.id.control_space, NoteFragment.newInstance(plant))
 			.setTransition(0)
