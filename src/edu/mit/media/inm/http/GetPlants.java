@@ -84,9 +84,7 @@ public class GetPlants extends GetThread {
 							plant_id,
 							shared_with.toString(),
 							Integer.parseInt((String) plant.get("status")),
-							(String) plant.get("title"));
-					Toast.makeText(ctx, "You got something new!", Toast.LENGTH_SHORT).show();
-					
+							(String) plant.get("title"));					
 				} else {
 					Plant old_plant = datasource.getPlantByServerID(plant_id);
 					String status = (String) plant.get("status");
@@ -95,7 +93,6 @@ public class GetPlants extends GetThread {
 							|| (old_plant.status != Integer.valueOf(status))) {
 						datasource.updatePlant(plant_id,
 								Integer.valueOf(status), archived);
-						Log.d(TAG, "SHINY   " + status + "  " + archived);
 						datasource.setPlantShiny(plant_id, true);
 					}
 

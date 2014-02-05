@@ -89,6 +89,8 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.d(TAG, "Main Create Menu");
+		menu.clear();
 		getMenuInflater().inflate(R.menu.main, menu);
 		// This is checking for log in status!
 		if (!ph.IV().equals(PreferenceHandler.default_IV)){
@@ -96,7 +98,6 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			menu.removeItem(R.id.action_logout);
 		}
-		
 		return true;
 	}
 
@@ -201,8 +202,8 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public void refresh(){
-		invalidateOptionsMenu();
 		// This is checking for log in status!
+		Log.d(TAG, "Main Refresh");
 		if (!ph.IV().equals(PreferenceHandler.default_IV)){
 			UserDataSource userdata = new UserDataSource(this);
 			userdata.open();
@@ -229,6 +230,7 @@ public class MainActivity extends FragmentActivity {
 		if (plant_frag != null){
 			plant_frag.refresh();
 		}
+		invalidateOptionsMenu();
 	}
 
 	@Override
@@ -254,6 +256,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onResume(){
 		super.onResume();
+		refresh();
 	}
 	
 	@Override

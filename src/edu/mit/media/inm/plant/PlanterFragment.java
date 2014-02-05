@@ -125,7 +125,8 @@ public class PlanterFragment extends Fragment {
 	                ctx.getFragmentManager().beginTransaction()
 					.replace(android.R.id.content, PlantFragment.newInstance(clicked_plant), "plant")
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.addToBackStack("plant").commit();
+					.addToBackStack("plant")
+					.commit();
 
 			        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
 				}

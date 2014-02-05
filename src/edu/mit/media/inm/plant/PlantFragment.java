@@ -13,16 +13,21 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteAdapter;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.http.PostNote;
 import edu.mit.media.inm.note.Note;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 
@@ -56,10 +61,19 @@ public class PlantFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
 
 		tracker = EasyTracker.getInstance(ctx);
 		start_time = System.currentTimeMillis();
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		Log.d(TAG, "Plant Create Menu");
+		menu.clear();
+		inflater.inflate(R.menu.plant, menu);
+	    super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
@@ -148,12 +162,18 @@ public class PlantFragment extends Fragment {
 	public void refresh(){
 		setupNotes();
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
-		ctx.getActionBar().setTitle(this.plant.title);
+		UserDataSource userdata = new UserDataSource(ctx);
+		userdata.open();
+		ctx.getActionBar().setTitle(
+				userdata.getUserAlias(this.plant.author)
+				+ "\'s "
+				+ this.plant.title);
+		userdata.close();
 		datasource.open();
 	}
 	

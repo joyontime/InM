@@ -44,7 +44,6 @@ public class NoteFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable("plant", p);
         f.setArguments(args);
-
         return f;
     }
 	
@@ -102,7 +101,6 @@ public class NoteFragment extends Fragment {
             imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
 			
 			getFragmentManager().popBackStack();
-
 			return true;
 		}
 		return false;
@@ -125,13 +123,14 @@ public class NoteFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
-		ctx.getActionBar().setTitle(this.plant.title);
 		datasource.open();
 	}
 	
 	@Override
 	public void onPause() {
 		datasource.close();
+		imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
+
 		super.onPause();
 	}
 	

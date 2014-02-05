@@ -10,6 +10,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -60,7 +63,6 @@ public class CommandBoxFragment extends Fragment {
 
 		ctx = this.getActivity();
 		tracker = EasyTracker.getInstance(ctx);
-
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class CommandBoxFragment extends Fragment {
 		plant_image.setImageResource(Plant.growth[plant.status]);
 		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
 		
-		//Chose which buttons to turn on and off.
+		//Choose which buttons to turn on and off.
 		if (plant.archived){
 			disableNote();
 			disableWater();
@@ -212,6 +214,21 @@ public class CommandBoxFragment extends Fragment {
 		http_client.setupParams(this.plant.server_id, status, archived);
 		http_client.execute();
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_edit:
+			getFragmentManager().beginTransaction()
+			.replace(R.id.control_space, NoteFragment.newInstance(plant))
+			.setTransition(0)
+			.addToBackStack("note")
+			.commit();
+			return true;
+		}
+		return false;
+	}
+	
 	
 	@Override
 	public void onResume() {
