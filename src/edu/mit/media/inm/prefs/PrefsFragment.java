@@ -22,7 +22,6 @@ public class PrefsFragment extends PreferenceFragment {
 		menu.clear();
 	    super.onCreateOptionsMenu(menu, inflater);
 	}
-
 	
 	@Override
 	public void onResume(){

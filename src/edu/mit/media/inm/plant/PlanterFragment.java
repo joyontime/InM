@@ -85,6 +85,10 @@ public class PlanterFragment extends Fragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		if (this.archived){
 			menu.removeItem(R.id.action_new);
+			menu.removeItem(R.id.action_settings);
+			menu.removeItem(R.id.action_archived);
+			menu.removeItem(R.id.action_about);
+			menu.removeItem(R.id.action_logout);
 		}
 	}
 
@@ -139,7 +143,7 @@ public class PlanterFragment extends Fragment {
 					.addToBackStack("plant")
 					.commit();
 
-			        ctx.getActionBar().setDisplayHomeAsUpEnabled(true);
+			        ctx.turnOnActionBarNav(false);
 				}
 		    });
 			my_plants.addView(plant);
@@ -217,7 +221,10 @@ public class PlanterFragment extends Fragment {
 		super.onResume();
 		refresh();
 		if (archived){
+			ctx.turnOnActionBarNav(false);
 			ctx.getActionBar().setTitle("Archived Plants");
+		} else {
+			ctx.turnOnActionBarNav(true);
 		}
 		datasource.open();
 	}

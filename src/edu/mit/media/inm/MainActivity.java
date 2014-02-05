@@ -1,5 +1,6 @@
 package edu.mit.media.inm;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -11,18 +12,14 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.data.PlantDataSource;
@@ -33,15 +30,17 @@ import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.plant.PotFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
-import edu.mit.media.inm.user.FriendFragment;
 import edu.mit.media.inm.util.NotifyService;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 	private static String TAG = "MainActivity";
 	private ActionBar actionBar;
 	private FragmentManager fm;
 	private PreferenceHandler ph;
 	private Intent notifyService;
+	
+    private ArrayList<String> navSpinner;
+    private MainNavigationAdapter adapter;
 	
 	private EasyTracker tracker;
 	private long start_time;
@@ -59,10 +58,6 @@ public class MainActivity extends FragmentActivity {
 			.add(android.R.id.content, new PlanterFragment(), "planter")
 			.commit();
 		}
-
-		actionBar = getActionBar();
-
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
 		ph = new PreferenceHandler(this);
 		this.user_id = ph.server_id();
@@ -84,6 +79,14 @@ public class MainActivity extends FragmentActivity {
 			                   minute)
 			      .build());
 		start_time = System.currentTimeMillis();
+
+        // Spinner title navigation
+		actionBar = getActionBar();		
+        navSpinner = new ArrayList<String>();
+        navSpinner.add("All Items");
+        navSpinner.add("My collection");   
+        adapter = new MainNavigationAdapter(this, navSpinner);
+        actionBar.setListNavigationCallbacks(adapter, this);
 
 		pingServer();
 	}
@@ -113,13 +116,14 @@ public class MainActivity extends FragmentActivity {
 			.replace(android.R.id.content, new PotFragment())
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 			.addToBackStack("pot").commit();
-	        actionBar.setDisplayHomeAsUpEnabled(true);
+			this.turnOnActionBarNav(false);
 	        return true;
 		case R.id.action_refresh:
 			pingServer();
 			return true;
 		case R.id.action_logout:
 			clearAllDb();
+			this.turnOnActionBarNav(false);
 			refresh();
 			return true;
 		case R.id.action_login:
@@ -130,7 +134,7 @@ public class MainActivity extends FragmentActivity {
 			.replace(android.R.id.content, PlanterFragment.newInstance(true), "archived")
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 			.addToBackStack("archived").commit();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+			this.turnOnActionBarNav(false);
 			return true;
 		case R.id.action_about:
 			String info = "Email joyc@mit.edu if you have any questions or bugs to report!";
@@ -141,13 +145,13 @@ public class MainActivity extends FragmentActivity {
 					.replace(android.R.id.content, new PrefsFragment())
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack("prefs").commit();
-	        actionBar.setDisplayHomeAsUpEnabled(true);
+			this.turnOnActionBarNav(false);
 			return true;
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
 				if (fm.getBackStackEntryCount() == 1){
-					actionBar.setDisplayHomeAsUpEnabled(false);
 					refresh();
+					this.turnOnActionBarNav(true);
 				}
 				fm.popBackStack();
 			} else {
@@ -208,14 +212,6 @@ public class MainActivity extends FragmentActivity {
 	public void refresh(){
 		// This is checking for log in status!
 		Log.d(TAG, "Main Refresh");
-		if (!ph.IV().equals(PreferenceHandler.default_IV)){
-			UserDataSource userdata = new UserDataSource(this);
-			userdata.open();
-			String name = userdata.getUserAlias(ph.server_id());
-			actionBar.setTitle(name + "\'s Collection");
-		} else {
-			actionBar.setTitle("Your Collection");
-		}
 
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
@@ -236,13 +232,31 @@ public class MainActivity extends FragmentActivity {
 		}
 		invalidateOptionsMenu();
 	}
+	
+	public void turnOnActionBarNav(boolean turnOn){
+		if (!ph.IV().equals(PreferenceHandler.default_IV)){
+			if (turnOn){
+				actionBar.setDisplayHomeAsUpEnabled(false);
+		        actionBar.setDisplayShowTitleEnabled(false);
+		        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+			} else {
+		        actionBar.setDisplayHomeAsUpEnabled(true);
+				actionBar.setDisplayShowTitleEnabled(true);
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			}
+		} else {
+			actionBar.setDisplayShowTitleEnabled(true);
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			actionBar.setTitle("InMind");
+		}
+	}
 
 	@Override
 	public void onBackPressed() {
 		// check to see if stack is empty
 		if (fm.getBackStackEntryCount() > 0) {
 			if (fm.getBackStackEntryCount() == 1){
-				actionBar.setDisplayHomeAsUpEnabled(false);
+				this.turnOnActionBarNav(true);
 				refresh();
 			}
 			fm.popBackStack();
@@ -275,4 +289,10 @@ public class MainActivity extends FragmentActivity {
 	        .build()
 	    );
 	  }
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		Log.d(TAG, "Spinner Item :" + itemPosition + " " + itemId);
+		return false;
+	}
 }
