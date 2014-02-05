@@ -2,6 +2,8 @@ package edu.mit.media.inm;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -30,6 +32,7 @@ import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.plant.PotFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
+import edu.mit.media.inm.user.User;
 import edu.mit.media.inm.util.NotifyService;
 
 public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
@@ -85,6 +88,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         navSpinner = new ArrayList<String>();
         navSpinner.add("All Items");
         navSpinner.add("My collection");   
+        navSpinner.add("Shared with me");   
         adapter = new MainNavigationAdapter(this, navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
 
@@ -216,13 +220,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){
-			planter_frag.refresh();
+			planter_frag.refresh(null);
 		}
 		
 		PlanterFragment archived_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("archived");
 		if (archived_frag != null){
-			archived_frag.refresh();
+			archived_frag.refresh(null);
 		}
 
 		PlantFragment plant_frag = (PlantFragment) getFragmentManager()
@@ -293,6 +297,31 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		Log.d(TAG, "Spinner Item :" + itemPosition + " " + itemId);
+		Set<String> users = new HashSet<String>();
+		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
+				.findFragmentByTag("planter");
+
+		if (planter_frag != null) {
+			switch (itemPosition) {
+			case 0:
+				planter_frag.refresh(null);
+				return true;
+			case 1:
+				users.add(ph.server_id());
+				planter_frag.refresh(users);
+				return true;
+			case 2:
+				UserDataSource userdata = new UserDataSource(this);
+				userdata.open();
+				for (User u : userdata.getAllUsers()){
+					if (!u.server_id.equals(ph.server_id())){
+						users.add(u.server_id);
+					}
+				}
+				planter_frag.refresh(users);
+				return true;
+			}
+		}
 		return false;
 	}
 }

@@ -36,6 +36,7 @@ public class GetIV extends GetThread {
 
 			GetUsers user_thread = new GetUsers(this.id +1, ctx);
 			user_thread.execute();
+			ctx.turnOnActionBarNav(true);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Toast.makeText(ctx, "Login Failed! Try again.", Toast.LENGTH_LONG).show();

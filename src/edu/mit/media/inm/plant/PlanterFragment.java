@@ -1,6 +1,7 @@
 package edu.mit.media.inm.plant;
 
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,6 +42,8 @@ public class PlanterFragment extends Fragment {
 	private LinearLayout my_plants;
 	private TextView message;
 	private int plant_width;
+	
+	private Set<String> users_to_show;
 	
 	private boolean archived = false;
 	
@@ -100,10 +103,10 @@ public class PlanterFragment extends Fragment {
 		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
 		message = (TextView) getView().findViewById(R.id.planter_message);
 		
-		this.refresh();
+		this.refresh(users_to_show);
 	}
 	
-	public void refresh(){
+	public void refresh(Set<String> users){
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
@@ -113,6 +116,7 @@ public class PlanterFragment extends Fragment {
 
 		// If there are child elements, remove them so we can refresh.
 		if (my_plants.getChildAt(0)!=null){
+			this.users_to_show = users;
 			my_plants.removeAllViews();
 		} 
 
@@ -125,6 +129,10 @@ public class PlanterFragment extends Fragment {
 			} else if (this.archived && !p.author.equals(ctx.user_id)){
 				// Don't show other people's archived plants
 				continue;
+			} else if (users_to_show != null){
+				if (!users.contains(p.author)){
+					continue;
+				}
 			}
 			// Set up the plant container
 			LinearLayout plant = new LinearLayout(ctx);
@@ -219,7 +227,7 @@ public class PlanterFragment extends Fragment {
 	public void onResume() {
 		Log.d(TAG, "onResume");
 		super.onResume();
-		refresh();
+		refresh(users_to_show);
 		if (archived){
 			ctx.turnOnActionBarNav(false);
 			ctx.getActionBar().setTitle("Archived Plants");
