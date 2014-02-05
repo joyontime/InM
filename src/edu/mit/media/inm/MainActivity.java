@@ -96,6 +96,9 @@ public class MainActivity extends FragmentActivity {
 		if (!ph.IV().equals(PreferenceHandler.default_IV)){
 			menu.removeItem(R.id.action_login);
 		} else {
+			menu.removeItem(R.id.action_new);
+			menu.removeItem(R.id.action_archived);
+			menu.removeItem(R.id.action_settings);
 			menu.removeItem(R.id.action_logout);
 		}
 		return true;

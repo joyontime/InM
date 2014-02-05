@@ -16,7 +16,8 @@
     <item
         android:id="@+id/action_login"
         android:orderInCategory="11"
-        android:title="@string/action_login"/>
+        android:title="@string/action_login"
+        android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_logout"
         android:orderInCategory="12"
@@ -31,8 +32,7 @@
         android:id="@+id/action_settings"
         android:orderInCategory="99"
         android:icon="@drawable/ic_action_settings"
-        android:title="@string/action_settings"
-        android:showAsAction="ifRoom"/>
+        android:title="@string/action_settings"/>
 
     <item
         android:id="@+id/action_about"
