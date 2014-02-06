@@ -71,38 +71,22 @@ public class PotFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		int num_pots =  Plant.pots.length;
-		final Bitmap[] only_pots = new Bitmap[num_pots];
-		for (int i = 0; i <num_pots ; i++){
-			Bitmap original = BitmapFactory.decodeResource(getResources(),
-					Plant.pots[i]);
-			int START_X = 0;
-			int START_Y = original.getHeight()/2;
-			int WIDTH_PX = original.getWidth();
-			int HEIGHT_PX = original.getHeight()/2;
-
-			// Crop bitmap
-			Bitmap cropped_pot = Bitmap.createBitmap(original, START_X,
-					START_Y, WIDTH_PX, HEIGHT_PX, null, false);
-			
-			only_pots[i] = cropped_pot;
-		}
+		int num_pots =  Plant.b_pots.length;
 		
 		title_box = (EditText) getView().findViewById(R.id.title_box);
 		pot_image = (ImageView) getView().findViewById(R.id.pot_image);
-		pot_image.setImageBitmap(only_pots[selected_color]);
+		pot_image.setImageResource(Plant.b_pots[selected_color]);
 		
 		LinearLayout pot_list = (LinearLayout) getView().findViewById(R.id.pot_list);
 		for (int i = 0; i < num_pots; i++){
 			ImageView pot = new ImageView(ctx);
-			pot.setImageBitmap(only_pots[i]);
-			pot.setMaxHeight(only_pots[i].getHeight()/2);
+			pot.setImageResource(Plant.b_pots[i]);
 			final int pot_color = i;
 
 			pot.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {
-					pot_image.setImageBitmap(only_pots[pot_color]);
+					pot_image.setImageResource(Plant.b_pots[pot_color]);
 					selected_color = pot_color;
 				}
 			});

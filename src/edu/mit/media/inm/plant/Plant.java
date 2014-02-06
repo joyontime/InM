@@ -44,6 +44,22 @@ public class Plant implements Parcelable, Comparable<Plant> {
 			R.drawable.pot_13,
 	};
 	
+	public static int[] b_pots = {
+		R.drawable.b_pot_1,
+		R.drawable.b_pot_2,
+		R.drawable.b_pot_3,
+		R.drawable.b_pot_4,
+		R.drawable.b_pot_5,
+		R.drawable.b_pot_6,
+		R.drawable.b_pot_7,
+		R.drawable.b_pot_8,
+		R.drawable.b_pot_9,
+		R.drawable.b_pot_10,
+		R.drawable.b_pot_11,
+		R.drawable.b_pot_12,
+		R.drawable.b_pot_13,
+};
+	
 	public static int[] growth = {
 		R.drawable.plant_0,
 		R.drawable.plant_1,
