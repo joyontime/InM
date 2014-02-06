@@ -36,20 +36,20 @@
     <string name="show_info">Show Topic Data</string>
     <string name="hide_info">Hide Topic Data</string>
     
-    <string name="planter">Planter</string>
-    <string name="my_plants">My Plants.</string>
+    <string name="planter">Collection</string>
+    <string name="my_plants">My Collection.</string>
     <string name="default_message">Prompt of the day will appear here.</string>
     
-    <string name="plant_name">Plant Page</string>
+    <string name="plant_name">Topic Page</string>
     
     <string name="new_pot">Start a new topic.</string>
     
     <!-- Pots -->
     <string name="action_done">Done</string>
     <string name="pot_fragment">New Topic</string>
-    <string name="name_pot">Name your plant</string>
-    <string name="pot">Pot</string>
-    <string name="friends">Friends</string>
+    <string name="name_pot">Name your topic</string>
+    <string name="pot">Topic</string>
+    <string name="friends">My Group</string>
     <string name="share_with">Share with:</string>
     
     <!--  Note -->

@@ -33,6 +33,7 @@ import edu.mit.media.inm.plant.PotFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
 import edu.mit.media.inm.user.User;
+import edu.mit.media.inm.util.LoginUtil;
 import edu.mit.media.inm.util.NotifyService;
 
 public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
@@ -41,6 +42,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	private FragmentManager fm;
 	private PreferenceHandler ph;
 	private Intent notifyService;
+	private LoginUtil login_util;
 	
     private ArrayList<String> navSpinner;
     private MainNavigationAdapter adapter;
@@ -92,7 +94,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         adapter = new MainNavigationAdapter(this, navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
 
-		pingServer();
+        login_util = new LoginUtil(this);
+		login_util.pingServer();
 	}
 
 	@Override
@@ -123,15 +126,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			this.turnOnActionBarNav(false);
 	        return true;
 		case R.id.action_refresh:
-			pingServer();
+			login_util.pingServer();
 			return true;
 		case R.id.action_logout:
-			clearAllDb();
+			login_util.clearAllDb();
 			this.turnOnActionBarNav(false);
 			refresh();
 			return true;
 		case R.id.action_login:
-			loginDialog();
+			login_util.loginDialog();
 			return true;
 		case R.id.action_archived:
             fm.beginTransaction()
@@ -153,65 +156,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			return true;
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
-				if (fm.getBackStackEntryCount() == 1){
-					refresh();
-					this.turnOnActionBarNav(true);
-				}
-				fm.popBackStack();
-			} else {
-				Toast.makeText(this, "Welcome to InMind!", Toast.LENGTH_LONG)
-				.show();
+				goBack();
 			}
 		}
 		return false;
 	}
 	
-	public void loginDialog(){
-		LayoutInflater inflater = this.getLayoutInflater();
-		final View login_view = inflater.inflate(R.layout.dialog_signin, null);
-		
-		AlertDialog.Builder login_dialog = new AlertDialog.Builder(this)
-	    .setTitle(R.string.action_login)
-	    .setView(login_view);
-	    
-	    login_dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	        	ph.setPassword(((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
-	        	ph.setUsername(((EditText)login_view.findViewById(R.id.login_username)).getText().toString());
-	        	pingServer();
-	        }
-	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	            // Do nothing.
-	        }
-	    }).show();
-	}
-	
-	private void clearAllDb(){
-		ph.set_server_id("None");
-		ph.set_IV(PreferenceHandler.default_IV);
-		ph.set_last_pinged(0);
-    	ph.setPassword("");
-    	ph.setUsername("");
-		UserDataSource userdata = new UserDataSource(this);
-		userdata.open();
-		userdata.deleteAll();
-		userdata.close();
-		PlantDataSource plantdata = new PlantDataSource(this);
-		plantdata.open();
-		plantdata.deleteAll();
-		plantdata.close();
-		NoteDataSource notedata = new NoteDataSource(this);
-		notedata.open();
-		notedata.deleteAll();
-		notedata.close();
-	}
-	
-	private void pingServer(){
-		Log.d(TAG, "Starting update.");
-		final GetIV iv_thread = new GetIV(0, this);
-		iv_thread.execute();
-	}
 	
 	public void refresh(){
 		// This is checking for log in status!
@@ -256,14 +206,65 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	}
 
 	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		Log.d(TAG, "Spinner Item :" + itemPosition + " " + itemId);
+		Set<String> users = new HashSet<String>();
+		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
+				.findFragmentByTag("planter");
+
+		if (planter_frag != null) {
+			switch (itemPosition) {
+			case 0:
+				planter_frag.refresh(null);
+				return true;
+			case 1:
+				users.add(ph.server_id());
+				planter_frag.refresh(users);
+				return true;
+			case 2:
+				UserDataSource userdata = new UserDataSource(this);
+				userdata.open();
+				for (User u : userdata.getAllUsers()){
+					if (!u.server_id.equals(ph.server_id())){
+						users.add(u.server_id);
+					}
+				}
+				planter_frag.refresh(users);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void confirmDialog(){
+		if (true){
+			AlertDialog login_dialog = new AlertDialog.Builder(this)
+		    .setTitle(R.string.action_login)
+		    .setPositiveButton("Yup", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		        	onBackPressed();
+		        }
+		    }).setNegativeButton("Wait! I'm not done.", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            // Don't do anything
+		        }
+		    }).show();
+		}
+	}
+	
+	public void goBack(){
+		if (fm.getBackStackEntryCount() == 1){
+			this.turnOnActionBarNav(true);
+			refresh();
+		}
+		fm.popBackStack();
+	}
+
+	@Override
 	public void onBackPressed() {
 		// check to see if stack is empty
 		if (fm.getBackStackEntryCount() > 0) {
-			if (fm.getBackStackEntryCount() == 1){
-				this.turnOnActionBarNav(true);
-				refresh();
-			}
-			fm.popBackStack();
+			goBack();
 		} else {
 			super.onBackPressed();
 		}
@@ -294,34 +295,4 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	    );
 	  }
 
-	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		Log.d(TAG, "Spinner Item :" + itemPosition + " " + itemId);
-		Set<String> users = new HashSet<String>();
-		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
-				.findFragmentByTag("planter");
-
-		if (planter_frag != null) {
-			switch (itemPosition) {
-			case 0:
-				planter_frag.refresh(null);
-				return true;
-			case 1:
-				users.add(ph.server_id());
-				planter_frag.refresh(users);
-				return true;
-			case 2:
-				UserDataSource userdata = new UserDataSource(this);
-				userdata.open();
-				for (User u : userdata.getAllUsers()){
-					if (!u.server_id.equals(ph.server_id())){
-						users.add(u.server_id);
-					}
-				}
-				planter_frag.refresh(users);
-				return true;
-			}
-		}
-		return false;
-	}
 }

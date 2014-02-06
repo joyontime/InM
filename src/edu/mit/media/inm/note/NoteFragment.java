@@ -4,8 +4,10 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.R;
@@ -69,13 +72,13 @@ public class NoteFragment extends Fragment {
 
 		rootView = inflater.inflate(R.layout.mini_fragment_note, container,
 				false);
-		
+
 		note_text = (TextView) rootView.findViewById(R.id.note_text);
 		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
-		
+
 		datasource = new NoteDataSource(ctx);
 		datasource.open();
-		
+
 		return rootView;
 	}
 
@@ -130,10 +133,9 @@ public class NoteFragment extends Fragment {
 	public void onPause() {
 		datasource.close();
 		imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
-
 		super.onPause();
 	}
-	
+
 	@Override
 	public void onStop(){
 	    tracker.send(MapBuilder
