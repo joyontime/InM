@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.NoteDataSource;
 import edu.mit.media.inm.http.PostNote;
@@ -30,7 +31,7 @@ import edu.mit.media.inm.util.AesUtil;
 public class NoteFragment extends Fragment {
 	private static final String TAG = "NoteFragment";
 
-	private Activity ctx;
+	private MainActivity ctx;
 	private View rootView;
 	private NoteDataSource datasource;
 	private Plant plant;
@@ -56,7 +57,7 @@ public class NoteFragment extends Fragment {
 		setHasOptionsMenu(true);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
 		
-		this.ctx = getActivity();
+		this.ctx = (MainActivity) getActivity();
 
 		tracker = EasyTracker.getInstance(ctx);
 		start_time = System.currentTimeMillis();
@@ -67,7 +68,7 @@ public class NoteFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ctx = this.getActivity();
+		ctx = (MainActivity) this.getActivity();
 		ph = new PreferenceHandler(ctx);
 
 		rootView = inflater.inflate(R.layout.mini_fragment_note, container,
@@ -103,7 +104,7 @@ public class NoteFragment extends Fragment {
             
             imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
 			
-			getFragmentManager().popBackStack();
+			ctx.goBack();
 			return true;
 		}
 		return false;

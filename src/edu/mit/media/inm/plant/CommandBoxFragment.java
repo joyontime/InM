@@ -202,12 +202,18 @@ public class CommandBoxFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_edit:
-			updatePlant();
-			getFragmentManager().beginTransaction()
-			.replace(R.id.control_space, NoteFragment.newInstance(plant), "note")
-			.setTransition(0)
-			.addToBackStack("note")
-			.commit();
+			if (plant.archived) {
+				Toast.makeText(ctx, "You need to unarchive this plant!",
+						Toast.LENGTH_SHORT).show();
+			} else {
+
+				updatePlant();
+				getFragmentManager().beginTransaction()
+				.replace(R.id.control_space, NoteFragment.newInstance(plant), "note")
+				.setTransition(0)
+				.addToBackStack("note")
+				.commit();
+			}
 			return true;
 		}
 		return false;

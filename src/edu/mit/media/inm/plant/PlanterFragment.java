@@ -48,18 +48,17 @@ public class PlanterFragment extends Fragment {
 	private boolean archived = false;
 	
 
-	public static PlanterFragment newInstance(boolean archived) {
+	public static PlanterFragment newInstance() {
         PlanterFragment f = new PlanterFragment();
 
         Bundle args = new Bundle();
         Plant plant = new Plant();
-        plant.archived = archived;
         args.putParcelable("plant", plant);
         f.setArguments(args);
 
         return f;
     }
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -89,7 +88,6 @@ public class PlanterFragment extends Fragment {
 		if (this.archived){
 			menu.removeItem(R.id.action_new);
 			menu.removeItem(R.id.action_settings);
-			menu.removeItem(R.id.action_archived);
 			menu.removeItem(R.id.action_about);
 			menu.removeItem(R.id.action_logout);
 		}
@@ -130,7 +128,7 @@ public class PlanterFragment extends Fragment {
 				// Don't show other people's archived plants
 				continue;
 			} else if (users_to_show != null){
-				if (!users.contains(p.author)){
+				if (!users_to_show.contains(p.author)){
 					continue;
 				}
 			}
@@ -222,18 +220,17 @@ public class PlanterFragment extends Fragment {
 
 		user_data.close();
 	}
+	
+	public void setArchived(boolean archived){
+		this.archived = archived;
+	}
 
 	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume");
 		super.onResume();
 		refresh(users_to_show);
-		if (archived){
-			ctx.turnOnActionBarNav(false);
-			ctx.getActionBar().setTitle("Archived Plants");
-		} else {
-			ctx.turnOnActionBarNav(true);
-		}
+		ctx.turnOnActionBarNav(true);
 		datasource.open();
 	}
 

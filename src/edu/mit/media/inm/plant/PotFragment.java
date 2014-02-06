@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.UserDataSource;
 import edu.mit.media.inm.http.PostPlant;
@@ -33,7 +34,7 @@ public class PotFragment extends Fragment {
 	private static final String TAG = "NewPotFragment";
 
 	private String username;
-	private Activity ctx;
+	private MainActivity ctx;
 	private PreferenceHandler ph;
 
 	private EditText title_box;
@@ -49,7 +50,7 @@ public class PotFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d(TAG, "OnCreateView");
-		ctx = this.getActivity();
+		ctx = (MainActivity) this.getActivity();
 		
 		ph = new PreferenceHandler(ctx);
 		username = ph.server_id();
@@ -162,7 +163,7 @@ public class PotFragment extends Fragment {
                 http_client.execute();
 
                 // Send it back to the main screen.
-                ctx.onBackPressed();
+                ctx.goBack();
                 return true;
             }
             return false;

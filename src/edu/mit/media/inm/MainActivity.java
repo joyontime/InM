@@ -92,6 +92,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         navSpinner.add("All Items");
         navSpinner.add("My collection");   
         navSpinner.add("Shared with me");   
+        navSpinner.add("Archived");   
         adapter = new MainNavigationAdapter(this, navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
 
@@ -109,7 +110,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			menu.removeItem(R.id.action_login);
 		} else {
 			menu.removeItem(R.id.action_new);
-			menu.removeItem(R.id.action_archived);
 			menu.removeItem(R.id.action_settings);
 			menu.removeItem(R.id.action_logout);
 		}
@@ -136,13 +136,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			return true;
 		case R.id.action_login:
 			login_util.loginDialog();
-			return true;
-		case R.id.action_archived:
-            fm.beginTransaction()
-			.replace(android.R.id.content, PlanterFragment.newInstance(true), "archived")
-			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-			.addToBackStack("archived").commit();
-			this.turnOnActionBarNav(false);
 			return true;
 		case R.id.action_about:
 			String info = "Email joyc@mit.edu if you have any questions or bugs to report!";
@@ -216,10 +209,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		if (planter_frag != null) {
 			switch (itemPosition) {
 			case 0:
+				planter_frag.setArchived(false);
 				planter_frag.refresh(null);
 				return true;
 			case 1:
 				users.add(ph.server_id());
+				planter_frag.setArchived(false);
 				planter_frag.refresh(users);
 				return true;
 			case 2:
@@ -230,8 +225,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 						users.add(u.server_id);
 					}
 				}
+				planter_frag.setArchived(false);
 				planter_frag.refresh(users);
 				return true;
+			case 3:
+				planter_frag.setArchived(true);
+				planter_frag.refresh(null);
 			}
 		}
 		return false;
@@ -244,11 +243,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		if ( (note!= null) || (pot!=null)){
 			AlertDialog confirm_dialog = new AlertDialog.Builder(this)
 		    .setTitle(R.string.confirm)
-		    .setPositiveButton("Yup", new DialogInterface.OnClickListener() {
+		    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		        	goBack();
 		        }
-		    }).setNegativeButton("Wait! I'm not done.", new DialogInterface.OnClickListener() {
+		    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		            // Don't do anything
 		        }
