@@ -10,6 +10,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -120,7 +121,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		switch (item.getItemId()) {
 		case R.id.action_new:
 			fm.beginTransaction()
-			.replace(android.R.id.content, new PotFragment())
+			.replace(android.R.id.content, new PotFragment(), "pot")
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 			.addToBackStack("pot").commit();
 			this.turnOnActionBarNav(false);
@@ -156,7 +157,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			return true;
 		case android.R.id.home:
 			if (fm.getBackStackEntryCount() > 0) {
-				goBack();
+				confirmDialog();
 			}
 		}
 		return false;
@@ -237,18 +238,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	}
 
 	private void confirmDialog(){
-		if (true){
-			AlertDialog login_dialog = new AlertDialog.Builder(this)
-		    .setTitle(R.string.action_login)
+		Fragment note = fm.findFragmentByTag("note");
+		Fragment pot = fm.findFragmentByTag("pot");
+		
+		if ( (note!= null) || (pot!=null)){
+			AlertDialog confirm_dialog = new AlertDialog.Builder(this)
+		    .setTitle(R.string.confirm)
 		    .setPositiveButton("Yup", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
-		        	onBackPressed();
+		        	goBack();
 		        }
 		    }).setNegativeButton("Wait! I'm not done.", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		            // Don't do anything
 		        }
 		    }).show();
+		} else {
+			goBack();
 		}
 	}
 	
@@ -264,7 +270,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public void onBackPressed() {
 		// check to see if stack is empty
 		if (fm.getBackStackEntryCount() > 0) {
-			goBack();
+			confirmDialog();
 		} else {
 			super.onBackPressed();
 		}

@@ -204,7 +204,7 @@ public class CommandBoxFragment extends Fragment {
 		case R.id.action_edit:
 			updatePlant();
 			getFragmentManager().beginTransaction()
-			.replace(R.id.control_space, NoteFragment.newInstance(plant))
+			.replace(R.id.control_space, NoteFragment.newInstance(plant), "note")
 			.setTransition(0)
 			.addToBackStack("note")
 			.commit();
