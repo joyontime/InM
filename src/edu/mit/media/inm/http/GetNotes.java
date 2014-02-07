@@ -77,18 +77,21 @@ public class GetNotes extends GetThread {
 			JSONArray notes_json = (JSONArray) js.parse(result);
 			for (int i = 0; i < notes_json.size(); i++) {
 				JSONObject note = (JSONObject) notes_json.get(i);
-				String iso_date = (String) note.get("created_at");
+				long created_at = joda_ISO_parser.parseDateTime(
+						(String) note.get("created_at"))
+						.getMillis();
 				
 				String note_id = (String) note.get("server_id");
 				if (!server_ids.contains(note_id)) {
 					datasource.createNote(
 							userdata.getUserAlias((String) note.get("user_id")),
-							joda_ISO_parser.parseDateTime(iso_date)
-									.getMillis(),
+							created_at,
 							(String) note.get("text"),
 							(String) note.get("plant_id"),
 							note_id);
-					plantdata.setPlantShiny((String) note.get("plant_id"), true);
+					if (ph.now() < created_at){
+						plantdata.setPlantShiny((String) note.get("plant_id"), true);
+					}
 				} else {
 					server_ids.remove(note_id);
 				}
@@ -101,7 +104,7 @@ public class GetNotes extends GetThread {
 		plantdata.close();
 
 		Toast.makeText(ctx, "You are up to date!", Toast.LENGTH_LONG).show();
-		ph.set_last_pinged(System.currentTimeMillis() - 500);
+		ph.set_last_pinged();
 		
 		Log.d(TAG, "Refreshing.");
 		ctx.refresh();

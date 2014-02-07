@@ -57,7 +57,7 @@ public class GetPlants extends GetThread {
 
 			for (int i = 0; i < plants_json.size(); i++) {
 				JSONObject plant = (JSONObject) plants_json.get(i);
-				String iso_date = (String) plant.get("created_at");
+				String created_at = (String) plant.get("created_at");
 				Log.d(TAG, "plant: " + plant.get("title"));
 				
 				String plant_id = (String) plant.get("server_id");
@@ -72,11 +72,20 @@ public class GetPlants extends GetThread {
 	        				shared_with.append(',');
 						}
 	        		}
+					boolean shiny = true;
+					
+					long modified_at = joda_ISO_parser.parseDateTime(
+							(String) plant.get("modified_at"))
+							.getMillis();
+					if (ph.now() > modified_at){
+						Log.d(TAG, "Diff:" + (ph.now() - modified_at));
+						shiny = false;
+					}
 					
 					datasource.createPlant(
 							(String) plant.get("owner"),
 							(Boolean) plant.get("archived"),
-							joda_ISO_parser.parseDateTime(iso_date)
+							joda_ISO_parser.parseDateTime(created_at)
 									.getMillis(),
 							(String) plant.get("passphrase"),
 							Integer.parseInt((String) plant.get("color")),
@@ -84,7 +93,7 @@ public class GetPlants extends GetThread {
 							plant_id,
 							shared_with.toString(),
 							Integer.parseInt((String) plant.get("status")),
-							(String) plant.get("title"));					
+							(String) plant.get("title"), shiny);			
 				} else {
 					Plant old_plant = datasource.getPlantByServerID(plant_id);
 					String status = (String) plant.get("status");

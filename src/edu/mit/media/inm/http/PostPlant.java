@@ -79,7 +79,7 @@ public class PostPlant extends PostThread{
 			// Save the plant locally
 			Plant s = datasource.createPlant(this.username, false, created_at,
 					this.passphrase, this.pot_color, this.salt, server_id,
-					this.shared_with, 0, this.title);
+					this.shared_with, 0, this.title, true);
 			
 			Log.d(TAG, "Published " + s);                                        
 

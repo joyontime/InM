@@ -44,7 +44,8 @@ public class PlantDataSource {
 
 	public Plant createPlant(String author, boolean archived,
 			long date, String pass, int pot_color, String salt, String server_id,
-			String share, int status, String title) {
+			String share, int status, String title, boolean shiny) {
+		Log.d(TAG, "Shiny? " + shiny);
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
 		values.put(PlantSQLite.COLUMN_ARCHIVED, archived ? 1:0);
@@ -56,7 +57,7 @@ public class PlantDataSource {
 		values.put(PlantSQLite.COLUMN_SHARED_WITH, share);
 		values.put(PlantSQLite.COLUMN_STATUS, status);
 		values.put(PlantSQLite.COLUMN_TITLE, title);
-		values.put(PlantSQLite.COLUMN_UPDATED, 1);
+		values.put(PlantSQLite.COLUMN_UPDATED, shiny ? 1:0);
 		long insertId = database.insert(PlantSQLite.TABLE_PLANT, null, values);
 
 		// Get the entered plant back out as a Plant object
