@@ -27,7 +27,6 @@ public class PreferenceHandler{
 	public String IV(){
 		return prefs.getString("IV_preference", default_IV);
 	}
-	
 
 	public String server_id(){
 		return prefs.getString("server_id_preference","None");
@@ -36,9 +35,13 @@ public class PreferenceHandler{
 	public boolean prompt(){
 		return prefs.getBoolean("prompt_preference", true);
 	}
-	
+
 	public long last_pinged(){
 		return prefs.getLong("last_pinged", 0);
+	}
+	
+	public long now(){
+		return prefs.getLong("now", 0);
 	}
 
 	public void set_IV(String IV){
@@ -52,10 +55,16 @@ public class PreferenceHandler{
 		editor.putString("server_id_preference", server_id);
 		editor.apply();
 	}
-	
-	public void set_last_pinged(long ts){
+
+	public void set_last_pinged(){
 		Editor editor = prefs.edit();
-		editor.putLong("last_pinged", ts);
+		editor.putLong("last_pinged", prefs.getLong("now", 0));
+		editor.apply();
+	}
+
+	public void set_now(long ts){
+		Editor editor = prefs.edit();
+		editor.putLong("now", ts);
 		editor.apply();
 	}
 	

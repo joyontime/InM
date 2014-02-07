@@ -1,5 +1,7 @@
 package edu.mit.media.inm.http;
 
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -33,7 +35,13 @@ public class GetIV extends GetThread {
 			ph.set_POTD((String) iv.get("POTD_neut"),
 					(String) iv.get("POTD_happy"),
 					(String) iv.get("POTD_sad"));
-
+			String iso_date = (String) iv.get("pinged_at");	
+			if (iso_date != null){
+				DateTimeFormatter joda_ISO_parser = ISODateTimeFormat
+						.dateTimeParser();
+				ph.set_now(joda_ISO_parser.parseDateTime(iso_date)
+						.getMillis());
+			}
 			GetUsers user_thread = new GetUsers(this.id +1, ctx);
 			user_thread.execute();
 			ctx.turnOnActionBarNav(true);

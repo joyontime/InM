@@ -60,7 +60,8 @@ public class LoginUtil{
 	public void clearAllDb(){
 		ph.set_server_id("None");
 		ph.set_IV(PreferenceHandler.default_IV);
-		ph.set_last_pinged(0);
+		ph.set_now(0);
+		ph.set_last_pinged();
     	ph.setPassword("");
     	ph.setUsername("");
 		UserDataSource userdata = new UserDataSource(ctx);
