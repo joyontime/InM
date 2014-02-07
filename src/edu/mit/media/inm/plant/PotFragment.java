@@ -57,7 +57,6 @@ public class PotFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_pot, container,
 				false);
-
 		setHasOptionsMenu(true);
 
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -103,6 +102,7 @@ public class PotFragment extends Fragment {
 				break;
 			}
 		}
+		friends.add(new User("everyone", "Everyone"));
 		for (User u: friends){
 			friend_aliases.add(u.alias);
 		}

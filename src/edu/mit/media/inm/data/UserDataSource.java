@@ -71,6 +71,7 @@ public class UserDataSource {
 	}
 	
 	public String getUserAlias(String server_id) {
+		if (server_id.equalsIgnoreCase("everyone")) return "Everyone";
 		try {
 			Cursor cursor = database.query(UserSQLite.TABLE_USER, allColumns,
 					UserSQLite.COLUMN_SERVER_ID + " = \"" + server_id + "\"",

@@ -45,9 +45,14 @@ public class User implements Parcelable, Comparable<User> {
             return new User[size];
         }
     };
+    
 
     public User(){
-    	
+    }
+
+    public User(String server_id, String alias){
+    	this.server_id = server_id;
+    	this.alias = alias;
     }
 
     private User(Parcel in) {

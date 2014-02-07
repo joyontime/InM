@@ -139,7 +139,7 @@ public class PlantFragment extends Fragment {
 		// Pretty Print friends shared with
 		info_string.append("Shared with: ");
 		for (String s: plant.shared_with.split(",")){
-			if (!s.trim().isEmpty()){
+			if (!s.trim().isEmpty() && !s.equals(plant.author)){
 				info_string.append("\n\t");
 				info_string.append(user_data.getUserAlias(s));	
 			}		
