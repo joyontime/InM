@@ -169,7 +169,6 @@ public class PotFragment extends Fragment {
             return false;
     }
 
-
 	@Override
 	public void onPause() {
         imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);

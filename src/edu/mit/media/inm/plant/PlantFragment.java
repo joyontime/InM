@@ -50,7 +50,6 @@ public class PlantFragment extends Fragment {
 	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
-
         Bundle args = new Bundle();
         args.putParcelable("plant", p);
         f.setArguments(args);
@@ -144,7 +143,6 @@ public class PlantFragment extends Fragment {
 				info_string.append(user_data.getUserAlias(s));	
 			}		
 		}
-
 		user_data.close();
 		info_text.setText(info_string.toString());
 	}
@@ -183,7 +181,6 @@ public class PlantFragment extends Fragment {
 		datasource.close();
 		super.onPause();
 	}
-	
 
 	@Override
 	  public void onStop() {

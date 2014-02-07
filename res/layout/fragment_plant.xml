@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cloud_repeat"
+            android:background="@color/light_teal"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -10,24 +10,25 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dip"
+        android:padding="10dip"
         android:gravity="center"
+    	android:background="@drawable/cloud_repeat"
         android:orientation="vertical"/>
 
-    <!-- Clickable title -->
+    <!-- Clickable data -->
 
     <LinearLayout
+        android:id="@+id/toggle"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/control_space"
-        android:background="@color/light_teal"
+        android:background="@drawable/window_border"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/show_info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/faded_teal"
             android:clickable="true"
             android:gravity="center"
             android:padding="10dip"
@@ -37,16 +38,16 @@
             android:id="@+id/info_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/faded_teal"
             android:minLines="5"
             android:padding="10dip"
             android:visibility="gone" />
-
-        <ListView
-            android:id="@+id/notes"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="300dip" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/notes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toggle"
+        android:minHeight="300dip" />
 
 </RelativeLayout>

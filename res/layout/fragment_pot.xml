@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@color/faded_teal"
+        android:background="@drawable/window_border"
         android:hint="@string/name_pot"
         android:inputType="textCapWords"
         android:maxLength="30"
@@ -42,16 +42,17 @@
             android:layout_height="100dip"
             android:layout_toRightOf="@id/pot_image"
             android:background="@drawable/window_border"
-            android:fadeScrollbars="false"
-            android:padding="10dip" >
+            android:fadeScrollbars="false" >
 
             <LinearLayout
                 android:id="@+id/pot_list"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:padding="5dip" >
             </LinearLayout>
         </HorizontalScrollView>
+
     </RelativeLayout>
 
     <TextView

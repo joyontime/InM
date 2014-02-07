@@ -47,15 +47,12 @@ public class PlanterFragment extends Fragment {
 	
 	private boolean archived = false;
 	
-
 	public static PlanterFragment newInstance() {
         PlanterFragment f = new PlanterFragment();
-
         Bundle args = new Bundle();
         Plant plant = new Plant();
         args.putParcelable("plant", plant);
         f.setArguments(args);
-
         return f;
     }
 
@@ -105,6 +102,7 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void refresh(Set<String> users){
+		ctx.invalidateOptionsMenu();
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
@@ -121,6 +119,7 @@ public class PlanterFragment extends Fragment {
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
 		for (Plant p : values){
+			Log.d(TAG, "Plant: " + p);
 			if (this.archived ^ p.archived){
 				// Don't show archived plants if in archive, etc.
 				continue;

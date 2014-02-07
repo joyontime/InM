@@ -5,26 +5,14 @@
     android:background="#ACC"
     android:orientation="vertical" >
 
-    <!--
-    <Button
-        android:id="@+id/new_plant"
-        android:layout_width="match_parent"
-        android:layout_height="70dip"
-        android:drawableRight="@drawable/ic_action_new"
-        android:paddingLeft="40dip"
-        android:paddingRight="40dip"
-        android:text="@string/new_pot"
-        android:background="@color/faded_teal"
-        android:textColor="#FFF" />
-    -->
-
     <HorizontalScrollView
         android:id="@+id/planter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dip"
         android:background="@drawable/cloud_repeat"
         android:fadeScrollbars="false"
-        android:layout_centerHorizontal="true"
         android:requiresFadingEdge="horizontal"
         android:text="@string/my_plants" >
 
@@ -34,25 +22,21 @@
             android:layout_height="match_parent"
             android:background="@drawable/window_border"
             android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingTop="15dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="15dp"
-            android:requiresFadingEdge="vertical">
+            android:padding="10dip"
+            android:requiresFadingEdge="vertical" >
         </LinearLayout>
     </HorizontalScrollView>
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/planter_message"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/planter"
-        android:text="@string/default_message"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:padding="15dp"
-        android:gravity="center"
         android:background="@drawable/window_border"
-        />
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="@string/default_message" />
 
 </RelativeLayout>

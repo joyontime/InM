@@ -35,14 +35,14 @@ public class PostPlant extends PostThread{
 		super(id, ctx);
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
-		
+
 		main = (MainActivity) ctx;
 
 		String server = ctx.getResources().getString(R.string.url_server);
 		String plants = ctx.getResources().getString(R.string.uri_plants);
 		this.uri = server + "/" + plants;
 		
-		Log.d(TAG, "URI to ping: " + this.uri);
+		//Log.d(TAG, "URI to ping: " + this.uri);
 	}
 
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
