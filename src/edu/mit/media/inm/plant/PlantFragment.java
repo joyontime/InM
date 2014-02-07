@@ -84,7 +84,6 @@ public class PlantFragment extends Fragment {
 		
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
-		
 		datasource.setPlantShiny(plant.server_id, false);
 
 		setupInfoView();
@@ -139,9 +138,8 @@ public class PlantFragment extends Fragment {
 		info_string.append("Shared with: ");
 		for (String s: plant.shared_with.split(",")){
 			if (!s.trim().isEmpty() && !s.equals(plant.author)){
-				info_string.append("\n\t");
-				info_string.append(user_data.getUserAlias(s));	
-			}		
+				info_string.append(user_data.getUserAlias(s) + ", ");	
+			}
 		}
 		user_data.close();
 		info_text.setText(info_string.toString());

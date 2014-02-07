@@ -42,7 +42,6 @@ public class PlanterFragment extends Fragment {
 	private LinearLayout my_plants;
 	private TextView message;
 	private int plant_width;
-	
 	private Set<String> users_to_show;
 	
 	private boolean archived = false;
@@ -64,8 +63,6 @@ public class PlanterFragment extends Fragment {
 		
 		BitmapDrawable bd=(BitmapDrawable) this.getResources().getDrawable(R.drawable.plant_0);
 		plant_width=bd.getBitmap().getWidth();
-		
-		Log.d(TAG, "Each plant width: " + plant_width);
 	}
 
 	@Override
@@ -107,7 +104,6 @@ public class PlanterFragment extends Fragment {
 			datasource = new PlantDataSource(ctx);
 		}
 		datasource.open();
-		Log.d(TAG, "Refreshing all views.");
 		List<Plant> values = datasource.getAllPlants();
 
 		// If there are child elements, remove them so we can refresh.
@@ -216,7 +212,6 @@ public class PlanterFragment extends Fragment {
 		} else {
 			planter.setVisibility(View.VISIBLE);
 		}
-
 		user_data.close();
 	}
 	

@@ -13,7 +13,6 @@
         android:layout_margin="5dip"
         android:background="@drawable/cloud_repeat"
         android:fadeScrollbars="false"
-        android:requiresFadingEdge="horizontal"
         android:text="@string/my_plants" >
 
         <LinearLayout
@@ -22,8 +21,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/window_border"
             android:orientation="horizontal"
-            android:padding="10dip"
-            android:requiresFadingEdge="vertical" >
+            android:padding="10dip">
         </LinearLayout>
     </HorizontalScrollView>
 

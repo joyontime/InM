@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/control_space"
         android:background="@drawable/window_border"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dip" >
 
         <TextView
             android:id="@+id/show_info"
@@ -31,15 +32,12 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:gravity="center"
-            android:padding="10dip"
             android:text="@string/show_info" />
 
         <TextView
             android:id="@+id/info_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:minLines="5"
-            android:padding="10dip"
             android:visibility="gone" />
     </LinearLayout>
 
