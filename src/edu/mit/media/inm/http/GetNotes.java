@@ -101,7 +101,7 @@ public class GetNotes extends GetThread {
 		plantdata.close();
 
 		Toast.makeText(ctx, "You are up to date!", Toast.LENGTH_LONG).show();
-		ph.set_last_pinged(System.currentTimeMillis() - 1000 * 60 * 5);
+		ph.set_last_pinged(System.currentTimeMillis() - 500);
 		
 		Log.d(TAG, "Refreshing.");
 		ctx.refresh();
