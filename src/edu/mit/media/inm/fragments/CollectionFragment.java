@@ -102,17 +102,21 @@ public class CollectionFragment extends Fragment {
             case R.id.action_done:
         		SparseBooleanArray checked = plant_list.getCheckedItemPositions();
         		
-        		StringBuilder share_local = new StringBuilder();
+        		StringBuilder plants_local = new StringBuilder();
         		for (int i =0; i<plants.size(); i++){
         			if (checked.get(i)){
-        				share_local.append(plants.get(i).server_id);
-        				share_local.append(',');
+        				plants_local.append(plants.get(i).server_id);
+        				plants_local.append(',');
         			}
         		}
                 imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
 
                 CollectionDataSource collection_data = new CollectionDataSource(ctx);
-                
+                collection_data.open();
+                collection_data.createCollection("0",
+                		title_box.getText().toString(),
+                		plants_local.toString());
+
                 /*
         		PostPlant http_client = new PostPlant(0, ctx);
         		http_client.setupParams(username, selected_color, share_local.toString(),
@@ -121,6 +125,8 @@ public class CollectionFragment extends Fragment {
                 */
 
                 // Send it back to the main screen.
+
+        		ctx.setUpNavigation();
                 ctx.goBack();
                 return true;
             }

@@ -1,5 +1,7 @@
 package edu.mit.media.inm.fragments;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +34,7 @@ import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.Plant;
 
 public class PlanterFragment extends Fragment {
@@ -43,9 +46,9 @@ public class PlanterFragment extends Fragment {
 	private LinearLayout my_plants;
 	private TextView message;
 	private int plant_width;
-	private Set<String> users_to_show;
 	
 	private boolean archived = false;
+	private List<Plant> plants;
 	
 	public static PlanterFragment newInstance() {
         PlanterFragment f = new PlanterFragment();
@@ -60,8 +63,9 @@ public class PlanterFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		this.archived = (getArguments() != null ? ((Plant) getArguments().get("plant")).archived : false);
-		
+		this.archived = (getArguments() != null ? ((Plant) getArguments().get(
+				"plant")).archived : false);
+
 		BitmapDrawable bd=(BitmapDrawable) this.getResources().getDrawable(R.drawable.plant_0);
 		plant_width=bd.getBitmap().getWidth();
 	}
@@ -74,7 +78,10 @@ public class PlanterFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_planter, container,
 				false);
-
+		
+		planter = (HorizontalScrollView) rootView.findViewById(R.id.planter);
+		my_plants = (LinearLayout) rootView.findViewById(R.id.my_plants);
+		message = (TextView) rootView.findViewById(R.id.planter_message);
 		return rootView;
 	}
 	
@@ -87,105 +94,204 @@ public class PlanterFragment extends Fragment {
 			menu.removeItem(R.id.action_logout);
 		}
 	}
+	
+	public void refresh(){
+		if (this.plants == null){
+			if (datasource == null){
+				datasource = new PlantDataSource(ctx);
+			}
+			datasource.open();
+			List<Plant> all_plants = datasource.getAllPlants();
+			this.plants = new ArrayList<Plant>();
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
-		planter = (HorizontalScrollView) getView().findViewById(R.id.planter);
-		my_plants = (LinearLayout) getView().findViewById(R.id.my_plants);
-		message = (TextView) getView().findViewById(R.id.planter_message);
+			for (Plant p : all_plants){
+				if (p.archived){
+					// Don't show archived plants
+					continue;
+				} else {
+					plants.add(p);
+				}
+			}
+		}
 		
-		this.refresh(users_to_show);
+		displayPlants(this.plants);
 	}
 	
-	public void refresh(Set<String> users){
-		ctx.invalidateOptionsMenu();
+	/**
+	 * For showing All or Archived views.
+	 * @param archived
+	 */
+	public void refresh(boolean archived){
+		this.archived = archived;
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
 		datasource.open();
-		List<Plant> values = datasource.getAllPlants();
+		List<Plant> all_plants = datasource.getAllPlants();
+		List<Plant> to_display = new ArrayList<Plant>();
 
-		// If there are child elements, remove them so we can refresh.
-		if (my_plants.getChildAt(0)!=null){
-			this.users_to_show = users;
-			my_plants.removeAllViews();
-		} 
-
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
-		for (Plant p : values){
-			Log.d(TAG, "Plant: " + p);
+		for (Plant p : all_plants){
 			if (this.archived ^ p.archived){
 				// Don't show archived plants if in archive, etc.
 				continue;
 			} else if (this.archived && !p.author.equals(ctx.user_id)){
 				// Don't show other people's archived plants
 				continue;
-			} else if (users_to_show != null){
-				if (!users_to_show.contains(p.author)){
-					continue;
-				}
+			} else {
+				to_display.add(p);
 			}
-			// Set up the plant container
-			LinearLayout plant = new LinearLayout(ctx);
-			plant.setOrientation(LinearLayout.VERTICAL);
-			plant.setTag(p);
-			plant.setLayoutParams(new LayoutParams(
-					this.plant_width,
-					LayoutParams.WRAP_CONTENT));
-			plant.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Plant clicked_plant = (Plant) v.getTag();
-	                ctx.getFragmentManager().beginTransaction()
-					.replace(android.R.id.content, PlantFragment.newInstance(clicked_plant), "plant")
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.addToBackStack("plant")
-					.commit();
+		}
+		displayPlants(to_display);
+	}
+	
+	/**
+	 * For showing user filtered views.
+	 * @param users
+	 */
+	public void refresh(Set<String> users){
+		this.archived = false;
+		if (datasource == null){
+			datasource = new PlantDataSource(ctx);
+		}
+		datasource.open();
+		List<Plant> all_plants = datasource.getAllPlants();
+		List<Plant> to_display = new ArrayList<Plant>();
 
-			        ctx.turnOnActionBarNav(false);
-				}
-		    });
-			my_plants.addView(plant);
-			
-			// Label the plant with its topic
-			TextView text = new TextView(ctx);
-			text.setLines(2);
-			text.setText(p.title);
-			text.setGravity(Gravity.CENTER);
-			text.setLayoutParams(new LayoutParams(
-					LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT));
-			if (p.shiny){
-				text.setTypeface(null, Typeface.BOLD);
-				text.setBackgroundResource(R.drawable.glow);
+		for (Plant p : all_plants){
+			if (p.archived){
+				// Don't show archived plants
+				continue;
+			} else if (!users.contains(p.author)){
+				// Don't show plants not owned by one of users
+				continue;
+			} else {
+				to_display.add(p);
 			}
-			plant.addView(text);
+		}
+		displayPlants(to_display);
+	}
 
-			// Choose a plant image
-			ImageView image = new ImageView(ctx);
-			image.setImageResource(Plant.growth[p.status]);
-			image.setBackgroundResource(Plant.pots[p.pot]);
-			plant.addView(image);
+	/**
+	 * For showing a collection.
+	 * @param collection
+	 */
+	public void refresh(Collection collection){
+		this.archived = false;
+		
+		HashSet<String> plants_in_collection = new HashSet<String>();
+		for (String s: collection.plant_list){
+			plants_in_collection.add(s);
+		}
+		
+		if (datasource == null){
+			datasource = new PlantDataSource(ctx);
+		}
+		datasource.open();
+		
+		List<Plant> all_plants = datasource.getAllPlants();
+		List<Plant> to_display = new ArrayList<Plant>();
 
-			// Label the plant with its owner
-			TextView owner = new TextView(ctx);
-			owner.setLines(2);
-			owner.setPadding(0, 5, 0, 0);
-			owner.setLayoutParams(new LayoutParams(
-					LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT));
-			owner.setText(user_data.getUserAlias(p.author));
-			owner.setGravity(Gravity.CENTER);
-			if (p.shiny){
-				owner.setTypeface(null, Typeface.BOLD);
-				owner.setBackgroundResource(R.drawable.glow);
+		for (Plant p : all_plants){
+			if (p.archived){
+				// Don't show archived plants
+				continue;
+			} else if (!plants_in_collection.contains(p.server_id)){
+				// Don't show plants not owned by one of users
+				continue;
+			} else {
+				to_display.add(p);
 			}
-			plant.addView(owner);
+		}
+		displayPlants(to_display);
+	}
+	
+	public void displayPlants(List<Plant> plants) {
+		this.plants = plants;
+		ctx.invalidateOptionsMenu();
+		// If there are child elements, remove them so we can refresh.
+		if (my_plants.getChildAt(0) != null) {
+			my_plants.removeAllViews();
 		}
 
+		UserDataSource user_data = new UserDataSource(ctx);
+		user_data.open();
+		for (Plant p: this.plants){
+			addPlant(user_data, p);
+		}
+		user_data.close();
+		checkPlanterEmpty();
+		setupPrompt();
+	}
+	
+	private void addPlant(UserDataSource user_data, Plant p){
+		// Set up the plant container
+		LinearLayout plant = new LinearLayout(ctx);
+		plant.setOrientation(LinearLayout.VERTICAL);
+		plant.setTag(p);
+		plant.setLayoutParams(new LayoutParams(
+				this.plant_width,
+				LayoutParams.WRAP_CONTENT));
+		plant.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Plant clicked_plant = (Plant) v.getTag();
+                ctx.getFragmentManager().beginTransaction()
+				.replace(android.R.id.content, PlantFragment.newInstance(clicked_plant), "plant")
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.addToBackStack("plant")
+				.commit();
+
+		        ctx.turnOnActionBarNav(false);
+			}
+	    });
+		my_plants.addView(plant);
+		
+		// Label the plant with its topic
+		TextView text = new TextView(ctx);
+		text.setLines(2);
+		text.setText(p.title);
+		text.setGravity(Gravity.CENTER);
+		text.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		if (p.shiny){
+			text.setTypeface(null, Typeface.BOLD);
+			text.setBackgroundResource(R.drawable.glow);
+		}
+		plant.addView(text);
+
+		// Choose a plant image
+		ImageView image = new ImageView(ctx);
+		image.setImageResource(Plant.growth[p.status]);
+		image.setBackgroundResource(Plant.pots[p.pot]);
+		plant.addView(image);
+
+		// Label the plant with its owner
+		TextView owner = new TextView(ctx);
+		owner.setLines(2);
+		owner.setPadding(0, 5, 0, 0);
+		owner.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		owner.setText(user_data.getUserAlias(p.author));
+		owner.setGravity(Gravity.CENTER);
+		if (p.shiny){
+			owner.setTypeface(null, Typeface.BOLD);
+			owner.setBackgroundResource(R.drawable.glow);
+		}
+		plant.addView(owner);
+	}
+	
+	private void checkPlanterEmpty(){
+		// If there are no plants to display, don't show the planter.
+		if (my_plants.getChildAt(0) == null){
+			planter.setVisibility(View.GONE);
+		} else {
+			planter.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void setupPrompt(){
 		PreferenceHandler ph = new PreferenceHandler(ctx);
 
 		if (ph.IV().equals(PreferenceHandler.default_IV)){
@@ -206,27 +312,14 @@ public class PlanterFragment extends Fragment {
 				message.setText(potd.toString());
 			}
 		}
-
-		// If there are no plants to display, don't show the planter.
-		if (my_plants.getChildAt(0) == null){
-			planter.setVisibility(View.GONE);
-		} else {
-			planter.setVisibility(View.VISIBLE);
-		}
-		user_data.close();
 	}
 	
-	public void setArchived(boolean archived){
-		this.archived = archived;
-	}
-
 	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume");
 		super.onResume();
-		refresh(users_to_show);
+		refresh();
 		ctx.turnOnActionBarNav(true);
-		datasource.open();
 	}
 
 	@Override

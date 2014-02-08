@@ -13,7 +13,7 @@ public class CollectionSQLite extends SQLiteOpenHelper{
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_PLANTS = "date_joined";	
 
-	private static final String STORY_DB = "inm.user.db";
+	private static final String COLLECTION_DB = "inm.collection.db";
 	private static final int DATABASE_VERSION = 1;
 	
 	// Database creation sql statement
@@ -25,7 +25,7 @@ public class CollectionSQLite extends SQLiteOpenHelper{
 			+ COLUMN_PLANTS + " text not null)";
 	
 	public CollectionSQLite(Context context) {
-		super(context, STORY_DB, null, DATABASE_VERSION);
+		super(context, COLLECTION_DB, null, DATABASE_VERSION);
 	}
 
 	@Override

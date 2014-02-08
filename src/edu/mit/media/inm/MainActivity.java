@@ -3,6 +3,7 @@ package edu.mit.media.inm;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -26,8 +27,10 @@ import edu.mit.media.inm.fragments.PlantFragment;
 import edu.mit.media.inm.fragments.PlanterFragment;
 import edu.mit.media.inm.fragments.PotFragment;
 import edu.mit.media.inm.fragments.PrefsFragment;
+import edu.mit.media.inm.handlers.CollectionDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.User;
 import edu.mit.media.inm.util.LoginUtil;
 import edu.mit.media.inm.util.NotifyService;
@@ -41,6 +44,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	private LoginUtil login_util;
 	
     private ArrayList<String> navSpinner;
+    private List<Collection> collections;
     private MainNavigationAdapter adapter;
 	
 	private EasyTracker tracker;
@@ -51,7 +55,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
 		if (savedInstanceState == null) {
@@ -71,6 +74,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		Calendar cal = Calendar.getInstance();
 		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
 				+ cal.get(Calendar.MINUTE));
+		
+		setUpNavigation();
         
 		tracker = EasyTracker.getInstance(this);
 		tracker.send(MapBuilder
@@ -80,24 +85,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			                   minute)
 			      .build());
 		start_time = System.currentTimeMillis();
-
-        // Spinner title navigation
-		actionBar = getActionBar();		
-        navSpinner = new ArrayList<String>();
-        navSpinner.add("All Items");
-        navSpinner.add("My collection");   
-        navSpinner.add("Shared with me");   
-        navSpinner.add("Archived");   
-        adapter = new MainNavigationAdapter(this, navSpinner);
-        actionBar.setListNavigationCallbacks(adapter, this);
-
         login_util = new LoginUtil(this);
 		login_util.pingServer();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.d(TAG, "Main Create Menu");
 		menu.clear();
 		getMenuInflater().inflate(R.menu.main, menu);
 		// This is checking for log in status!
@@ -115,33 +108,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_new:
-			new AlertDialog.Builder(this)
-			.setTitle(R.string.dialog_new)
-		    .setNeutralButton("Yes, a topic.", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-					fm.beginTransaction()
-					.replace(android.R.id.content, new PotFragment(), "pot")
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.addToBackStack("pot").commit();
-					turnOnActionBarNav(false);
-		        }
-		    })
-		    .setPositiveButton("Yes, a collection.", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-		        	Toast.makeText(getApplication(), "StartCollection.", Toast.LENGTH_SHORT)
-		        	.show();
-		        	fm.beginTransaction()
-					.replace(android.R.id.content, new CollectionFragment(), "collection")
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.addToBackStack("collection").commit();
-					turnOnActionBarNav(false);
-		        }
-		    }).setNegativeButton("No.", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int whichButton) {
-					// Don't do anything.
-		        }
-		    }).show();
-
+			newThingDialog();
 	        return true;
 		case R.id.action_refresh:
 			login_util.pingServer();
@@ -173,21 +140,40 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		return false;
 	}
 	
+	private void newThingDialog(){
+		new AlertDialog.Builder(this)
+		.setTitle(R.string.dialog_new)
+	    .setNeutralButton("Yes, a topic.", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+				fm.beginTransaction()
+				.replace(android.R.id.content, new PotFragment(), "pot")
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.addToBackStack("pot").commit();
+				turnOnActionBarNav(false);
+	        }
+	    })
+	    .setPositiveButton("Yes, a collection.", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	        	fm.beginTransaction()
+				.replace(android.R.id.content, new CollectionFragment(), "collection")
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.addToBackStack("collection").commit();
+				turnOnActionBarNav(false);
+	        }
+	    }).setNegativeButton("No.", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+				// Don't do anything.
+	        }
+	    }).show();
+	}
 	
 	public void refresh(){
 		// This is checking for log in status!
-		Log.d(TAG, "Main Refresh");
-
+		Log.d(TAG, "Refresh");
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){
-			planter_frag.refresh(null);
-		}
-		
-		PlanterFragment archived_frag = (PlanterFragment) getFragmentManager()
-				.findFragmentByTag("archived");
-		if (archived_frag != null){
-			archived_frag.refresh(null);
+			planter_frag.refresh();
 		}
 
 		PlantFragment plant_frag = (PlantFragment) getFragmentManager()
@@ -216,38 +202,60 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		}
 	}
 
+	public void setUpNavigation(){
+        // Spinner title navigation
+		actionBar = getActionBar();		
+        navSpinner = new ArrayList<String>();
+        navSpinner.add("All");
+        navSpinner.add("Mine");   
+        navSpinner.add("Shared with me");   
+        navSpinner.add("Archived");   
+        
+        CollectionDataSource c_data = new CollectionDataSource(this);
+        c_data.open();
+        collections = c_data.getAllCollections();
+        for (Collection c : collections){
+        	navSpinner.add(c.name);
+        }
+
+        adapter = new MainNavigationAdapter(this, navSpinner);
+        actionBar.setListNavigationCallbacks(adapter, this);
+	}
+
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		Log.d(TAG, "Spinner Item :" + itemPosition + " " + itemId);
 		Set<String> users = new HashSet<String>();
+		UserDataSource userdata = new UserDataSource(this);
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 
 		if (planter_frag != null) {
 			switch (itemPosition) {
-			case 0:
-				planter_frag.setArchived(false);
-				planter_frag.refresh(null);
+			case 0:		// All
+				planter_frag.refresh(false);
 				return true;
-			case 1:
+			case 1:		// Mine
 				users.add(ph.server_id());
-				planter_frag.setArchived(false);
 				planter_frag.refresh(users);
 				return true;
-			case 2:
-				UserDataSource userdata = new UserDataSource(this);
+			case 2:		// Not mine
 				userdata.open();
 				for (User u : userdata.getAllUsers()){
 					if (!u.server_id.equals(ph.server_id())){
 						users.add(u.server_id);
 					}
 				}
-				planter_frag.setArchived(false);
+				userdata.close();
 				planter_frag.refresh(users);
 				return true;
-			case 3:
-				planter_frag.setArchived(true);
-				planter_frag.refresh(null);
+			case 3:		// Archived
+				planter_frag.refresh(true);
+				return true;
+			default:	// Collections
+				Collection selected = this.collections.get(itemPosition-4);
+				planter_frag.refresh(selected);
+				return true;
 			}
 		}
 		return false;
@@ -316,5 +324,4 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	        .build()
 	    );
 	  }
-
 }
