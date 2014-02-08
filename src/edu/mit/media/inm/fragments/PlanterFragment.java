@@ -5,15 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,8 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,8 +40,9 @@ public class PlanterFragment extends Fragment {
 	private LinearLayout my_plants;
 	private TextView message;
 	private int plant_width;
-	
+
 	private boolean archived = false;
+	private boolean display_collection = false;
 	private List<Plant> plants;
 	
 	public static PlanterFragment newInstance() {
@@ -87,11 +82,14 @@ public class PlanterFragment extends Fragment {
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		if (this.archived){
+		if (this.archived || this.display_collection){
 			menu.removeItem(R.id.action_new);
 			menu.removeItem(R.id.action_settings);
 			menu.removeItem(R.id.action_about);
 			menu.removeItem(R.id.action_logout);
+		}
+		if (!this.display_collection){
+			menu.removeItem(R.id.action_discard);
 		}
 	}
 	
@@ -123,6 +121,7 @@ public class PlanterFragment extends Fragment {
 	 */
 	public void refresh(boolean archived){
 		this.archived = archived;
+		this.display_collection = false;
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
@@ -150,6 +149,7 @@ public class PlanterFragment extends Fragment {
 	 */
 	public void refresh(Set<String> users){
 		this.archived = false;
+		this.display_collection = false;
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
@@ -177,6 +177,7 @@ public class PlanterFragment extends Fragment {
 	 */
 	public void refresh(Collection collection){
 		this.archived = false;
+		this.display_collection = true;
 		
 		HashSet<String> plants_in_collection = new HashSet<String>();
 		for (String s: collection.plant_list){

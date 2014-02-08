@@ -110,6 +110,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		case R.id.action_new:
 			newThingDialog();
 	        return true;
+		case R.id.action_discard:
+			Collection to_delete = this.collections.get(
+					this.actionBar.getSelectedNavigationIndex() - 4);
+			CollectionDataSource c_data = new CollectionDataSource(this);
+			c_data.open();
+			c_data.deleteCollection(to_delete);
+			setUpNavigation();
+	        return true;
 		case R.id.action_refresh:
 			login_util.pingServer();
 			return true;

@@ -48,6 +48,7 @@
     <string name="new_pot">Start a new topic.</string>
     
     <!-- Collection -->
+    <string name="action_discard">Discard</string>
     <string name="collection_fragment">New Topic</string>
     <string name="include">Have this collection include:</string>
     <string name="name_collection">Name your collection</string>
