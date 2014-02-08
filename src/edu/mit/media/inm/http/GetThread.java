@@ -25,7 +25,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import edu.mit.media.inm.MainActivity;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.handlers.PreferenceHandler;
 
 public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	public static String TAG = "RequestThread";

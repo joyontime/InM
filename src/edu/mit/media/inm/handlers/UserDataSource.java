@@ -1,4 +1,4 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import edu.mit.media.inm.data.UserSQLite;
 import edu.mit.media.inm.types.User;
 
 public class UserDataSource {

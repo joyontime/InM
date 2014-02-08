@@ -1,4 +1,4 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.data.NoteSQLite;
+import edu.mit.media.inm.types.Note;
 
 public class NoteDataSource {
 

@@ -1,4 +1,4 @@
-package edu.mit.media.inm.plant;
+package edu.mit.media.inm.fragments;
 
 import java.util.Calendar;
 
@@ -18,10 +18,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.handlers.PlantDataSource;
+import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.http.UpdatePlant;
-import edu.mit.media.inm.note.NoteFragment;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.types.Plant;
 
 public class CommandBoxFragment extends Fragment {
 	private static final String TAG = "PlantActivity";

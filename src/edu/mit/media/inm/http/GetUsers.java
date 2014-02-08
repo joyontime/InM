@@ -11,7 +11,7 @@ import org.json.simple.parser.ParseException;
 
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.User;
 
 public class GetUsers extends GetThread {

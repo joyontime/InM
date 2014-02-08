@@ -1,4 +1,4 @@
-package edu.mit.media.inm.plant;
+package edu.mit.media.inm.fragments;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,13 +23,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteAdapter;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.handlers.NoteAdapter;
+import edu.mit.media.inm.handlers.NoteDataSource;
+import edu.mit.media.inm.handlers.PlantDataSource;
+import edu.mit.media.inm.handlers.PreferenceHandler;
+import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.PostNote;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.types.Note;
+import edu.mit.media.inm.types.Plant;
 
 public class PlantFragment extends Fragment {
 	private static final String TAG = "PlantActivity";

@@ -1,4 +1,4 @@
-package edu.mit.media.inm.user;
+package edu.mit.media.inm.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.User;
 
 public class FriendFragment extends Fragment {

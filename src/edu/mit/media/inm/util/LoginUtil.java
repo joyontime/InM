@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.handlers.NoteDataSource;
+import edu.mit.media.inm.handlers.PlantDataSource;
+import edu.mit.media.inm.handlers.PreferenceHandler;
+import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.GetIV;
-import edu.mit.media.inm.prefs.PreferenceHandler;
 
 
 

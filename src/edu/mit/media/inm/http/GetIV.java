@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.handlers.PreferenceHandler;
 
 public class GetIV extends GetThread {
 	protected static final String TAG = "GetIV HTTP";

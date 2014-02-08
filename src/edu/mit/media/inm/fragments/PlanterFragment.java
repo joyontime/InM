@@ -1,4 +1,4 @@
-package edu.mit.media.inm.plant;
+package edu.mit.media.inm.fragments;
 
 import java.util.List;
 import java.util.Set;
@@ -29,9 +29,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.handlers.PlantDataSource;
+import edu.mit.media.inm.handlers.PreferenceHandler;
+import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.types.Plant;
 
 public class PlanterFragment extends Fragment {
 	private static final String TAG = "PlanterFragment";

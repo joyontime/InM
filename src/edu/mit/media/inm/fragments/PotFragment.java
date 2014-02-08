@@ -1,4 +1,4 @@
-package edu.mit.media.inm.plant;
+package edu.mit.media.inm.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +25,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.handlers.PreferenceHandler;
+import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.PostPlant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.types.User;
 
 public class PotFragment extends Fragment {

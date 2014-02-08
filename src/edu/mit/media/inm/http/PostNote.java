@@ -15,9 +15,9 @@ import android.content.Context;
 import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.note.Note;
+import edu.mit.media.inm.handlers.NoteDataSource;
+import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.types.Note;
 
 public class PostNote extends PostThread{
 	private NoteDataSource datasource;

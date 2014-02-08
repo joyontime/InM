@@ -34,7 +34,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.handlers.PreferenceHandler;
 
 public abstract class PostThread extends AsyncTask<Void, Void, String> {
 	public static String TAG = "PostThread";

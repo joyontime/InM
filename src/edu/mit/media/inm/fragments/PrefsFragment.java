@@ -1,4 +1,4 @@
-package edu.mit.media.inm.prefs;
+package edu.mit.media.inm.fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

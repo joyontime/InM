@@ -1,4 +1,4 @@
-package edu.mit.media.inm.prefs;
+package edu.mit.media.inm.handlers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

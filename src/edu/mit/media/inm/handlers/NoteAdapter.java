@@ -1,4 +1,4 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.handlers;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,9 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.plant.Plant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.types.Note;
+import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.util.AesUtil;
 
 public class NoteAdapter extends ArrayAdapter<Note> {

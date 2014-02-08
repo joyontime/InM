@@ -1,8 +1,9 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.mit.media.inm.data.CollectionSQLite;
 import edu.mit.media.inm.types.Collection;
 
 import android.content.ContentValues;

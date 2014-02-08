@@ -1,4 +1,4 @@
-package edu.mit.media.inm.note;
+package edu.mit.media.inm.fragments;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -22,10 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteDataSource;
+import edu.mit.media.inm.handlers.NoteDataSource;
+import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.http.PostNote;
-import edu.mit.media.inm.plant.Plant;
-import edu.mit.media.inm.prefs.PreferenceHandler;
+import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.util.AesUtil;
 
 public class NoteFragment extends Fragment {

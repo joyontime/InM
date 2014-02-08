@@ -15,11 +15,11 @@ import android.util.Log;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.note.Note;
-import edu.mit.media.inm.plant.Plant;
+import edu.mit.media.inm.handlers.NoteDataSource;
+import edu.mit.media.inm.handlers.PlantDataSource;
+import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.types.Note;
+import edu.mit.media.inm.types.Plant;
 
 public class GetNotes extends GetThread {
 	private static final String TAG = "GetNotes HTTP";

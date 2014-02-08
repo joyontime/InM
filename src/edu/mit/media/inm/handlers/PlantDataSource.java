@@ -1,4 +1,4 @@
-package edu.mit.media.inm.data;
+package edu.mit.media.inm.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import edu.mit.media.inm.plant.Plant;
+import edu.mit.media.inm.data.PlantSQLite;
+import edu.mit.media.inm.types.Plant;
 
 public class PlantDataSource {
 

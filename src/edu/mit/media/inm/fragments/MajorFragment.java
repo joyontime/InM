@@ -1,4 +1,4 @@
-package edu.mit.media.inm;
+package edu.mit.media.inm.fragments;
 
 import android.support.v4.app.Fragment;
 import android.view.View;

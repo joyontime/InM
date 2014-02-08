@@ -10,7 +10,7 @@ import android.content.Context;
 import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.PlantDataSource;
+import edu.mit.media.inm.handlers.PlantDataSource;
 
 public class UpdatePlant extends PostThread{
 	private PlantDataSource datasource;

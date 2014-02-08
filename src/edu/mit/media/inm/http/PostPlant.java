@@ -16,8 +16,8 @@ import android.content.Context;
 import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.data.PlantDataSource;
-import edu.mit.media.inm.plant.Plant;
+import edu.mit.media.inm.handlers.PlantDataSource;
+import edu.mit.media.inm.types.Plant;
 
 public class PostPlant extends PostThread{
 	private PlantDataSource datasource;
