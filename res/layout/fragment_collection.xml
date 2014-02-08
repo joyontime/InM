@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/title_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/window_border"
+        android:hint="@string/name_collection"
+        android:inputType="textCapWords"
+        android:maxLength="30"
+        android:padding="10dp"
+        android:singleLine="true" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:contentDescription="@string/share_with"
+        android:text="@string/include" >
+    </TextView>
+
+    <ListView
+        android:id="@+id/friend_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:contentDescription="@string/friends"
+        android:fadeScrollbars="false"
+        android:padding="5dp" >
+
+    </ListView>
+
+</LinearLayout>

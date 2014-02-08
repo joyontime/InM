@@ -54,19 +54,21 @@
     </RelativeLayout>
 
     <TextView
-        android:layout_width="300dip"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:contentDescription="@string/share_with"
         android:text="@string/share_with" >
     </TextView>
 
     <ListView
         android:id="@+id/friend_list"
-        android:layout_width="300dip"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/friends"
-        android:padding="5dp" >
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:contentDescription="@string/friends">
     </ListView>
 
 </LinearLayout>

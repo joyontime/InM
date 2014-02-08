@@ -10,7 +10,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import edu.mit.media.inm.user.User;
+import edu.mit.media.inm.types.User;
 
 public class UserDataSource {
 

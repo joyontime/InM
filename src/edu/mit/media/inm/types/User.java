@@ -1,4 +1,4 @@
-package edu.mit.media.inm.user;
+package edu.mit.media.inm.types;
 
 import android.os.Parcel;
 import android.os.Parcelable;

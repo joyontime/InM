@@ -18,22 +18,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
-import edu.mit.media.inm.data.NoteDataSource;
-import edu.mit.media.inm.data.PlantDataSource;
 import edu.mit.media.inm.data.UserDataSource;
-import edu.mit.media.inm.http.GetIV;
+import edu.mit.media.inm.plant.CollectionFragment;
 import edu.mit.media.inm.plant.PlantFragment;
 import edu.mit.media.inm.plant.PlanterFragment;
 import edu.mit.media.inm.plant.PotFragment;
 import edu.mit.media.inm.prefs.PreferenceHandler;
 import edu.mit.media.inm.prefs.PrefsFragment;
-import edu.mit.media.inm.user.User;
+import edu.mit.media.inm.types.User;
 import edu.mit.media.inm.util.LoginUtil;
 import edu.mit.media.inm.util.NotifyService;
 
@@ -120,11 +115,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_new:
-			fm.beginTransaction()
-			.replace(android.R.id.content, new PotFragment(), "pot")
-			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-			.addToBackStack("pot").commit();
-			this.turnOnActionBarNav(false);
+			new AlertDialog.Builder(this)
+			.setTitle(R.string.dialog_new)
+		    .setNeutralButton("Yes, a topic.", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+					fm.beginTransaction()
+					.replace(android.R.id.content, new PotFragment(), "pot")
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack("pot").commit();
+					turnOnActionBarNav(false);
+		        }
+		    })
+		    .setPositiveButton("Yes, a collection.", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		        	Toast.makeText(getApplication(), "StartCollection.", Toast.LENGTH_SHORT)
+		        	.show();
+		        	fm.beginTransaction()
+					.replace(android.R.id.content, new CollectionFragment(), "collection")
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack("collection").commit();
+					turnOnActionBarNav(false);
+		        }
+		    }).setNegativeButton("No.", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+					// Don't do anything.
+		        }
+		    }).show();
+
 	        return true;
 		case R.id.action_refresh:
 			login_util.pingServer();
@@ -241,7 +258,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		Fragment pot = fm.findFragmentByTag("pot");
 		
 		if ( (note!= null) || (pot!=null)){
-			AlertDialog confirm_dialog = new AlertDialog.Builder(this)
+			new AlertDialog.Builder(this)
 		    .setTitle(R.string.confirm)
 		    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {

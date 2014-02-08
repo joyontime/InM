@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.data.UserDataSource;
+import edu.mit.media.inm.types.User;
 
 public class FriendFragment extends Fragment {
 	private Activity ctx;

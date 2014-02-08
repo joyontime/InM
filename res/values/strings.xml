@@ -10,6 +10,7 @@
     <string name="action_new">New Item</string>
     
     <string name="confirm">Are you sure?</string>
+    <string name="dialog_new">Do you want to create a new topic or a new collection?</string>
     
     <string name="url_server">https://sodiio.media.mit.edu</string>
     <string name="uri_messages">messages</string>
@@ -45,6 +46,11 @@
     <string name="plant_name">Topic Page</string>
     
     <string name="new_pot">Start a new topic.</string>
+    
+    <!-- Collection -->
+    <string name="collection_fragment">New Topic</string>
+    <string name="include">Have this collection include:</string>
+    <string name="name_collection">Name your collection</string>
     
     <!-- Pots -->
     <string name="action_done">Done</string>
