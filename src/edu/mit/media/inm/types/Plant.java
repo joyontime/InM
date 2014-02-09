@@ -37,11 +37,11 @@ public class Plant implements Parcelable, Comparable<Plant> {
 			R.drawable.pot_6,
 			R.drawable.pot_7,
 			R.drawable.pot_8,
-			R.drawable.pot_9,
-			R.drawable.pot_10,
-			R.drawable.pot_11,
-			R.drawable.pot_12,
-			R.drawable.pot_13,
+			R.drawable.pot_8,
+			R.drawable.pot_8,
+			R.drawable.pot_8,
+			R.drawable.pot_8,
+			R.drawable.pot_8,
 	};
 	
 	public static int[] b_pots = {
@@ -53,12 +53,12 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		R.drawable.b_pot_6,
 		R.drawable.b_pot_7,
 		R.drawable.b_pot_8,
-		R.drawable.b_pot_9,
-		R.drawable.b_pot_10,
-		R.drawable.b_pot_11,
-		R.drawable.b_pot_12,
-		R.drawable.b_pot_13,
-};
+		R.drawable.b_pot_8,
+		R.drawable.b_pot_8,
+		R.drawable.b_pot_8,
+		R.drawable.b_pot_8,
+		R.drawable.b_pot_8,
+	};
 	
 	public static int[] growth = {
 		R.drawable.plant_0,
@@ -70,7 +70,34 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		R.drawable.plant_6,
 		R.drawable.plant_7,
 		R.drawable.plant_8,
-};
+	};
+	
+
+	public static int[] birds = {
+		R.drawable.bird_1,
+		R.drawable.bird_2,
+		R.drawable.bird_3,
+		R.drawable.bird_4,
+		R.drawable.bird_5,
+	};
+	
+	public static int[] water = {
+		R.drawable.water_1,
+		R.drawable.water_2,
+		R.drawable.water_3,
+		R.drawable.water_4,
+		R.drawable.water_5,
+		R.drawable.water_6,
+	};
+
+	public static int[] b_water = {
+		R.drawable.b_water_1,
+		R.drawable.b_water_2,
+		R.drawable.b_water_3,
+		R.drawable.b_water_4,
+		R.drawable.b_water_5,
+		R.drawable.b_water_6,
+	};
 
 	@Override
 	public String toString() {

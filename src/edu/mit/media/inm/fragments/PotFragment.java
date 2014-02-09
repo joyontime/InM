@@ -69,7 +69,7 @@ public class PotFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		int num_pots =  Plant.b_pots.length;
+		int num_pots =  Plant.b_pots.length - 5;
 		
 		title_box = (EditText) getView().findViewById(R.id.title_box);
 		pot_image = (ImageView) getView().findViewById(R.id.pot_image);
@@ -86,6 +86,22 @@ public class PotFragment extends Fragment {
 				public void onClick(View arg0) {
 					pot_image.setImageResource(Plant.b_pots[pot_color]);
 					selected_color = pot_color;
+				}
+			});
+			pot_list.addView(pot);
+		}
+
+		int num_birds = Plant.b_water.length;		
+		for (int i = 0; i < num_birds; i++){
+			ImageView pot = new ImageView(ctx);
+			pot.setImageResource(Plant.b_water[i]);
+			final int water_color = i;
+
+			pot.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View arg0) {
+					pot_image.setImageResource(Plant.b_water[water_color]);
+					selected_color = water_color;
 				}
 			});
 			pot_list.addView(pot);

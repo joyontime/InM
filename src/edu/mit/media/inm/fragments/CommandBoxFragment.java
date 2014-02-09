@@ -161,7 +161,7 @@ public class CommandBoxFragment extends Fragment {
 		water.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if (status < status_init + 1){
+				if (status < status_init + 1 && status < 8){
 					status +=1;
 					plant_image.setImageResource(Plant.growth[status]);
 				} else {
