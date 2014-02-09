@@ -39,7 +39,7 @@
         android:minHeight="300dip"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll"
-        android:fadingEdgeLength="20dip"
+        android:fadingEdgeLength="30dip"
         android:requiresFadingEdge="vertical" />
 
     <LinearLayout

@@ -11,7 +11,6 @@ import com.google.analytics.tracking.android.MapBuilder;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;

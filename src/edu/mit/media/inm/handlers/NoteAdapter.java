@@ -55,7 +55,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		Note note = data.get(position);
 		holder.author.setText(note.author);
 
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		DateFormat df = new SimpleDateFormat("HH:mm\n MM/dd");
 		holder.date.setText(df.format(new Date(note.date)));
 
 		holder.excerpt.setText(decryptText(note.text));

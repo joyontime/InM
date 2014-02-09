@@ -4,18 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dip">
-    <!-- Title Of Note-->
- 
-    <!-- Author Name -->
-    <TextView
-        android:id="@+id/note_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:textSize="12sp"
-        android:text="@string/note_author"
-        android:layout_marginTop="1dip"
-        android:textStyle="bold"/>
     
     <!-- Rightend Date -->
     <TextView
@@ -23,12 +11,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/note_author"
+        android:layout_alignParentBottom="true"
         android:gravity="right"
         android:text="@string/note_date"
-        android:layout_marginRight="5dip"
         android:textSize="12sp"
         android:textColor="#000"
+        android:textStyle="italic"/>
+    
+    <!-- Author Name -->
+    <TextView
+        android:id="@+id/note_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/note_author"
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:text="@string/note_author"
+        android:layout_marginTop="1dip"
         android:textStyle="bold"/>
     
     <!-- Note Excerpt -->
@@ -36,9 +35,11 @@
         android:id="@+id/note_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/note_date"
         android:textColor="#000"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginTop="1dip"
+        android:layout_marginLeft="20dip"
         android:layout_below="@id/note_author"
         android:text="@string/note_text"/>
  

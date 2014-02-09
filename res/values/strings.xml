@@ -24,7 +24,6 @@
     <string name="hello">Dummy string :)</string>
     
     <!-- Login -->
-
     <string name="action_login">Log In</string>
     <string name="action_logout">Log Out</string>
     <string name="username">username</string>
@@ -66,6 +65,7 @@
     <string name="note_author">Author</string>
     <string name="note_date">Date String</string>
     <string name="note_text">This is the body of the note.</string>
+    <string name="send">Send</string>
     
     <!-- User -->
     

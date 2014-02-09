@@ -123,7 +123,7 @@ public class CommandBoxFragment extends Fragment {
 
 		// Pretty Print date
 		info_string.append("Created at: \n\t");
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		DateFormat df = new SimpleDateFormat("HH:mm \n MM/dd/yy ");
 		info_string.append(df.format(new Date(plant.date)));
 		info_string.append("\n\n");
 
@@ -249,6 +249,14 @@ public class CommandBoxFragment extends Fragment {
 		UpdatePlant http_client = new UpdatePlant(0, ctx);
 		http_client.setupParams(this.plant.server_id, status, archived);
 		http_client.execute();
+		
+		String update_text = "\t\t * brought back from archive *";
+		if (archived){
+			update_text = "\t\t * archived *";
+		}
+		PostNote post_note = new PostNote(0, ctx);
+		post_note.setupParams(encrypt(update_text), plant.server_id);
+        post_note.execute();
 	}	
 	
 	@Override
