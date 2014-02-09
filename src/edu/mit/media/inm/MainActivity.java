@@ -178,6 +178,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	
 	public void refresh(){
 		Log.d(TAG, "Refresh");
+
+		int to_refresh = this.actionBar.getSelectedNavigationIndex();
+		onNavigationItemSelected(to_refresh, to_refresh);
+		
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){
@@ -320,7 +324,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	@Override
 	public void onResume(){
 		super.onResume();
-		refresh();
 	}
 	
 	@Override

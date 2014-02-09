@@ -36,8 +36,8 @@
     <string name="plant_trim">Trim</string>
     <string name="plant_archive">Archive</string>
     
-    <string name="show_info">Show Topic Data</string>
-    <string name="hide_info">Hide Topic Data</string>
+    <string name="show_info">Show Topic</string>
+    <string name="hide_info">Hide Topic</string>
     
     <string name="planter">Collection</string>
     <string name="my_plants">My Collection.</string>

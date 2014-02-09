@@ -72,6 +72,6 @@ public class Note implements Parcelable, Comparable<Note> {
 
 	@Override
 	public int compareTo(Note other) {
-		return (int) (other.date - this.date);
+		return (int) (this.date - other.date);
 	}
 }

@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class PlantFragment extends Fragment {
 	private Plant plant;
 	private TextView show_info;
 	private TextView info_text;
+	private LinearLayout info_view;
 	
 	private ListView notes_view;
 	
@@ -72,7 +74,6 @@ public class PlantFragment extends Fragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		Log.d(TAG, "Plant Create Menu");
 		menu.clear();
-		inflater.inflate(R.menu.plant, menu);
 	    super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -91,10 +92,18 @@ public class PlantFragment extends Fragment {
 		setupNotes();
 
 		cmd_box_frag = CommandBoxFragment.newInstance(plant);
-		getFragmentManager().beginTransaction()
-			.replace(R.id.control_space, cmd_box_frag)
-			.setTransition(0)
-			.commit();
+		if (plant.archived){
+			getFragmentManager().beginTransaction()
+				.replace(R.id.control_space, cmd_box_frag, "command")
+				.setTransition(0)
+				.commit();
+		} else {
+			getFragmentManager().beginTransaction()
+				.replace(R.id.control_space, cmd_box_frag, "command")
+				.replace(R.id.note_space, NoteFragment.newInstance(plant), "note")
+				.setTransition(0)
+				.commit();
+		}
 		
 		return rootView;
 	}
@@ -104,10 +113,10 @@ public class PlantFragment extends Fragment {
 		OnClickListener listener = new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				info_text.setVisibility(info_text.isShown()
+				info_view.setVisibility(info_text.isShown()
                         ? View.GONE
                         : View.VISIBLE );
-				if (info_text.isShown()){
+				if (info_view.isShown()){
 					show_info.setText(R.string.hide_info);
 				} else{
 					show_info.setText(R.string.show_info);
@@ -115,7 +124,8 @@ public class PlantFragment extends Fragment {
 			}
 		};
 		info_text = (TextView) rootView.findViewById(R.id.info_text);
-		info_text.setOnClickListener(listener);
+		info_view = (LinearLayout) rootView.findViewById(R.id.info);
+		info_view.setOnClickListener(listener);
 		show_info = (TextView) rootView.findViewById(R.id.show_info);
 		show_info.setOnClickListener(listener);
 		
@@ -125,18 +135,18 @@ public class PlantFragment extends Fragment {
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
 		// Pretty Print date
-				info_string.append("Owned by: ");
+				info_string.append("Owned by: \n\t");
 				info_string.append(user_data.getUserAlias(plant.author));
-				info_string.append("\n");
+				info_string.append("\n\n");
 
 		// Pretty Print date
-		info_string.append("Created at: ");
+		info_string.append("Created at: \n\t");
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 		info_string.append(df.format(new Date(plant.date)));
-		info_string.append("\n");
+		info_string.append("\n\n");
 
 		// Pretty Print friends shared with
-		info_string.append("Shared with: ");
+		info_string.append("Shared with: \n\t");
 		for (String s: plant.shared_with.split(",")){
 			if (!s.trim().isEmpty() && !s.equals(plant.author)){
 				info_string.append(user_data.getUserAlias(s) + ", ");	

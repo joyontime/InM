@@ -206,10 +206,9 @@ public class CommandBoxFragment extends Fragment {
 				Toast.makeText(ctx, "You need to unarchive this plant!",
 						Toast.LENGTH_SHORT).show();
 			} else {
-
 				updatePlant();
 				getFragmentManager().beginTransaction()
-				.replace(R.id.control_space, NoteFragment.newInstance(plant), "note")
+				.replace(R.id.note_space, NoteFragment.newInstance(plant), "note")
 				.setTransition(0)
 				.addToBackStack("note")
 				.commit();

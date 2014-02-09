@@ -27,7 +27,7 @@
 
     <style name="MyDropDownNav" parent="android:style/Widget.Holo.Light.Spinner">
         <item name="android:textColor">#ffffff</item>
-        <item name="android:background">@color/faded_teal</item>
+        <item name="android:background">@color/light_teal</item>
     </style>
 
 </resources>

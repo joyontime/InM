@@ -7,5 +7,6 @@
         <color name="background">#FFEFEFEF</color>
         <color name="teal">#0AA</color>
         <color name="faded_teal">#7BB</color>
-        <color name="light_teal">#ACC</color>
+        <color name="light_teal">#BDD</color>
+        <color name="very_light_teal">#CEE</color>
 </resources>

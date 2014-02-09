@@ -34,8 +34,6 @@ public class NoteFragment extends Fragment {
 	private TextView note_text;
 	private PreferenceHandler ph;
 	
-	private InputMethodManager imm;
-	
 	private EasyTracker tracker;
 	private long start_time;
 	
@@ -57,8 +55,6 @@ public class NoteFragment extends Fragment {
 
 		tracker = EasyTracker.getInstance(ctx);
 		start_time = System.currentTimeMillis();
-
-        imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 
 	@Override
@@ -71,19 +67,11 @@ public class NoteFragment extends Fragment {
 				false);
 
 		note_text = (TextView) rootView.findViewById(R.id.note_text);
-		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
 		datasource = new NoteDataSource(ctx);
 		datasource.open();
 
 		return rootView;
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.clear();
-		inflater.inflate(R.menu.compose, menu);
-	    super.onCreateOptionsMenu(menu, inflater);
 	}
 	
 	@Override
@@ -101,8 +89,6 @@ public class NoteFragment extends Fragment {
                 Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
                                 .show();
                 http_client.execute();
-                
-                imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
     			
     			ctx.goBack();
         	}
@@ -142,7 +128,6 @@ public class NoteFragment extends Fragment {
 	@Override
 	public void onPause() {
 		datasource.close();
-		imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
 		super.onPause();
 	}
 
