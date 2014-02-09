@@ -126,6 +126,7 @@ public class PlanterFragment extends Fragment {
 	 * @param archived
 	 */
 	public void refresh(boolean archived){
+		Log.d(TAG, "Showing: " + archived);
 		this.archived = archived;
 		this.display_collection = false;
 		if (datasource == null){
@@ -136,10 +137,11 @@ public class PlanterFragment extends Fragment {
 		List<Plant> to_display = new ArrayList<Plant>();
 
 		for (Plant p : all_plants){
+			Log.d(TAG, "Main Display: " + p.title);
 			if (this.archived ^ p.archived){
 				// Don't show archived plants if in archive, etc.
 				continue;
-			} else if (this.archived && !p.author.equals(ctx.user_id)){
+			} else if (this.archived && !p.author.equalsIgnoreCase(ctx.user_id)){
 				// Don't show other people's archived plants
 				continue;
 			} else {

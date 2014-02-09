@@ -178,6 +178,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	
 	public void refresh(){
 		Log.d(TAG, "Refresh");
+		this.user_id = ph.server_id();
+
+		int to_refresh = this.actionBar.getSelectedNavigationIndex();
+		if (to_refresh > -1 && this.actionBar.getNavigationItemCount() > to_refresh){
+			onNavigationItemSelected(to_refresh, to_refresh);
+		}
+		
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){
