@@ -75,11 +75,11 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	
 
 	public static int[] birds = {
+		R.drawable.bird_0,
 		R.drawable.bird_1,
 		R.drawable.bird_2,
 		R.drawable.bird_3,
 		R.drawable.bird_4,
-		R.drawable.bird_5,
 	};
 	
 	public static int[] water = {
@@ -123,8 +123,8 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		out.writeString(shared_with);
 		out.writeInt(status);
 		out.writeString(title);
-		out.writeInt(shiny? 1:0);
 		out.writeString(type);
+		out.writeInt(shiny? 1:0);
 	}
 	
 	/**
@@ -156,8 +156,8 @@ public class Plant implements Parcelable, Comparable<Plant> {
         this.shared_with = in.readString();
         this.status = in.readInt();
         this.title = in.readString();
-        this.shiny = in.readInt() == 1;
         this.type = in.readString();
+        this.shiny = in.readInt() == 1;
     }
 
 	@Override

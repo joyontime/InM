@@ -82,8 +82,15 @@ public class CommandBoxFragment extends Fragment {
 		}
 		
 		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
-		plant_image.setImageResource(Plant.growth[status]);
-		plant_image.setBackgroundResource(Plant.pots[plant.pot]);
+		
+
+		if (plant.type.equals("plant")){
+			plant_image.setImageResource(Plant.growth[status]);
+			plant_image.setBackgroundResource(Plant.pots[plant.pot]);
+		} else if (plant.type.equals("bird")){
+			plant_image.setImageResource(Plant.birds[status]);
+			plant_image.setBackgroundResource(Plant.water[plant.pot]);
+		}
 		
 		//Choose which buttons to turn on and off.
 		if (plant.archived){
@@ -161,11 +168,20 @@ public class CommandBoxFragment extends Fragment {
 		water.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if (status < status_init + 1 && status < 8){
-					status +=1;
-					plant_image.setImageResource(Plant.growth[status]);
-				} else {
-					Toast.makeText(ctx, "A little at a time!", Toast.LENGTH_SHORT).show();
+				if (plant.type.equals("plant")){
+					if (status < status_init + 1 && status < 8){
+						status +=1;
+						plant_image.setImageResource(Plant.growth[status]);
+					} else {
+						Toast.makeText(ctx, "A little at a time!", Toast.LENGTH_SHORT).show();
+					}
+				} else if (plant.type.equals("bird")){
+					if (status < status_init + 1 && status < 4){
+						status +=1;
+						plant_image.setImageResource(Plant.birds[status]);
+					} else {
+						Toast.makeText(ctx, "A little at a time!", Toast.LENGTH_SHORT).show();
+					}
 				}
 			}
 		});
@@ -178,7 +194,13 @@ public class CommandBoxFragment extends Fragment {
 			public void onClick(View v) {
 				if (status > 0){
 					status -=1;
-					plant_image.setImageResource(Plant.growth[status]);
+					if (plant.type.equals("plant")){
+						plant_image.setImageResource(Plant.growth[status]);
+					} else if (plant.type.equals("bird")){
+						plant_image.setImageResource(Plant.birds[status]);
+					}
+				} else {
+					Toast.makeText(ctx, "Oops, that's it!", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

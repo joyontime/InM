@@ -260,8 +260,15 @@ public class PlanterFragment extends Fragment {
 		
 		// Choose a plant image
 		ImageView image = new ImageView(ctx);
-		image.setImageResource(Plant.growth[p.status]);
-		image.setBackgroundResource(Plant.pots[p.pot]);
+		if (p.type.equals("plant")){
+			image.setImageResource(Plant.growth[p.status]);
+			image.setBackgroundResource(Plant.pots[p.pot]);
+		} else if (p.type.equals("bird")){
+			image.setImageResource(Plant.birds[p.status]);
+			image.setBackgroundResource(Plant.water[p.pot]);
+		} else {
+			Log.d(TAG, p.title + " TYPE:" + p.type);
+		}
 		plant.addView(image);
 		
 		// Label the plant with its topic

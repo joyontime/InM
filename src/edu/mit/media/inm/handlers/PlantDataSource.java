@@ -47,7 +47,7 @@ public class PlantDataSource {
 	public Plant createPlant(String author, boolean archived,
 			long date, String pass, int pot_color, String salt, String server_id,
 			String share, int status, String title, String type, boolean shiny) {
-		Log.d(TAG, "Shiny? " + shiny);
+		Log.d(TAG, "Type: " + type);
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
 		values.put(PlantSQLite.COLUMN_ARCHIVED, archived ? 1:0);
@@ -167,8 +167,8 @@ public class PlantDataSource {
 		Plant.shared_with = cursor.getString(8);
 		Plant.status = cursor.getInt(9);
 		Plant.title = cursor.getString(10);
-		Plant.shiny = cursor.getInt(11) == 1;
-		Plant.type = cursor.getString(12);
+		Plant.type = cursor.getString(11);
+		Plant.shiny = cursor.getInt(12) == 1;
 		return Plant;
 	}
 }
