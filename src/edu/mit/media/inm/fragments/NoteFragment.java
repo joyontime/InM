@@ -13,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
@@ -70,31 +72,27 @@ public class NoteFragment extends Fragment {
 
 		datasource = new NoteDataSource(ctx);
 		datasource.open();
+		
+		Button send = (Button) rootView.findViewById(R.id.send_btn);
+		send.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				if (!inProgress()) {
+					Toast.makeText(ctx, "You haven't written anything yet!",
+							Toast.LENGTH_SHORT).show();
+				} else {
+	        		String encryptedText = encryptNote();
+	    			
+	    			PostNote http_client = new PostNote(0, ctx);
+	        		http_client.setupParams(encryptedText, plant.server_id);
+	                Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
+	                                .show();
+	                http_client.execute();
+	        	}
+			}
+		});
 
 		return rootView;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_done:
-			if (!inProgress()) {
-				Toast.makeText(ctx, "You haven't written anything yet!",
-						Toast.LENGTH_SHORT).show();
-			} else {
-        		String encryptedText = encryptNote();
-    			
-    			PostNote http_client = new PostNote(0, ctx);
-        		http_client.setupParams(encryptedText, plant.server_id);
-                Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
-                                .show();
-                http_client.execute();
-    			
-    			ctx.goBack();
-        	}
-			return true;
-		}
-		return false;
 	}
 	
 	private String encryptNote(){
@@ -102,6 +100,7 @@ public class NoteFragment extends Fragment {
 		String pass = plant.passphrase;
 		String salt = plant.salt;
 		String plain_text = note_text.getText().toString();
+		note_text.setText("");
 
 		Log.d(TAG, "IV "+ IV.length());
 		

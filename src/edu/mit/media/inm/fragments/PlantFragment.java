@@ -41,7 +41,6 @@ public class PlantFragment extends Fragment {
 	private PlantDataSource datasource;
 	private Plant plant;
 	private TextView show_info;
-	private TextView info_text;
 	private LinearLayout info_view;
 	
 	private ListView notes_view;
@@ -94,12 +93,12 @@ public class PlantFragment extends Fragment {
 		cmd_box_frag = CommandBoxFragment.newInstance(plant);
 		if (plant.archived){
 			getFragmentManager().beginTransaction()
-				.replace(R.id.control_space, cmd_box_frag, "command")
+				.replace(R.id.info, cmd_box_frag, "command")
 				.setTransition(0)
 				.commit();
 		} else {
 			getFragmentManager().beginTransaction()
-				.replace(R.id.control_space, cmd_box_frag, "command")
+				.replace(R.id.info, cmd_box_frag, "command")
 				.replace(R.id.note_space, NoteFragment.newInstance(plant), "note")
 				.setTransition(0)
 				.commit();
@@ -113,7 +112,7 @@ public class PlantFragment extends Fragment {
 		OnClickListener listener = new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				info_view.setVisibility(info_text.isShown()
+				info_view.setVisibility(info_view.isShown()
                         ? View.GONE
                         : View.VISIBLE );
 				if (info_view.isShown()){
@@ -123,37 +122,10 @@ public class PlantFragment extends Fragment {
 				}
 			}
 		};
-		info_text = (TextView) rootView.findViewById(R.id.info_text);
 		info_view = (LinearLayout) rootView.findViewById(R.id.info);
 		info_view.setOnClickListener(listener);
 		show_info = (TextView) rootView.findViewById(R.id.show_info);
 		show_info.setOnClickListener(listener);
-		
-		// Load plant data.
-		StringBuilder info_string = new StringBuilder();
-
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
-		// Pretty Print date
-				info_string.append("Owned by: \n\t");
-				info_string.append(user_data.getUserAlias(plant.author));
-				info_string.append("\n\n");
-
-		// Pretty Print date
-		info_string.append("Created at: \n\t");
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-		info_string.append(df.format(new Date(plant.date)));
-		info_string.append("\n\n");
-
-		// Pretty Print friends shared with
-		info_string.append("Shared with: \n\t");
-		for (String s: plant.shared_with.split(",")){
-			if (!s.trim().isEmpty() && !s.equals(plant.author)){
-				info_string.append(user_data.getUserAlias(s) + ", ");	
-			}
-		}
-		user_data.close();
-		info_text.setText(info_string.toString());
 	}
 	
 	private void setupNotes(){

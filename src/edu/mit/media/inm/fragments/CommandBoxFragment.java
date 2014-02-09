@@ -1,6 +1,9 @@
 package edu.mit.media.inm.fragments;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -16,10 +19,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
+import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.UpdatePlant;
 import edu.mit.media.inm.types.Plant;
 
@@ -30,7 +35,8 @@ public class CommandBoxFragment extends Fragment {
 	private View rootView;
 	private PlantDataSource datasource;
 	private Plant plant;
-	
+
+	private TextView info_text;
 	private ImageView plant_image;
 
 	private Button water;
@@ -101,6 +107,34 @@ public class CommandBoxFragment extends Fragment {
 		
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
+		
+
+		info_text = (TextView) rootView.findViewById(R.id.info_text);
+		// Load plant data.
+		StringBuilder info_string = new StringBuilder();
+
+		UserDataSource user_data = new UserDataSource(ctx);
+		user_data.open();
+		// Pretty Print date
+				info_string.append("Owned by: \n\t");
+				info_string.append(user_data.getUserAlias(plant.author));
+				info_string.append("\n\n");
+
+		// Pretty Print date
+		info_string.append("Created at: \n\t");
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		info_string.append(df.format(new Date(plant.date)));
+		info_string.append("\n\n");
+
+		// Pretty Print friends shared with
+		info_string.append("Shared with: \n\t");
+		for (String s: plant.shared_with.split(",")){
+			if (!s.trim().isEmpty() && !s.equals(plant.author)){
+				info_string.append(user_data.getUserAlias(s) + ", ");	
+			}
+		}
+		user_data.close();
+		info_text.setText(info_string.toString());
 		
 		return rootView;
 	}
@@ -196,28 +230,7 @@ public class CommandBoxFragment extends Fragment {
 		UpdatePlant http_client = new UpdatePlant(0, ctx);
 		http_client.setupParams(this.plant.server_id, status, archived);
 		http_client.execute();
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_edit:
-			if (plant.archived) {
-				Toast.makeText(ctx, "You need to unarchive this plant!",
-						Toast.LENGTH_SHORT).show();
-			} else {
-				updatePlant();
-				getFragmentManager().beginTransaction()
-				.replace(R.id.note_space, NoteFragment.newInstance(plant), "note")
-				.setTransition(0)
-				.addToBackStack("note")
-				.commit();
-			}
-			return true;
-		}
-		return false;
-	}
-	
+	}	
 	
 	@Override
 	public void onResume() {

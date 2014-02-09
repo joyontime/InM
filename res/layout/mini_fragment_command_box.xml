@@ -3,13 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="10dip">
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/info_text"
+        android:layout_width="120dip"
+        android:layout_height="wrap_content"/>
 
     <ImageView
         android:id="@+id/plant_image"
         android:layout_width="80dip"
         android:layout_height="160dip"
+        android:layout_toRightOf="@id/info_text"
         android:src="@drawable/demo_plant" />
 
     <LinearLayout
