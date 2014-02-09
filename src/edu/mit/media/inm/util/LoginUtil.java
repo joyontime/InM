@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.fragments.PlanterFragment;
+import edu.mit.media.inm.handlers.CollectionDataSource;
 import edu.mit.media.inm.handlers.NoteDataSource;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
@@ -40,6 +42,9 @@ public class LoginUtil{
 	        public void onClick(DialogInterface dialog, int whichButton) {
 	        	ph.setPassword(((EditText)login_view.findViewById(R.id.login_password)).getText().toString());
 	        	ph.setUsername(((EditText)login_view.findViewById(R.id.login_username)).getText().toString());
+	    		PlanterFragment planter_frag = (PlanterFragment) ctx.getFragmentManager()
+	    				.findFragmentByTag("planter");
+	    		planter_frag.plants = null;
 	        	pingServer();
 	        }
 	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -76,6 +81,14 @@ public class LoginUtil{
 		notedata.open();
 		notedata.deleteAll();
 		notedata.close();
+		CollectionDataSource collectiondata = new CollectionDataSource(ctx);
+		collectiondata.open();
+		collectiondata.deleteAll();
+		collectiondata.close();
+
+		PlanterFragment planter_frag = (PlanterFragment) ctx.getFragmentManager()
+				.findFragmentByTag("planter");
+		planter_frag.plants = null;
 	}
 	
 }

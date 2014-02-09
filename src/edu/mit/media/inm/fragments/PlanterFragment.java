@@ -43,7 +43,7 @@ public class PlanterFragment extends Fragment {
 
 	private boolean archived = false;
 	private boolean display_collection = false;
-	private List<Plant> plants;
+	public List<Plant> plants;
 	
 	public static PlanterFragment newInstance() {
         PlanterFragment f = new PlanterFragment();

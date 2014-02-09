@@ -177,7 +177,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	}
 	
 	public void refresh(){
-		// This is checking for log in status!
 		Log.d(TAG, "Refresh");
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");

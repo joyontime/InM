@@ -92,7 +92,7 @@ public class CommandBoxFragment extends Fragment {
 				enableWater();
 				enableTrim();
 				enableArchive(false);
-			} else {
+			} else {		// Normal view of plant you don't own.
 				disableWater();
 				disableTrim();
 				disableArchive();
