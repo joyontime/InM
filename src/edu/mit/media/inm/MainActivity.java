@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import edu.mit.media.inm.fragments.CollectionFragment;
+import edu.mit.media.inm.fragments.NoteFragment;
 import edu.mit.media.inm.fragments.PlantFragment;
 import edu.mit.media.inm.fragments.PlanterFragment;
 import edu.mit.media.inm.fragments.PotFragment;
@@ -270,10 +271,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	}
 
 	private void confirmDialog(){
-		Fragment note = fm.findFragmentByTag("note");
-		Fragment pot = fm.findFragmentByTag("pot");
+		NoteFragment note = (NoteFragment) fm.findFragmentByTag("note");
+		PotFragment pot = (PotFragment) fm.findFragmentByTag("pot");
+		CollectionFragment collection = (CollectionFragment) fm.findFragmentByTag("collection");
 		
-		if ( (note!= null) || (pot!=null)){
+		if ((note!= null && note.inProgress()) || 
+			(pot!=null && pot.inProgress()) || 
+			(collection!=null && collection.inProgress())){
 			new AlertDialog.Builder(this)
 		    .setTitle(R.string.confirm)
 		    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

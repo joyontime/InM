@@ -3,11 +3,8 @@ package edu.mit.media.inm.fragments;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
@@ -94,17 +90,22 @@ public class NoteFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_done:
-			String encryptedText = encryptNote();
-			
-			PostNote http_client = new PostNote(0, ctx);
-    		http_client.setupParams(encryptedText, plant.server_id);
-            Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
-                            .show();
-            http_client.execute();
-            
-            imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
-			
-			ctx.goBack();
+			if (!inProgress()) {
+				Toast.makeText(ctx, "You haven't written anything yet!",
+						Toast.LENGTH_SHORT).show();
+			} else {
+        		String encryptedText = encryptNote();
+    			
+    			PostNote http_client = new PostNote(0, ctx);
+        		http_client.setupParams(encryptedText, plant.server_id);
+                Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
+                                .show();
+                http_client.execute();
+                
+                imm.hideSoftInputFromWindow(note_text.getWindowToken(), 0);
+    			
+    			ctx.goBack();
+        	}
 			return true;
 		}
 		return false;
@@ -121,6 +122,14 @@ public class NoteFragment extends Fragment {
 		AesUtil util = new AesUtil();
         String encrypt = util.encrypt(salt, IV, pass, plain_text);
         return encrypt;
+	}
+	
+	/**
+	 * Checks if there is a note currently in progress.
+	 * @return
+	 */
+	public boolean inProgress(){
+		return !note_text.getText().toString().trim().isEmpty();
 	}
 	
 	@Override

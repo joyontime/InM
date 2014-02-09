@@ -3,7 +3,6 @@ package edu.mit.media.inm.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -131,44 +130,52 @@ public class PotFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
             case R.id.action_done:
-        		SparseBooleanArray checked = friend_list.getCheckedItemPositions();
-        		
-        		StringBuilder share_server = new StringBuilder();
-        		share_server.append('[');
-        		share_server.append('"' + ph.server_id() + '"');
-        		for (int i =0; i<friends.size(); i++){
-        			if (checked.get(i)){
-        				share_server.append(',');
-        				share_server.append('"');
-        				share_server.append(friends.get(i).server_id);
-        				share_server.append('"');
-        			}
-        		}
-        		share_server.append(']');
-        		
-        		StringBuilder share_local = new StringBuilder();
-        		for (int i =0; i<friends.size(); i++){
-        			if (checked.get(i)){
-        				share_local.append(friends.get(i).server_id);
-        				share_local.append(',');
-        			}
-        		}
-                imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
-        		
-        		PostPlant http_client = new PostPlant(0, ctx);
-        		http_client.setupParams(username, selected_color, share_server.toString(),
-        				share_local.toString(), title_box.getText().toString());
+            	if (!inProgress()){
+            		Toast.makeText(ctx, "Name your topic!", Toast.LENGTH_SHORT).show();
+            	} else {
+            		SparseBooleanArray checked = friend_list.getCheckedItemPositions();
+            		
+            		StringBuilder share_server = new StringBuilder();
+            		share_server.append('[');
+            		share_server.append('"' + ph.server_id() + '"');
+            		for (int i =0; i<friends.size(); i++){
+            			if (checked.get(i)){
+            				share_server.append(',');
+            				share_server.append('"');
+            				share_server.append(friends.get(i).server_id);
+            				share_server.append('"');
+            			}
+            		}
+            		share_server.append(']');
+            		
+            		StringBuilder share_local = new StringBuilder();
+            		for (int i =0; i<friends.size(); i++){
+            			if (checked.get(i)){
+            				share_local.append(friends.get(i).server_id);
+            				share_local.append(',');
+            			}
+            		}
+                    imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
+            		
+            		PostPlant http_client = new PostPlant(0, ctx);
+            		http_client.setupParams(username, selected_color, share_server.toString(),
+            				share_local.toString(), title_box.getText().toString());
 
-                Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
-                                .show();
-                http_client.execute();
+                    Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
+                                    .show();
+                    http_client.execute();
 
-                // Send it back to the main screen.
-                ctx.goBack();
+                    // Send it back to the main screen.
+                    ctx.goBack();
+            	}
                 return true;
             }
             return false;
     }
+
+	public boolean inProgress(){
+		return !title_box.getText().toString().trim().isEmpty();
+	}
 
 	@Override
 	public void onPause() {

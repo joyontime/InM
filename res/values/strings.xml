@@ -9,7 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_new">New Item</string>
     
-    <string name="confirm">Are you sure?</string>
+    <string name="confirm">You haven\'t finished. Leave?</string>
     <string name="dialog_new">Do you want to create a new topic or a new collection?</string>
     
     <string name="url_server">https://sodiio.media.mit.edu</string>

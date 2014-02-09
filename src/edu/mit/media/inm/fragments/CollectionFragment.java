@@ -3,7 +3,6 @@ package edu.mit.media.inm.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,31 +13,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.CollectionDataSource;
 import edu.mit.media.inm.handlers.PlantDataSource;
-import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
-import edu.mit.media.inm.http.PostPlant;
 import edu.mit.media.inm.types.Plant;
-import edu.mit.media.inm.types.User;
 
 public class CollectionFragment extends Fragment {
 	private static final String TAG = "CollectionFragment";
 
 	private MainActivity ctx;
-	private PreferenceHandler ph;
 
 	private EditText title_box;
 	private ListView plant_list;
@@ -100,38 +91,46 @@ public class CollectionFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
             switch (item.getItemId()) {
             case R.id.action_done:
-        		SparseBooleanArray checked = plant_list.getCheckedItemPositions();
-        		
-        		StringBuilder plants_local = new StringBuilder();
-        		for (int i =0; i<plants.size(); i++){
-        			if (checked.get(i)){
-        				plants_local.append(plants.get(i).server_id);
-        				plants_local.append(',');
-        			}
-        		}
-                imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
+            	if (!inProgress()){
+            		Toast.makeText(ctx, "Name your collection!", Toast.LENGTH_SHORT).show();
+            	} else {
+            		SparseBooleanArray checked = plant_list.getCheckedItemPositions();
+            		
+            		StringBuilder plants_local = new StringBuilder();
+            		for (int i =0; i<plants.size(); i++){
+            			if (checked.get(i)){
+            				plants_local.append(plants.get(i).server_id);
+            				plants_local.append(',');
+            			}
+            		}
+                    imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
 
-                CollectionDataSource collection_data = new CollectionDataSource(ctx);
-                collection_data.open();
-                collection_data.createCollection("0",
-                		title_box.getText().toString(),
-                		plants_local.toString());
+                    CollectionDataSource collection_data = new CollectionDataSource(ctx);
+                    collection_data.open();
+                    collection_data.createCollection("0",
+                    		title_box.getText().toString(),
+                    		plants_local.toString());
 
-                /*
-        		PostPlant http_client = new PostPlant(0, ctx);
-        		http_client.setupParams(username, selected_color, share_local.toString(),
-        				share_local.toString(), title_box.getText().toString());
-                http_client.execute();
-                */
+                    /*
+            		PostPlant http_client = new PostPlant(0, ctx);
+            		http_client.setupParams(username, selected_color, share_local.toString(),
+            				share_local.toString(), title_box.getText().toString());
+                    http_client.execute();
+                    */
 
-                // Send it back to the main screen.
+                    // Send it back to the main screen.
 
-        		ctx.setUpNavigation();
-                ctx.goBack();
+            		ctx.setUpNavigation();
+                    ctx.goBack();
+            	}
                 return true;
             }
             return false;
     }
+
+	public boolean inProgress(){
+		return !title_box.getText().toString().trim().isEmpty();
+	}
 
 	@Override
 	public void onPause() {
