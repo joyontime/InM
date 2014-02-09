@@ -13,7 +13,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -160,12 +159,12 @@ public class CommandBoxFragment extends Fragment {
 		water.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if (status < 8){
+				if (status < status_init + 1){
 					status +=1;
 					plant_image.setImageResource(Plant.growth[status]);
-
+				} else {
+					Toast.makeText(ctx, "A little at a time!", Toast.LENGTH_SHORT).show();
 				}
-
 			}
 		});
 	}
@@ -207,10 +206,10 @@ public class CommandBoxFragment extends Fragment {
 			
 			if (status_init < status) {
 				Toast.makeText(ctx, "That's great! Keep it up!",
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(ctx, "You trimmed that down to size!",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(ctx, "You brought that one down!",
+						Toast.LENGTH_LONG).show();
 			}
 
 			Calendar cal = Calendar.getInstance();

@@ -286,11 +286,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			(collection!=null && collection.inProgress())){
 			new AlertDialog.Builder(this)
 		    .setTitle(R.string.confirm)
-		    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		    .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		        	goBack();
 		        }
-		    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+		    }).setPositiveButton("No", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		            // Don't do anything
 		        }

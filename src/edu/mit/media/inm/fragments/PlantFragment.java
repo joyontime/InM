@@ -1,8 +1,5 @@
 package edu.mit.media.inm.fragments;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -15,21 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.NoteAdapter;
 import edu.mit.media.inm.handlers.NoteDataSource;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
-import edu.mit.media.inm.http.PostNote;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 

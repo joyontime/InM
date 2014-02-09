@@ -4,17 +4,12 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,12 +76,13 @@ public class NoteFragment extends Fragment {
 					Toast.makeText(ctx, "You haven't written anything yet!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-	        		String encryptedText = encryptNote();
+	        		String encryptedText = encrypt(note_text.getText().toString());
 	    			
 	    			PostNote http_client = new PostNote(0, ctx);
 	        		http_client.setupParams(encryptedText, plant.server_id);
 	                Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
 	                                .show();
+	        		note_text.setText("");
 	                http_client.execute();
 	        	}
 			}
@@ -95,12 +91,11 @@ public class NoteFragment extends Fragment {
 		return rootView;
 	}
 	
-	private String encryptNote(){
+	private String encrypt(String text){
 		String IV = ph.IV();
 		String pass = plant.passphrase;
 		String salt = plant.salt;
-		String plain_text = note_text.getText().toString();
-		note_text.setText("");
+		String plain_text = text;
 
 		Log.d(TAG, "IV "+ IV.length());
 		
@@ -127,6 +122,7 @@ public class NoteFragment extends Fragment {
 	@Override
 	public void onPause() {
 		datasource.close();
+		note_text.setText("");
 		super.onPause();
 	}
 

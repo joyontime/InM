@@ -240,6 +240,9 @@ public class PlanterFragment extends Fragment {
 		plant.setLayoutParams(new LayoutParams(
 				this.plant_width,
 				LayoutParams.WRAP_CONTENT));
+		if (p.shiny){
+			plant.setBackgroundResource(R.drawable.glow);
+		}
 		plant.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -255,39 +258,31 @@ public class PlanterFragment extends Fragment {
 	    });
 		my_plants.addView(plant);
 		
-		// Label the plant with its topic
-		TextView text = new TextView(ctx);
-		text.setLines(2);
-		text.setText(p.title);
-		text.setGravity(Gravity.CENTER);
-		text.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT));
-		if (p.shiny){
-			text.setTypeface(null, Typeface.BOLD);
-			text.setBackgroundResource(R.drawable.glow);
-		}
-		plant.addView(text);
-
 		// Choose a plant image
 		ImageView image = new ImageView(ctx);
 		image.setImageResource(Plant.growth[p.status]);
 		image.setBackgroundResource(Plant.pots[p.pot]);
 		plant.addView(image);
+		
+		// Label the plant with its topic
+		TextView text = new TextView(ctx);
+		text.setLines(2);
+		text.setText(p.title);
+		text.setGravity(Gravity.CENTER);
+		text.setTypeface(null, Typeface.BOLD);
+		text.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+		plant.addView(text);
 
 		// Label the plant with its owner
 		TextView owner = new TextView(ctx);
-		owner.setLines(2);
-		owner.setPadding(0, 5, 0, 0);
+		owner.setLines(1);
 		owner.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
 		owner.setText(user_data.getUserAlias(p.author));
 		owner.setGravity(Gravity.CENTER);
-		if (p.shiny){
-			owner.setTypeface(null, Typeface.BOLD);
-			owner.setBackgroundResource(R.drawable.glow);
-		}
 		plant.addView(owner);
 	}
 	

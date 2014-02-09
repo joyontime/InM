@@ -119,7 +119,6 @@ public class CollectionFragment extends Fragment {
                     */
 
                     // Send it back to the main screen.
-
             		ctx.setUpNavigation();
                     ctx.goBack();
             	}
