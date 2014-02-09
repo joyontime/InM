@@ -24,8 +24,10 @@ import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.http.PostNote;
 import edu.mit.media.inm.http.UpdatePlant;
 import edu.mit.media.inm.types.Plant;
+import edu.mit.media.inm.util.AesUtil;
 
 public class CommandBoxFragment extends Fragment {
 	private static final String TAG = "PlantActivity";
@@ -200,9 +202,14 @@ public class CommandBoxFragment extends Fragment {
 
 	public void updatePlant(){
 		if (status_init != status){
-			UpdatePlant http_client = new UpdatePlant(0, ctx);
-			http_client.setupParams(this.plant.server_id, status, false);
-			http_client.execute();
+			UpdatePlant update_plant = new UpdatePlant(0, ctx);
+			update_plant.setupParams(this.plant.server_id, status, false);
+			update_plant.execute();
+			
+			String update_text = "\t\t * changed state to level: " + status + " *";
+			PostNote post_note = new PostNote(0, ctx);
+    		post_note.setupParams(encrypt(update_text), plant.server_id);
+            post_note.execute();
 			
 			if (status_init < status) {
 				Toast.makeText(ctx, "That's great! Keep it up!",
@@ -223,6 +230,19 @@ public class CommandBoxFragment extends Fragment {
 				                   minute).build());
 		}
 		status_init = status;
+	}
+	
+	private String encrypt(String text){
+		String IV = new PreferenceHandler(ctx).IV();
+		String pass = plant.passphrase;
+		String salt = plant.salt;
+		String plain_text = text;
+
+		Log.d(TAG, "IV "+ IV.length());
+		
+		AesUtil util = new AesUtil();
+        String encrypt = util.encrypt(salt, IV, pass, plain_text);
+        return encrypt;
 	}
 
 	public void archivePlant(boolean archived) {
