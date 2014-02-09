@@ -27,9 +27,7 @@ public class LoginUtil{
 		this.ctx = ctx;	
 		ph = new PreferenceHandler(ctx);
 	}
-	
 
-	
 	public void loginDialog(){
 		LayoutInflater inflater = ctx.getLayoutInflater();
 		final View login_view = inflater.inflate(R.layout.dialog_signin, null);

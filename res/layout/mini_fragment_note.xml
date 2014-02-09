@@ -11,8 +11,8 @@
         android:gravity="top|left"
         android:hint="@string/note_hint"
         android:inputType="textMultiLine|textCapSentences"
-        android:lines="8"
-        android:minLines="6"
+        android:minLines="3"
+        android:maxLines="5"
         android:padding="10dip"
         android:scrollbars="vertical" >
 

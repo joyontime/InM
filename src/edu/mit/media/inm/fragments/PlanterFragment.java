@@ -94,11 +94,11 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void refresh(){
+		if (datasource == null){
+			datasource = new PlantDataSource(ctx);
+		}
+		datasource.open();
 		if (this.plants == null){
-			if (datasource == null){
-				datasource = new PlantDataSource(ctx);
-			}
-			datasource.open();
 			List<Plant> all_plants = datasource.getAllPlants();
 			this.plants = new ArrayList<Plant>();
 
@@ -110,6 +110,12 @@ public class PlanterFragment extends Fragment {
 					plants.add(p);
 				}
 			}
+		} else {
+			List<Plant> refreshed_plants = new ArrayList<Plant>();
+			for (Plant p: this.plants){
+				refreshed_plants.add(datasource.getPlantByServerID(p.server_id));
+			}
+			this.plants = refreshed_plants;
 		}
 		
 		displayPlants(this.plants);
