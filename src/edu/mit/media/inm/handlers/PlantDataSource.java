@@ -29,6 +29,7 @@ public class PlantDataSource {
 			PlantSQLite.COLUMN_SHARED_WITH,
 			PlantSQLite.COLUMN_STATUS,
 			PlantSQLite.COLUMN_TITLE,
+			PlantSQLite.COLUMN_TYPE,
 			PlantSQLite.COLUMN_UPDATED};
 
 	public PlantDataSource(Context context) {
@@ -45,7 +46,7 @@ public class PlantDataSource {
 
 	public Plant createPlant(String author, boolean archived,
 			long date, String pass, int pot_color, String salt, String server_id,
-			String share, int status, String title, boolean shiny) {
+			String share, int status, String title, String type, boolean shiny) {
 		Log.d(TAG, "Shiny? " + shiny);
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
@@ -58,6 +59,7 @@ public class PlantDataSource {
 		values.put(PlantSQLite.COLUMN_SHARED_WITH, share);
 		values.put(PlantSQLite.COLUMN_STATUS, status);
 		values.put(PlantSQLite.COLUMN_TITLE, title);
+		values.put(PlantSQLite.COLUMN_TYPE, type);
 		values.put(PlantSQLite.COLUMN_UPDATED, shiny ? 1:0);
 		long insertId = database.insert(PlantSQLite.TABLE_PLANT, null, values);
 
@@ -166,6 +168,7 @@ public class PlantDataSource {
 		Plant.status = cursor.getInt(9);
 		Plant.title = cursor.getString(10);
 		Plant.shiny = cursor.getInt(11) == 1;
+		Plant.type = cursor.getString(12);
 		return Plant;
 	}
 }

@@ -28,6 +28,7 @@ public class PostPlant extends PostThread{
 	private String salt;
 	private String shared_with;
 	private String title;
+	private String type;
 	
 	private MainActivity main;
 
@@ -48,19 +49,21 @@ public class PostPlant extends PostThread{
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 	
 	public void setupParams(String username,int pot_color,
-			String shared_with, String share_local, String title) {
+			String shared_with, String share_local, String title, String type) {
 		this.username = username;
 		this.pot_color = pot_color;
 		this.passphrase = randomString();
 		this.salt = randomString();
 		this.shared_with = share_local;
 		this.title = title;
+		this.type = type;
 		
 		params.add(new BasicNameValuePair("color", String.valueOf(this.pot_color)));
 		params.add(new BasicNameValuePair("passphrase", this.passphrase));
 		params.add(new BasicNameValuePair("salt", this.salt));
 		params.add(new BasicNameValuePair("shared_with", shared_with));
 		params.add(new BasicNameValuePair("title", this.title));
+		params.add(new BasicNameValuePair("type", this.type));
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class PostPlant extends PostThread{
 			// Save the plant locally
 			Plant s = datasource.createPlant(this.username, false, created_at,
 					this.passphrase, this.pot_color, this.salt, server_id,
-					this.shared_with, 0, this.title, true);
+					this.shared_with, 0, this.title, this.type, true);
 			
 			Log.d(TAG, "Published " + s);                                        
 

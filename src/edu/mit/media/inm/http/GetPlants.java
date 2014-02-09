@@ -32,7 +32,6 @@ public class GetPlants extends GetThread {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		String server = ctx.getResources().getString(R.string.url_server);
 		String plants = ctx.getResources().getString(R.string.uri_plants);
 		String check = ctx.getResources().getString(R.string.uri_check);
@@ -93,7 +92,9 @@ public class GetPlants extends GetThread {
 							plant_id,
 							shared_with.toString(),
 							Integer.parseInt((String) plant.get("status")),
-							(String) plant.get("title"), shiny);			
+							(String) plant.get("title"),
+							(String) plant.get("type"),
+							shiny);			
 				} else {
 					Plant old_plant = datasource.getPlantByServerID(plant_id);
 					String status = (String) plant.get("status");

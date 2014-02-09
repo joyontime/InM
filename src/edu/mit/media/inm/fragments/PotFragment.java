@@ -41,6 +41,7 @@ public class PotFragment extends Fragment {
 	private ImageView pot_image;
 	private ListView friend_list;
 	private List<User> friends;
+	private String type;
 
 	private InputMethodManager imm;
 	
@@ -85,6 +86,7 @@ public class PotFragment extends Fragment {
 				@Override
 				public void onClick(View arg0) {
 					pot_image.setImageResource(Plant.b_pots[pot_color]);
+					type = "plant";
 					selected_color = pot_color;
 				}
 			});
@@ -101,6 +103,7 @@ public class PotFragment extends Fragment {
 				@Override
 				public void onClick(View arg0) {
 					pot_image.setImageResource(Plant.b_water[water_color]);
+					type = "bird";
 					selected_color = water_color;
 				}
 			});
@@ -175,7 +178,7 @@ public class PotFragment extends Fragment {
             		
             		PostPlant http_client = new PostPlant(0, ctx);
             		http_client.setupParams(username, selected_color, share_server.toString(),
-            				share_local.toString(), title_box.getText().toString());
+            				share_local.toString(), title_box.getText().toString(), this.type);
 
                     Toast.makeText(getActivity(), "Publishing to server...", Toast.LENGTH_LONG)
                                     .show();

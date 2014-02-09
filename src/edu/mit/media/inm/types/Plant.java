@@ -26,6 +26,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public int status;
 	public boolean shiny;
 	public String title;
+	public String type;
 	
 
 	public static int[] pots = {
@@ -123,6 +124,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		out.writeInt(status);
 		out.writeString(title);
 		out.writeInt(shiny? 1:0);
+		out.writeString(type);
 	}
 	
 	/**
@@ -155,6 +157,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
         this.status = in.readInt();
         this.title = in.readString();
         this.shiny = in.readInt() == 1;
+        this.type = in.readString();
     }
 
 	@Override

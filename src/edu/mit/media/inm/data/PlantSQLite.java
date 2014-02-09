@@ -20,6 +20,7 @@ public class PlantSQLite extends SQLiteOpenHelper{
 	public static final String COLUMN_STATUS = "status";
 	public static final String COLUMN_UPDATED = "updated";
 	public static final String COLUMN_TITLE = "title";
+	public static final String COLUMN_TYPE = "type";
 
 	private static final String STORY_DB = "inm.plant.db";
 	private static final int DATABASE_VERSION = 1;
@@ -39,6 +40,7 @@ public class PlantSQLite extends SQLiteOpenHelper{
 			+ COLUMN_SHARED_WITH + text
 			+ COLUMN_STATUS + integer
 			+ COLUMN_TITLE + text
+			+ COLUMN_TYPE + text
 			+ COLUMN_UPDATED + " integer not null)";
 	
 	public PlantSQLite(Context context) {
