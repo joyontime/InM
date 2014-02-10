@@ -62,10 +62,14 @@ public class CollectionFragment extends Fragment {
 		user_data.open();
 		PlantDataSource plant_data = new PlantDataSource(ctx);
 		plant_data.open();
-		plants = plant_data.getAllPlants();
+		List<Plant> all_plants = plant_data.getAllPlants();
+		plants = new ArrayList<Plant>();
 		ArrayList<String> plant_aliases = new ArrayList<String>(); 
-		for (Plant p: plants){
-			plant_aliases.add(user_data.getUserAlias(p.author) + "'s " + p.title);
+		for (Plant p: all_plants){
+			if (!p.archived){
+				plant_aliases.add(user_data.getUserAlias(p.author) + "'s " + p.title);
+				plants.add(p);
+			}
 		}
 		
 		plant_list = (ListView) getView().findViewById(R.id.friend_list);

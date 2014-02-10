@@ -228,7 +228,7 @@ public class CommandBoxFragment extends Fragment {
 			update_plant.setupParams(this.plant.server_id, status, false);
 			update_plant.execute();
 			
-			String update_text = "\t\t * changed state to level: " + status + " *";
+			String update_text = "* changed topic state to level: " + status + " *";
 			PostNote post_note = new PostNote(0, ctx);
     		post_note.setupParams(encrypt(update_text), plant.server_id);
             post_note.execute();
@@ -272,9 +272,9 @@ public class CommandBoxFragment extends Fragment {
 		http_client.setupParams(this.plant.server_id, status, archived);
 		http_client.execute();
 		
-		String update_text = "\t\t * brought back from archive *";
+		String update_text = "* brought back from archive *";
 		if (archived){
-			update_text = "\t\t * archived *";
+			update_text = "* archived *";
 		}
 		PostNote post_note = new PostNote(0, ctx);
 		post_note.setupParams(encrypt(update_text), plant.server_id);
