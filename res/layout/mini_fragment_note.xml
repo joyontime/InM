@@ -21,10 +21,11 @@
         <requestFocus />
     </EditText>
     
-    <Button
+    <ImageButton
         android:id="@+id/send_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dip"
-        android:text="@string/send" />
+        android:contentDescription="@string/send"
+        android:src="@drawable/ic_action_send_now"/>
 </LinearLayout>

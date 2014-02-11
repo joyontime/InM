@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
@@ -68,7 +69,7 @@ public class NoteFragment extends Fragment {
 		datasource = new NoteDataSource(ctx);
 		datasource.open();
 		
-		Button send = (Button) rootView.findViewById(R.id.send_btn);
+		ImageButton send = (ImageButton) rootView.findViewById(R.id.send_btn);
 		send.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
