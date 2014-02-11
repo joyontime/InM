@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +41,8 @@ public class CommandBoxFragment extends Fragment {
 	private TextView info_text;
 	private ImageView plant_image;
 
-	private Button water;
-	private Button trim;
+	private ImageButton water;
+	private ImageButton trim;
 	private Button archive;
 	
 	private int status_init;
@@ -148,13 +149,13 @@ public class CommandBoxFragment extends Fragment {
 	}
 
 	private void disableWater() {
-		water = (Button) rootView.findViewById(R.id.water_btn);
+		water = (ImageButton) rootView.findViewById(R.id.water_btn);
 		water.setEnabled(false);
 	}
 
 
 	private void disableTrim() {
-		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim = (ImageButton) rootView.findViewById(R.id.trim_btn);
 		trim.setEnabled(false);
 	}
 
@@ -164,7 +165,7 @@ public class CommandBoxFragment extends Fragment {
 	}
 
 	private void enableWater() {
-		water = (Button) rootView.findViewById(R.id.water_btn);
+		water = (ImageButton) rootView.findViewById(R.id.water_btn);
 		water.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -188,7 +189,7 @@ public class CommandBoxFragment extends Fragment {
 	}
 
 	private void enableTrim() {
-		trim = (Button) rootView.findViewById(R.id.trim_btn);
+		trim = (ImageButton) rootView.findViewById(R.id.trim_btn);
 		trim.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {

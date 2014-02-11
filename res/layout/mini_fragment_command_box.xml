@@ -25,21 +25,23 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <Button
+        <ImageButton
             android:id="@+id/water_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dip"
-            android:text="@string/plant_water" />
+            android:contentDescription="@string/plant_water"
+            android:src="@drawable/ic_action_good"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/trim_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dip"
-            android:text="@string/plant_trim" />
+            android:contentDescription="@string/plant_trim" 
+            android:src="@drawable/ic_action_bad"/>
 
         <Button
             android:id="@+id/archive_btn"
