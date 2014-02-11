@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class PlantFragment extends Fragment {
 	private View rootView;
 	private PlantDataSource datasource;
 	private Plant plant;
-	private TextView show_info;
+	private Button show_info;
 	private LinearLayout info_view;
 	
 	private ListView notes_view;
@@ -116,10 +117,12 @@ public class PlantFragment extends Fragment {
 				}
 			}
 		};
+		LinearLayout toggle = (LinearLayout) rootView.findViewById(R.id.toggle);
+		toggle.setOnClickListener(listener);
+		show_info = (Button) rootView.findViewById(R.id.show_info);
+		show_info.setOnClickListener(listener);
 		info_view = (LinearLayout) rootView.findViewById(R.id.info);
 		info_view.setOnClickListener(listener);
-		show_info = (TextView) rootView.findViewById(R.id.show_info);
-		show_info.setOnClickListener(listener);
 	}
 	
 	private void setupNotes(){
