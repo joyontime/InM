@@ -155,7 +155,6 @@ public class PlantFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
-		cmd_box_frag.updatePlant();
 		datasource.close();
 		super.onPause();
 	}

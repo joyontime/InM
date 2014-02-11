@@ -48,6 +48,9 @@ public class CommandBoxFragment extends Fragment {
 	private int status_init;
 	private int status = 1000;
 	
+	private int MAX_GROWTH;
+	private int[] GROWTH_IMAGES;
+	
 	private EasyTracker tracker;
 	
 	public static CommandBoxFragment newInstance(Plant p) {
@@ -84,14 +87,16 @@ public class CommandBoxFragment extends Fragment {
 		
 		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
 		
-
 		if (plant.type.equals("plant")){
-			plant_image.setImageResource(Plant.growth[status]);
+			this.GROWTH_IMAGES = Plant.growth;
+			this.MAX_GROWTH = 7;
 			plant_image.setBackgroundResource(Plant.pots[plant.pot]);
 		} else if (plant.type.equals("bird")){
-			plant_image.setImageResource(Plant.birds[status]);
+			this.GROWTH_IMAGES = Plant.birds;
+			this.MAX_GROWTH = 3;
 			plant_image.setBackgroundResource(Plant.water[plant.pot]);
 		}
+		plant_image.setImageResource(this.GROWTH_IMAGES[status]);
 		
 		//Choose which buttons to turn on and off.
 		if (plant.archived){
@@ -117,7 +122,12 @@ public class CommandBoxFragment extends Fragment {
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
 		
-
+		this.setupInfo();
+		
+		return rootView;
+	}
+	
+	private void setupInfo(){
 		info_text = (TextView) rootView.findViewById(R.id.info_text);
 		// Load plant data.
 		StringBuilder info_string = new StringBuilder();
@@ -144,8 +154,6 @@ public class CommandBoxFragment extends Fragment {
 		}
 		user_data.close();
 		info_text.setText(info_string.toString());
-		
-		return rootView;
 	}
 
 	private void disableWater() {
@@ -166,23 +174,29 @@ public class CommandBoxFragment extends Fragment {
 
 	private void enableWater() {
 		water = (ImageButton) rootView.findViewById(R.id.water_btn);
+		if (status  > MAX_GROWTH){
+			water.setEnabled(false);
+		}
 		water.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if (plant.type.equals("plant")){
-					if (status < status_init + 1 && status < 8){
-						status +=1;
-						plant_image.setImageResource(Plant.growth[status]);
-					} else {
-						Toast.makeText(ctx, "A little at a time!", Toast.LENGTH_SHORT).show();
+				if (status < MAX_GROWTH + 1){
+					status +=1;
+					if (status > MAX_GROWTH){
+						water.setEnabled(false);
+						Toast.makeText(ctx, "Congrats! That's as good as it gets!",
+								Toast.LENGTH_SHORT).show();
+					} else if (status > status_init) {
+						water.setEnabled(false);
+						Toast.makeText(ctx, "Awesome! Good going!",
+								Toast.LENGTH_SHORT).show();
+					} else{
+						Toast.makeText(ctx, "Keep it up!",
+								Toast.LENGTH_SHORT).show();
 					}
-				} else if (plant.type.equals("bird")){
-					if (status < status_init + 1 && status < 4){
-						status +=1;
-						plant_image.setImageResource(Plant.birds[status]);
-					} else {
-						Toast.makeText(ctx, "A little at a time!", Toast.LENGTH_SHORT).show();
-					}
+					trim.setEnabled(true);
+					plant_image.setImageResource(GROWTH_IMAGES[status]);
+					updatePlant();
 				}
 			}
 		});
@@ -190,19 +204,26 @@ public class CommandBoxFragment extends Fragment {
 
 	private void enableTrim() {
 		trim = (ImageButton) rootView.findViewById(R.id.trim_btn);
+		if (status == 0){
+			trim.setEnabled(false);
+		}
 		trim.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				if (status > 0){
 					status -=1;
-					if (plant.type.equals("plant")){
-						plant_image.setImageResource(Plant.growth[status]);
-					} else if (plant.type.equals("bird")){
-						plant_image.setImageResource(Plant.birds[status]);
+					if (status < 1){
+						trim.setEnabled(false);
+						Toast.makeText(ctx, "You've hit the bottom! You can only go up.",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(ctx, "Goin' down.",
+								Toast.LENGTH_SHORT).show();
 					}
-				} else {
-					Toast.makeText(ctx, "Oops, that's it!", Toast.LENGTH_SHORT).show();
-				}
+					water.setEnabled(true);
+					plant_image.setImageResource(GROWTH_IMAGES[status]);
+					updatePlant();
+				} 
 			}
 		});
 	}
@@ -224,35 +245,24 @@ public class CommandBoxFragment extends Fragment {
 	}
 
 	public void updatePlant(){
-		if (status_init != status){
-			UpdatePlant update_plant = new UpdatePlant(0, ctx);
-			update_plant.setupParams(this.plant.server_id, status, false);
-			update_plant.execute();
-			
-			String update_text = "* changed topic state to level: " + status + " *";
-			PostNote post_note = new PostNote(0, ctx);
-    		post_note.setupParams(encrypt(update_text), plant.server_id);
-            post_note.execute();
-			
-			if (status_init < status) {
-				Toast.makeText(ctx, "That's great! Keep it up!",
-						Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(ctx, "You brought that one down!",
-						Toast.LENGTH_LONG).show();
-			}
+		UpdatePlant update_plant = new UpdatePlant(0, ctx);
+		update_plant.setupParams(this.plant.server_id, status, false);
+		update_plant.execute();
+		
+		String update_text = "* changed topic state to level: " + status + " *";
+		PostNote post_note = new PostNote(0, ctx);
+		post_note.setupParams(encrypt(update_text), plant.server_id);
+        post_note.execute();
 
-			Calendar cal = Calendar.getInstance();
-			Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
-					+ cal.get(Calendar.MINUTE));
-			PreferenceHandler ph = new PreferenceHandler(ctx);
-			tracker.send(MapBuilder
-				      .createEvent("ui_action",
-				                   "status_changed",
-				                   ph.server_id(),
-				                   minute).build());
-		}
-		status_init = status;
+		Calendar cal = Calendar.getInstance();
+		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
+				+ cal.get(Calendar.MINUTE));
+		PreferenceHandler ph = new PreferenceHandler(ctx);
+		tracker.send(MapBuilder
+			      .createEvent("ui_action",
+			                   "status_changed",
+			                   ph.server_id(),
+			                   minute).build());
 	}
 	
 	private String encrypt(String text){
