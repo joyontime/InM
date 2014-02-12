@@ -187,7 +187,6 @@ public class CommandBoxFragment extends Fragment {
 						Toast.makeText(ctx, "Congrats! That's as good as it gets!",
 								Toast.LENGTH_SHORT).show();
 					} else if (status > status_init) {
-						water.setEnabled(false);
 						Toast.makeText(ctx, "Awesome! Good going!",
 								Toast.LENGTH_SHORT).show();
 					} else{

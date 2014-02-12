@@ -79,10 +79,14 @@ public class PostPlant extends PostThread{
 					.getMillis();
 			String server_id = (String) plant_data.get("server_id");
 
+			int status = 0;
+			if (this.type.equals("bird")){
+				status = 2;
+			}
 			// Save the plant locally
 			Plant s = datasource.createPlant(this.username, false, created_at,
 					this.passphrase, this.pot_color, this.salt, server_id,
-					this.shared_with, 0, this.title, this.type, true);
+					this.shared_with, status, this.title, this.type, true);
 			
 			Log.d(TAG, "Published " + s);                                        
 
