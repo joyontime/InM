@@ -115,8 +115,5 @@ public class GetPlants extends GetThread {
 		GetNotes check_message = new GetNotes(this.id + 1, ctx);
 		check_message.execute();
 		datasource.close();
-
-		Log.d(TAG, "Refreshing.");
-		ctx.refresh();
 	}
 }

@@ -3,9 +3,8 @@ package edu.mit.media.inm.fragments;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
-
-import org.joda.time.DateTime;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -101,6 +100,7 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void refresh(){
+		setupPrompt();
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
@@ -236,7 +236,6 @@ public class PlanterFragment extends Fragment {
 		}
 		user_data.close();
 		checkPlanterEmpty();
-		setupPrompt();
 	}
 	
 	private void addPlant(UserDataSource user_data, Plant p){
@@ -328,14 +327,17 @@ public class PlanterFragment extends Fragment {
 						"You can\'t do anything with them " +
 						"unless you bring them back.");
 			} else {
-				StringBuilder potd = new StringBuilder();
-				potd.append("Consider: \n");
-				potd.append(ph.POTD_neut());
-				potd.append('\n');
-				potd.append(ph.POTD_happy());
-				potd.append('\n');
-				potd.append(ph.POTD_sad());
-				message.setText(potd.toString());
+				Random random = new Random();
+				int prompt = random.nextInt(6);
+				if (prompt == 0) {
+					message.setText(ph.POTD_neut());
+				} else if (prompt == 1) {
+					message.setText(ph.POTD_happy());
+				} else if (prompt == 2) {
+					message.setText(ph.POTD_sad());
+				} else {
+					message.setText("Hello! What's on your mind?");
+				}
 			}
 		}
 	}
