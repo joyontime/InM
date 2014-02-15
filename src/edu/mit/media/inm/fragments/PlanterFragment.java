@@ -248,7 +248,7 @@ public class PlanterFragment extends Fragment {
 				LayoutParams.WRAP_CONTENT));
 		if (p.shiny){
 			plant.setBackgroundResource(R.drawable.glow);
-		} else if (p.author.equals(ph.server_id())){
+		} else if (!p.archived && p.author.equals(ph.server_id())){
 			NoteDataSource nds = new NoteDataSource(ctx);
 			nds.open();
 			List<Note> notes = nds.getPlantNotes(p.server_id);

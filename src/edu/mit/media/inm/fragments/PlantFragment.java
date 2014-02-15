@@ -1,5 +1,6 @@
 package edu.mit.media.inm.fragments;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -135,7 +136,7 @@ public class PlantFragment extends Fragment {
 	
 	private void checkOld(){
 		TextView alert_text = (TextView) rootView.findViewById(R.id.alert_text);
-		if (plant.author.equals(server_id)){
+		if (!plant.archived && plant.author.equals(server_id)){
 			NoteDataSource nds = new NoteDataSource(ctx);
 			nds.open();
 			List<Note> notes = nds.getPlantNotes(plant.server_id);
@@ -156,6 +157,7 @@ public class PlantFragment extends Fragment {
 		nds.open();
 		List<Note> notes = nds.getPlantNotes(plant.server_id);
 		nds.close();
+		
 		NoteAdapter note_adapter = new NoteAdapter(ctx, notes, plant);
 		notes_view.setAdapter(note_adapter);
 	}
