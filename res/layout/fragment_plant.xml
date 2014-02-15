@@ -28,6 +28,18 @@
 	        android:gravity="center"
 	        android:visibility="gone"
 	        android:orientation="vertical"/>
+	    
+	    <TextView
+	        android:id="@+id/alert_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="10dip"
+	        android:layout_margin="10dip"
+	        android:background="@drawable/window_border"
+	        android:textColor="#F00"
+	        android:visibility="gone"
+	        android:gravity="center_horizontal"
+	        android:text="@string/old_topic_alert"/>
     </LinearLayout>
     
 

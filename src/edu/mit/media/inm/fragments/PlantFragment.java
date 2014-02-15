@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.NoteAdapter;
@@ -34,6 +35,7 @@ public class PlantFragment extends Fragment {
 	private Activity ctx;
 	private View rootView;
 	private PlantDataSource datasource;
+	private String server_id;
 	private Plant plant;
 	private Button show_info;
 	private LinearLayout info_view;
@@ -81,6 +83,8 @@ public class PlantFragment extends Fragment {
 		datasource = new PlantDataSource(ctx);
 		datasource.open();
 		datasource.setPlantShiny(plant.server_id, false);
+		
+		server_id = new PreferenceHandler(ctx).server_id();
 
 		setupInfoView();
 		setupNotes();
@@ -98,6 +102,8 @@ public class PlantFragment extends Fragment {
 				.setTransition(0)
 				.commit();
 		}
+		
+		checkOld();
 		
 		return rootView;
 	}
@@ -125,6 +131,25 @@ public class PlantFragment extends Fragment {
 		info_view.setOnClickListener(listener);
 	}
 	
+
+	
+	private void checkOld(){
+		TextView alert_text = (TextView) rootView.findViewById(R.id.alert_text);
+		if (plant.author.equals(server_id)){
+			NoteDataSource nds = new NoteDataSource(ctx);
+			nds.open();
+			List<Note> notes = nds.getPlantNotes(plant.server_id);
+			nds.close();
+			if (notes.size() > 0
+					&& notes.get(notes.size() - 1).date < System
+							.currentTimeMillis() - (1000 * 60 * 60 * 48)) {
+				alert_text.setVisibility(View.VISIBLE);
+			} else {
+				alert_text.setVisibility(View.GONE);
+			}
+		}
+	}
+	
 	private void setupNotes(){
 		notes_view = (ListView) rootView.findViewById(R.id.notes);
 		NoteDataSource nds = new NoteDataSource(ctx);
@@ -137,6 +162,7 @@ public class PlantFragment extends Fragment {
 	
 	public void refresh(){
 		setupNotes();
+		checkOld();
 	}
 
 	@Override

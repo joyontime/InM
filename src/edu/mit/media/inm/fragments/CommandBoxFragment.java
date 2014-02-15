@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -22,11 +23,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.handlers.NoteDataSource;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.PostNote;
 import edu.mit.media.inm.http.UpdatePlant;
+import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.util.AesUtil;
 
@@ -36,6 +39,7 @@ public class CommandBoxFragment extends Fragment {
 	private Activity ctx;
 	private View rootView;
 	private PlantDataSource datasource;
+	private PreferenceHandler ph;
 	private Plant plant;
 
 	private TextView info_text;
@@ -76,7 +80,7 @@ public class CommandBoxFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		PreferenceHandler ph = new PreferenceHandler(ctx);
+		ph = new PreferenceHandler(ctx);
 		rootView = inflater.inflate(R.layout.mini_fragment_command_box, container,
 				false);
 

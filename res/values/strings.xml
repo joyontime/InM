@@ -37,6 +37,7 @@
     
     <string name="show_info">Show Topic</string>
     <string name="hide_info">Hide Topic</string>
+    <string name="old_topic_alert">This topic has been inactive. \nPlease update it, write a message, or archive it!</string>
     
     <string name="planter">Collection</string>
     <string name="my_plants">My Collection.</string>
