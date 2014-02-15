@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.graphics.Typeface;
@@ -25,16 +27,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.handlers.NoteDataSource;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Collection;
+import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 
 public class PlanterFragment extends Fragment {
 	private static final String TAG = "PlanterFragment";
 
 	private MainActivity ctx;
+	private PreferenceHandler ph;
 	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
@@ -77,6 +82,8 @@ public class PlanterFragment extends Fragment {
 		planter = (HorizontalScrollView) rootView.findViewById(R.id.planter);
 		my_plants = (LinearLayout) rootView.findViewById(R.id.my_plants);
 		message = (TextView) rootView.findViewById(R.id.planter_message);
+		
+		ph = new PreferenceHandler(ctx);
 		return rootView;
 	}
 	
@@ -242,6 +249,16 @@ public class PlanterFragment extends Fragment {
 				LayoutParams.WRAP_CONTENT));
 		if (p.shiny){
 			plant.setBackgroundResource(R.drawable.glow);
+		} else if (p.author.equals(ph.server_id())){
+			NoteDataSource nds = new NoteDataSource(ctx);
+			nds.open();
+			List<Note> notes = nds.getPlantNotes(p.server_id);
+			nds.close();
+			if (notes.size() > 0
+					&& notes.get(notes.size() - 1).date < System
+							.currentTimeMillis() - (1000 * 60 * 60 * 48)) {
+				plant.setBackgroundResource(R.drawable.red_glow);
+			}
 		}
 		plant.setOnClickListener(new OnClickListener() {
 			@Override
@@ -303,8 +320,6 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	private void setupPrompt(){
-		PreferenceHandler ph = new PreferenceHandler(ctx);
-
 		if (ph.IV().equals(PreferenceHandler.default_IV)){
 			message.setText("Welcome to InMind! Please log in.");
 		} else {
