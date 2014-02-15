@@ -195,6 +195,15 @@ public class CommandBoxFragment extends Fragment {
 					}
 					trim.setEnabled(true);
 					plant_image.setImageResource(GROWTH_IMAGES[status]);
+
+					PreferenceHandler ph = new PreferenceHandler(ctx);
+					Long minute = getMinute();
+					tracker.send(MapBuilder
+						      .createEvent(
+					                   ph.server_id(),
+					                   "status_up",
+					                   String.valueOf(minute),
+						               minute).build());
 					updatePlant();
 				}
 			}
@@ -221,6 +230,15 @@ public class CommandBoxFragment extends Fragment {
 					}
 					water.setEnabled(true);
 					plant_image.setImageResource(GROWTH_IMAGES[status]);
+
+					PreferenceHandler ph = new PreferenceHandler(ctx);
+					Long minute = getMinute();
+					tracker.send(MapBuilder
+						      .createEvent(
+					                   ph.server_id(),
+					                   "status_down",
+					                   String.valueOf(minute),
+						               minute).build());
 					updatePlant();
 				} 
 			}
@@ -252,16 +270,12 @@ public class CommandBoxFragment extends Fragment {
 		PostNote post_note = new PostNote(0, ctx);
 		post_note.setupParams(encrypt(update_text), plant.server_id);
         post_note.execute();
-
+	}
+	
+	private Long getMinute(){
 		Calendar cal = Calendar.getInstance();
-		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
+		return Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
 				+ cal.get(Calendar.MINUTE));
-		PreferenceHandler ph = new PreferenceHandler(ctx);
-		tracker.send(MapBuilder
-			      .createEvent("ui_action",
-			                   "status_changed",
-			                   ph.server_id(),
-			                   minute).build());
 	}
 	
 	private String encrypt(String text){

@@ -79,10 +79,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         
 		tracker = EasyTracker.getInstance(this);
 		tracker.send(MapBuilder
-			      .createEvent("ui_action",
-			                   "access_main",
-			                   ph.server_id(),
-			                   minute)
+			      .createEvent(
+			    		  ph.server_id(),
+			    		  "access_main",
+			              String.valueOf(minute),
+			              minute)
 			      .build());
 		start_time = System.currentTimeMillis();
         login_util = new LoginUtil(this);
