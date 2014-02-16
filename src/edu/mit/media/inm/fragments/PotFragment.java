@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -47,7 +49,7 @@ public class PotFragment extends Fragment {
 	private ImageButton help_btn;
 	
 	private List<User> friends;
-	private String type;
+	private String type = Plant.PLANT;
 
 	private InputMethodManager imm;
 	
@@ -77,43 +79,101 @@ public class PotFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		
 		title_box = (EditText) getView().findViewById(R.id.title_box);
+		icon_type_spinner = (Spinner) getView().findViewById(R.id.icon_spinner);
+		help_btn = (ImageButton) getView().findViewById(R.id.help_btn);
 		pot_list = (LinearLayout) getView().findViewById(R.id.pot_list);
 		pot_image = (ImageView) getView().findViewById(R.id.pot_image);
+		friend_list = (ListView) getView().findViewById(R.id.friend_list);
+		
+
 		pot_image.setImageResource(Plant.b_pots[selected_color]);
 		
-		int num_pots =  Plant.b_pots.length - 5;
-		for (int i = 0; i < num_pots; i++){
-			ImageView pot = new ImageView(ctx);
-			pot.setImageResource(Plant.b_pots[i]);
-			final int pot_color = i;
-			pot.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View arg0) {
-					pot_image.setImageResource(Plant.b_pots[pot_color]);
-					type = "plant";
-					selected_color = pot_color;
-				}
-			});
-			pot_list.addView(pot);
-		}
+		setupHelp();
+		setupFriends();
+		setupSpinner();
+	}
+	
+	private void setupSpinner(){
+		icon_type_spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-		int num_birds = Plant.b_water.length;		
-		for (int i = 0; i < num_birds; i++){
-			ImageView pot = new ImageView(ctx);
-			pot.setImageResource(Plant.b_water[i]);
-			final int water_color = i;
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
+				Toast.makeText(parent.getContext(), 
+					"OnItemSelectedListener : " + parent.getItemAtPosition(pos).toString(),
+					Toast.LENGTH_SHORT).show();
+				swap_type(Plant.TYPES[pos]);
+			  }
 
-			pot.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View arg0) {
-					pot_image.setImageResource(Plant.b_water[water_color]);
-					type = "bird";
-					selected_color = water_color;
-				}
-			});
-			pot_list.addView(pot);
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// Nothing
+			}
+		});
+	}
+	
+	private void swap_type(String type_string){
+		if (type.equals(type_string)){
+			return;
 		}
+		pot_list.removeAllViews();
+		if (type_string.equals(Plant.PLANT)){
+			int num_pots =  Plant.b_pots.length - 5;
+			for (int i = 0; i < num_pots; i++){
+				ImageView pot = new ImageView(ctx);
+				pot.setImageResource(Plant.b_pots[i]);
+				final int pot_color = i;
+				pot.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View arg0) {
+						type = Plant.PLANT;
+						pot_image.setImageResource(Plant.b_pots[pot_color]);
+						selected_color = pot_color;
+					}
+				});
+				pot_list.addView(pot);
+			}
+		} else if (type_string.equals(Plant.BIRD)){
+			int num_birds = Plant.b_water.length;		
+			for (int i = 0; i < num_birds; i++){
+				ImageView pot = new ImageView(ctx);
+				pot.setImageResource(Plant.b_water[i]);
+				final int water_color = i;
+
+				pot.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View arg0) {
+						type = Plant.BIRD;
+						pot_image.setImageResource(Plant.b_water[water_color]);
+						selected_color = water_color;
+					}
+				});
+				pot_list.addView(pot);
+			}
+		} else if (type_string.equals(Plant.HAMSTER)){
+			int num_wheels = Plant.b_ham.length;
+			for (int i = 0; i < num_wheels; i++){
+				ImageView pot = new ImageView(ctx);
+				pot.setImageResource(Plant.b_ham[i]);
+				final int wheel_color = i;
+
+				pot.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View arg0) {
+						type = Plant.HAMSTER;
+						pot_image.setImageResource(Plant.b_ham[wheel_color]);
+						selected_color = wheel_color;
+					}
+				});
+				pot_list.addView(pot);
+			}
+		}
+	}
+	
+	private void setupHelp(){
 		
+	}
+	
+	private void setupFriends(){
 		// Database call for friends
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
@@ -130,7 +190,6 @@ public class PotFragment extends Fragment {
 			friend_aliases.add(u.alias);
 		}
 		
-		friend_list = (ListView) getView().findViewById(R.id.friend_list);
 		friend_list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		friend_list.setAdapter(new ArrayAdapter<String>(ctx,
 		                android.R.layout.simple_list_item_multiple_choice, friend_aliases));

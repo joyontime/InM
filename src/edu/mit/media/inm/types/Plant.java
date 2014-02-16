@@ -13,6 +13,11 @@ import edu.mit.media.inm.R;
 public class Plant implements Parcelable, Comparable<Plant> {	
 	public static final String NEW_STORY = "new_plant";
 	public static final String OPEN_PLANT = "open_plant";
+	public static final String PLANT = "plant";
+	public static final String BIRD = "bird";
+	public static final String HAMSTER = "ham";
+
+	public static final String[] TYPES = {PLANT, BIRD, HAMSTER};
 	
 	public long id;
 	public String author;
