@@ -19,7 +19,40 @@
 
         <requestFocus />
     </EditText>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:contentDescription="@string/share_with"
+            android:text="@string/select_icon" />
+
+        <Spinner
+            android:id="@+id/icon_spinner"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/icon_types"
+            android:prompt="@string/select_icon" />
+
+        <ImageButton
+            android:id="@+id/help_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:contentDescription="@string/action_help"
+            android:padding="10dip"
+            android:src="@drawable/ic_action_help" />
+    </LinearLayout>
+        
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

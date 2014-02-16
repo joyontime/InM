@@ -60,6 +60,13 @@
     <string name="pot">Topic</string>
     <string name="friends">My Group</string>
     <string name="share_with">Share with:</string>
+    <string name="select_icon">Icon type:</string>
+    <string name="action_help">Help with icons.</string>
+    <string-array name="icon_types">
+        <item>Plant</item>
+        <item>Bird</item>
+        <item>Hamster</item>
+    </string-array>
     
     <!--  Note -->
     <string name="note_hint">Write your note here.</string>

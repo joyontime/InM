@@ -100,6 +100,40 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		R.drawable.b_water_6,
 	};
 
+
+	public static int[] ham = {
+		R.drawable.ham_0,
+		R.drawable.ham_1,
+		R.drawable.ham_2,
+		R.drawable.ham_3,
+		R.drawable.ham_4,
+		R.drawable.ham_5,
+		R.drawable.ham_6,
+	};
+	
+	public static int[] wheel = {
+		R.drawable.wheel_1,
+		R.drawable.wheel_2,
+		R.drawable.wheel_3,
+		R.drawable.wheel_4,
+		R.drawable.wheel_5,
+		R.drawable.wheel_6,
+		R.drawable.wheel_7,
+		R.drawable.wheel_8,
+	};
+
+	public static int[] b_ham = {
+		R.drawable.b_ham_1,
+		R.drawable.b_ham_2,
+		R.drawable.b_ham_3,
+		R.drawable.b_ham_4,
+		R.drawable.b_ham_5,
+		R.drawable.b_ham_6,
+		R.drawable.b_ham_7,
+		R.drawable.b_ham_8,
+	};
+
+	
 	@Override
 	public String toString() {
 		return title;

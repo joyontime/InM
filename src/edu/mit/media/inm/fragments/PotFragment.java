@@ -18,9 +18,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
@@ -38,8 +40,12 @@ public class PotFragment extends Fragment {
 	private PreferenceHandler ph;
 
 	private EditText title_box;
+	private LinearLayout pot_list;
 	private ImageView pot_image;
 	private ListView friend_list;
+	private Spinner icon_type_spinner;
+	private ImageButton help_btn;
+	
 	private List<User> friends;
 	private String type;
 
@@ -70,18 +76,16 @@ public class PotFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		int num_pots =  Plant.b_pots.length - 5;
-		
 		title_box = (EditText) getView().findViewById(R.id.title_box);
+		pot_list = (LinearLayout) getView().findViewById(R.id.pot_list);
 		pot_image = (ImageView) getView().findViewById(R.id.pot_image);
 		pot_image.setImageResource(Plant.b_pots[selected_color]);
 		
-		LinearLayout pot_list = (LinearLayout) getView().findViewById(R.id.pot_list);
+		int num_pots =  Plant.b_pots.length - 5;
 		for (int i = 0; i < num_pots; i++){
 			ImageView pot = new ImageView(ctx);
 			pot.setImageResource(Plant.b_pots[i]);
 			final int pot_color = i;
-
 			pot.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {

@@ -9,7 +9,6 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
         <item name="android:actionDropDownStyle">@style/MyDropDownNav</item>
-        <item name="android:spinnerDropDownItemStyle">@style/MyDropDownNav</item>
     </style>
 
     <style name="MyDropDownNav" parent="android:style/Widget.Holo.Light.Spinner">
