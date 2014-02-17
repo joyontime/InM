@@ -1,5 +1,7 @@
 package edu.mit.media.inm.fragments;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -27,6 +29,7 @@ import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
+import edu.mit.media.inm.util.AesUtil;
 
 public class PlantFragment extends Fragment {
 	private static final String TAG = "PlantActivity";
@@ -132,8 +135,6 @@ public class PlantFragment extends Fragment {
 		info_view.setOnClickListener(listener);
 	}
 	
-
-	
 	private void checkOld(){
 		TextView alert_text = (TextView) rootView.findViewById(R.id.alert_text);
 		if (!plant.archived && plant.author.equals(server_id)){
@@ -158,8 +159,37 @@ public class PlantFragment extends Fragment {
 		List<Note> notes = nds.getPlantNotes(plant.server_id);
 		nds.close();
 		
-		NoteAdapter note_adapter = new NoteAdapter(ctx, notes, plant);
+
+		ArrayList<Note> to_display = new ArrayList<Note>();
+
+		String previous = "";
+		long previous_ts = 0;
+		Collections.sort(notes);
+		for (Note n: notes){
+			n.text = decryptText(n.text);
+			if (previous.indexOf("changed topic state to level") > 0
+					&& n.text.indexOf("changed topic state to level") > 0 &&
+					n.date - previous_ts < 1000*60*60) {
+				to_display.remove(to_display.size()-1);
+			}
+			to_display.add(n);
+			previous = n.text;
+			previous_ts = n.date;
+		}
+		
+		NoteAdapter note_adapter = new NoteAdapter(ctx, to_display);
 		notes_view.setAdapter(note_adapter);
+	}
+	
+	private String decryptText(String note_text){
+		String IV = new PreferenceHandler(ctx).IV();
+		String pass = plant.passphrase;
+		String salt = plant.salt;
+
+		AesUtil util = new AesUtil();
+
+        String decrypt = util.decrypt(salt, IV, pass, note_text);
+        return decrypt;
 	}
 	
 	public void refresh(){
