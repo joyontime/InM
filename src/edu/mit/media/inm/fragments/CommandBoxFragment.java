@@ -91,14 +91,18 @@ public class CommandBoxFragment extends Fragment {
 		
 		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
 		
-		if (plant.type.equals("plant")){
+		if (plant.type.equals(Plant.PLANT)){
 			this.GROWTH_IMAGES = Plant.growth;
 			this.MAX_GROWTH = 7;
 			plant_image.setBackgroundResource(Plant.pots[plant.pot]);
-		} else if (plant.type.equals("bird")){
+		} else if (plant.type.equals(Plant.BIRD)){
 			this.GROWTH_IMAGES = Plant.birds;
 			this.MAX_GROWTH = 3;
 			plant_image.setBackgroundResource(Plant.water[plant.pot]);
+		} else if (plant.type.equals(Plant.HAMSTER)){
+			this.GROWTH_IMAGES = Plant.ham;
+			this.MAX_GROWTH = 5;
+			plant_image.setBackgroundResource(Plant.wheel[plant.pot]);
 		}
 		plant_image.setImageResource(this.GROWTH_IMAGES[status]);
 		
@@ -288,8 +292,6 @@ public class CommandBoxFragment extends Fragment {
 		String salt = plant.salt;
 		String plain_text = text;
 
-		Log.d(TAG, "IV "+ IV.length());
-		
 		AesUtil util = new AesUtil();
         String encrypt = util.encrypt(salt, IV, pass, plain_text);
         return encrypt;

@@ -52,7 +52,7 @@ public class PotFragment extends Fragment {
 	
 	private List<User> friends;
 	private String type = Plant.PLANT;
-	private String display_type = Plant.PLANT;
+	private String display_type = "";
 
 	private InputMethodManager imm;
 	

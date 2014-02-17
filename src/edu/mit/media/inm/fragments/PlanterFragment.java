@@ -282,6 +282,9 @@ public class PlanterFragment extends Fragment {
 		} else if (p.type.equals("bird")){
 			image.setImageResource(Plant.birds[p.status]);
 			image.setBackgroundResource(Plant.water[p.pot]);
+		} else if (p.type.equals("ham")){
+			image.setImageResource(Plant.ham[p.status]);
+			image.setBackgroundResource(Plant.wheel[p.pot]);
 		} else {
 			Log.d(TAG, p.title + " TYPE:" + p.type);
 		}
