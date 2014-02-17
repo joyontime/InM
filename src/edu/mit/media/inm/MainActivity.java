@@ -37,7 +37,7 @@ import edu.mit.media.inm.util.NotifyService;
 
 public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 	private static String TAG = "MainActivity";
-	private ActionBar actionBar;
+	public ActionBar actionBar;
 	private FragmentManager fm;
 	private PreferenceHandler ph;
 	private Intent notifyService;
@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	        return true;
 		case R.id.action_discard:
 			Collection to_delete = this.collections.get(
-					this.actionBar.getSelectedNavigationIndex() - 4);
+					this.actionBar.getSelectedNavigationIndex() - 5);
 			CollectionDataSource c_data = new CollectionDataSource(this);
 			c_data.open();
 			c_data.deleteCollection(to_delete);
@@ -150,30 +150,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	}
 	
 	private void newThingDialog(){
-		new AlertDialog.Builder(this)
-		.setTitle(R.string.dialog_new)
-	    .setNeutralButton("Yes, a topic.", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-				fm.beginTransaction()
-				.replace(android.R.id.content, new PotFragment(), "pot")
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-				.addToBackStack("pot").commit();
-				turnOnActionBarNav(false);
-	        }
-	    })
-	    .setPositiveButton("Yes, a collection.", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	        	fm.beginTransaction()
-				.replace(android.R.id.content, new CollectionFragment(), "collection")
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-				.addToBackStack("collection").commit();
-				turnOnActionBarNav(false);
-	        }
-	    }).setNegativeButton("No.", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-				// Don't do anything.
-	        }
-	    }).show();
+		fm.beginTransaction()
+		.replace(android.R.id.content, new PotFragment(), "pot")
+		.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+		.addToBackStack("pot").commit();
+		turnOnActionBarNav(false);
 	}
 	
 	public void refresh(){
@@ -221,16 +202,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         // Spinner title navigation
 		actionBar = getActionBar();		
         navSpinner = new ArrayList<String>();
-        navSpinner.add("All");
+        navSpinner.add("All Topics");
         navSpinner.add("Mine");   
         navSpinner.add("Shared with me");   
         navSpinner.add("Archived");   
+        navSpinner.add("+ New");   
         
         CollectionDataSource c_data = new CollectionDataSource(this);
         c_data.open();
         collections = c_data.getAllCollections();
         for (Collection c : collections){
-        	navSpinner.add(c.name);
+        	navSpinner.add("> " + c.name);
         }
 
         adapter = new MainNavigationAdapter(this, navSpinner);
@@ -267,8 +249,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			case 3:		// Archived
 				planter_frag.refresh(true);
 				return true;
+			case 4:		// New Collection
+				fm.beginTransaction()
+				.replace(android.R.id.content, new CollectionFragment(), "collection")
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.addToBackStack("collection").commit();
+				this.actionBar.setSelectedNavigationItem(0);
+				turnOnActionBarNav(false);
+				return true;
 			default:	// Collections
-				Collection selected = this.collections.get(itemPosition-4);
+				Collection selected = this.collections.get(itemPosition-5);
 				planter_frag.refresh(selected);
 				return true;
 			}

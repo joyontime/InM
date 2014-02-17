@@ -114,17 +114,13 @@ public class CollectionFragment extends Fragment {
                     collection_data.createCollection("0",
                     		title_box.getText().toString(),
                     		plants_local.toString());
-
-                    /*
-            		PostPlant http_client = new PostPlant(0, ctx);
-            		http_client.setupParams(username, selected_color, share_local.toString(),
-            				share_local.toString(), title_box.getText().toString());
-                    http_client.execute();
-                    */
+                    ;
 
                     // Send it back to the main screen.
             		ctx.setUpNavigation();
                     ctx.goBack();
+                    ctx.actionBar.setSelectedNavigationItem(
+                    		collection_data.getAllCollections().size());
             	}
                 return true;
             }

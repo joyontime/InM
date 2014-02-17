@@ -80,7 +80,8 @@
                 android:id="@+id/pot_list"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal" 
+            android:padding="5dip" >
             </LinearLayout>
         </HorizontalScrollView>
 
