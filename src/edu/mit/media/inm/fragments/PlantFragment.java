@@ -1,6 +1,5 @@
 package edu.mit.media.inm.fragments;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.NoteAdapter;
@@ -119,8 +117,10 @@ public class PlantFragment extends Fragment {
                         : View.VISIBLE );
 				if (info_view.isShown()){
 					show_info.setText(R.string.hide_info);
+					show_info.setVisibility(View.GONE);
 				} else{
 					show_info.setText(R.string.show_info);
+					show_info.setVisibility(View.VISIBLE);
 				}
 			}
 		};

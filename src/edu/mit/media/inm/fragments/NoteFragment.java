@@ -117,6 +117,9 @@ public class NoteFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
+		if (datasource == null){
+			datasource = new NoteDataSource(ctx);
+		}
 		datasource.open();
 	}
 	

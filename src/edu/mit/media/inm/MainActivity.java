@@ -214,6 +214,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         for (Collection c : collections){
         	navSpinner.add("> " + c.name);
         }
+        c_data.close();
 
         adapter = new MainNavigationAdapter(this, navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
@@ -231,10 +232,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			switch (itemPosition) {
 			case 0:		// All
 				planter_frag.refresh(false);
+				userdata.close();
 				return true;
 			case 1:		// Mine
 				users.add(ph.server_id());
 				planter_frag.refresh(users);
+				userdata.close();
 				return true;
 			case 2:		// Not mine
 				userdata.open();
@@ -248,6 +251,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 				return true;
 			case 3:		// Archived
 				planter_frag.refresh(true);
+				userdata.close();
 				return true;
 			case 4:		// New Collection
 				fm.beginTransaction()
@@ -256,13 +260,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 				.addToBackStack("collection").commit();
 				this.actionBar.setSelectedNavigationItem(0);
 				turnOnActionBarNav(false);
+				userdata.close();
 				return true;
 			default:	// Collections
 				Collection selected = this.collections.get(itemPosition-5);
 				planter_frag.refresh(selected);
+				userdata.close();
 				return true;
 			}
 		}
+		userdata.close();
 		return false;
 	}
 

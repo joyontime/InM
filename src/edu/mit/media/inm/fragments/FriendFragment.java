@@ -48,6 +48,8 @@ public class FriendFragment extends Fragment {
 		friend_listview.setAdapter(
 				new ArrayAdapter<String>(ctx, R.layout.friend_row_item, friend_aliases));
 		
+		datasource.close();
+		
 		return rootView;
 	}
 	

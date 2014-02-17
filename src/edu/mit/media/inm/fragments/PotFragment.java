@@ -196,6 +196,7 @@ public class PotFragment extends Fragment {
 		UserDataSource user_data = new UserDataSource(ctx);
 		user_data.open();
 		friends = user_data.getAllUsers();
+		user_data.close();
 		ArrayList<String> friend_aliases = new ArrayList<String>(); 
 		for (User u: friends){
 			if (u.server_id.equals(ph.server_id())){

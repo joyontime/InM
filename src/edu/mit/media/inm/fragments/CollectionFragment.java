@@ -71,6 +71,8 @@ public class CollectionFragment extends Fragment {
 				plants.add(p);
 			}
 		}
+		user_data.close();
+		plant_data.close();
 		
 		plant_list = (ListView) getView().findViewById(R.id.friend_list);
 		plant_list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -115,12 +117,11 @@ public class CollectionFragment extends Fragment {
                     		title_box.getText().toString(),
                     		plants_local.toString());
                     ;
+                    collection_data.close();
 
                     // Send it back to the main screen.
             		ctx.setUpNavigation();
                     ctx.goBack();
-                    ctx.actionBar.setSelectedNavigationItem(
-                    		collection_data.getAllCollections().size());
             	}
                 return true;
             }

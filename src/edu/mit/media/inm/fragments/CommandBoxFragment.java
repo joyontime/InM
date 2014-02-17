@@ -315,6 +315,9 @@ public class CommandBoxFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
+		if (datasource == null){
+			datasource = new PlantDataSource(ctx);
+		}
 		datasource.open();
 	}
 	
