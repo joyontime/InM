@@ -126,7 +126,6 @@ public class NoteFragment extends Fragment {
 	@Override
 	public void onPause() {
 		datasource.close();
-		note_text.setText("");
 		super.onPause();
 	}
 
