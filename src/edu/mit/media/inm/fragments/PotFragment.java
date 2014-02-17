@@ -3,8 +3,10 @@ package edu.mit.media.inm.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -50,6 +52,7 @@ public class PotFragment extends Fragment {
 	
 	private List<User> friends;
 	private String type = Plant.PLANT;
+	private String display_type = Plant.PLANT;
 
 	private InputMethodManager imm;
 	
@@ -91,11 +94,11 @@ public class PotFragment extends Fragment {
 		setupHelp();
 		setupFriends();
 		setupSpinner();
+		swap_type(Plant.PLANT);
 	}
 	
 	private void setupSpinner(){
 		icon_type_spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
-
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
 				Toast.makeText(parent.getContext(), 
@@ -112,8 +115,10 @@ public class PotFragment extends Fragment {
 	}
 	
 	private void swap_type(String type_string){
-		if (type.equals(type_string)){
+		if (display_type.equals(type_string)){
 			return;
+		} else {
+			display_type = type_string;
 		}
 		pot_list.removeAllViews();
 		if (type_string.equals(Plant.PLANT)){
@@ -170,7 +175,20 @@ public class PotFragment extends Fragment {
 	}
 	
 	private void setupHelp(){
-		
+		help_btn.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				new AlertDialog.Builder(ctx)
+			    .setTitle(R.string.action_help)
+			    .setMessage(R.string.about_icons)
+			    .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int whichButton) {
+			            // Don't do anything
+			        }
+			    }).show();
+			}
+			
+		});
 	}
 	
 	private void setupFriends(){
