@@ -177,6 +177,10 @@ public class PlantFragment extends Fragment {
 			previous_ts = n.date;
 		}
 		
+		if (to_display.size() < 1){
+			show_info.performClick();
+		}
+		
 		NoteAdapter note_adapter = new NoteAdapter(ctx, to_display);
 		notes_view.setAdapter(note_adapter);
 	}

@@ -101,9 +101,6 @@ public class PotFragment extends Fragment {
 		icon_type_spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
-				Toast.makeText(parent.getContext(), 
-					"OnItemSelectedListener : " + parent.getItemAtPosition(pos).toString(),
-					Toast.LENGTH_SHORT).show();
 				swap_type(Plant.TYPES[pos]);
 			  }
 

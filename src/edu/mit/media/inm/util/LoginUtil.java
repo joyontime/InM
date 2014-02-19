@@ -55,8 +55,10 @@ public class LoginUtil{
 
 	public void pingServer(){
 		Log.d(TAG, "Starting update.");
-		final GetIV iv_thread = new GetIV(0, ctx);
-		iv_thread.execute();
+		if (!ph.username().isEmpty()){
+			final GetIV iv_thread = new GetIV(0, ctx);
+			iv_thread.execute();
+		}
 	}
 	
 
