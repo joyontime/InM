@@ -24,9 +24,17 @@ public class GetIV extends GetThread {
 	}
 
 	@Override
-	protected void onPostExecute(String result) {
-		PreferenceHandler ph = new PreferenceHandler(ctx);
+	protected void onPostExecute(Boolean result) {
+		if (result){
+			ctx.turnOnActionBarNav(true);
+			GetUsers user_thread = new GetUsers(this.id +1, ctx);
+			user_thread.execute();
+		}
+	}
 
+	@Override
+	protected void handleResults(String result) {
+		PreferenceHandler ph = new PreferenceHandler(ctx);
 		JSONParser js = new JSONParser();
 		try {
 			JSONObject iv = (JSONObject) js.parse(result);
@@ -42,13 +50,9 @@ public class GetIV extends GetThread {
 				ph.set_now(joda_ISO_parser.parseDateTime(iso_date)
 						.getMillis());
 			}
-			GetUsers user_thread = new GetUsers(this.id +1, ctx);
-			user_thread.execute();
-			ctx.turnOnActionBarNav(true);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Toast.makeText(ctx, "Login Failed! Try again.", Toast.LENGTH_LONG).show();
 		}
-		
 	}
 }

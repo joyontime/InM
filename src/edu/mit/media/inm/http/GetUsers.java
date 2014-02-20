@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.util.Log;
+
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.UserDataSource;
@@ -26,7 +28,16 @@ public class GetUsers extends GetThread {
 	}
 
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(Boolean result) {
+		Log.d(TAG, "GetUsers Done");
+		if (result){
+			GetPlants plant_thread = new GetPlants(this.id +1, ctx);
+			plant_thread.execute();
+		}
+	}
+
+	@Override
+	protected void handleResults(String result) {
 		UserDataSource datasource = new UserDataSource(ctx);
 		datasource.open();
 
@@ -43,8 +54,6 @@ public class GetUsers extends GetThread {
 			for (int i = 0; i < users_json.size(); i++) {
 				JSONObject user = (JSONObject) users_json.get(i);
 				String iso_date = (String) user.get("date_joined");
-				
-				
 				String user_id = (String) user.get("server_id");
 				if (!server_ids.contains(user_id)) {
 					datasource.createUser(
@@ -56,7 +65,6 @@ public class GetUsers extends GetThread {
 					server_ids.remove(user_id);
 				}
 			}
-			
 			if (server_ids.size() > 0){
 				for (String id: server_ids){
 					for (User u : datasource.getAllUsers()) {
@@ -69,10 +77,6 @@ public class GetUsers extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		GetPlants plant_thread = new GetPlants(this.id +1, ctx);
-		plant_thread.execute();
-		
 		datasource.close();
 	}
 }

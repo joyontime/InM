@@ -23,7 +23,6 @@ public class GetPlants extends GetThread {
 
 	public GetPlants(int id, MainActivity ctx) {
 		super(id, ctx);
-		
 		String query;
 		query = "";
 		try {
@@ -39,7 +38,19 @@ public class GetPlants extends GetThread {
 	}
 
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(Boolean result) {
+		Log.d(TAG, "GET plants finished");
+		if (result){
+			ctx.refresh();
+			/*
+			GetNotes check_message = new GetNotes(this.id + 1, ctx);
+			check_message.execute();
+			*/
+		}
+	}
+
+	@Override
+	protected void handleResults(String result) {
 		PlantDataSource datasource = new PlantDataSource(ctx);
 		datasource.open();
 
@@ -56,13 +67,10 @@ public class GetPlants extends GetThread {
 
 			for (int i = 0; i < plants_json.size(); i++) {
 				JSONObject plant = (JSONObject) plants_json.get(i);
-				String created_at = (String) plant.get("created_at");
-				Log.d(TAG, "plant: " + plant.get("title"));
-				
+				String created_at = (String) plant.get("created_at");				
 				String plant_id = (String) plant.get("server_id");
 				if (!server_ids.contains(plant_id)) {
 					JSONArray shared_users_json = (JSONArray) plant.get("shared_with");
-					
 					StringBuilder shared_with = new StringBuilder();
 					for (int j =0; j< shared_users_json.size(); j++){
 						String user_id = (String) shared_users_json.get(j);
@@ -77,10 +85,8 @@ public class GetPlants extends GetThread {
 							(String) plant.get("modified_at"))
 							.getMillis();
 					if (ph.now() > modified_at){
-						Log.d(TAG, "Diff:" + (ph.now() - modified_at));
 						shiny = false;
 					}
-					
 					datasource.createPlant(
 							(String) plant.get("owner"),
 							(Boolean) plant.get("archived"),
@@ -94,7 +100,7 @@ public class GetPlants extends GetThread {
 							Integer.parseInt((String) plant.get("status")),
 							(String) plant.get("title"),
 							(String) plant.get("type"),
-							shiny);			
+							shiny);
 				} else {
 					Plant old_plant = datasource.getPlantByServerID(plant_id);
 					String status = (String) plant.get("status");
@@ -105,15 +111,12 @@ public class GetPlants extends GetThread {
 								Integer.valueOf(status), archived);
 						datasource.setPlantShiny(plant_id, true);
 					}
-
 					server_ids.remove(plant_id);
 				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		GetNotes check_message = new GetNotes(this.id + 1, ctx);
-		check_message.execute();
 		datasource.close();
 	}
 }

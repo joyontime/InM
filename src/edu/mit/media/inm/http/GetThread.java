@@ -27,7 +27,7 @@ import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 
-public abstract class GetThread extends AsyncTask<Void, Void, String> {
+public abstract class GetThread extends AsyncTask<Void, Void, Boolean> {
 	public static String TAG = "RequestThread";
 
 	private SSLContext context;
@@ -97,7 +97,7 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 	/**
 	 * Executes the GetMethod and prints some status information.
 	 */
-	protected String doInBackground(Void... arg0) {
+	protected Boolean doInBackground(Void... arg0) {
 		try {
 			URL url = new URL(this.uri);
 			Log.d(TAG, this.id + " - Getting from server.");
@@ -128,14 +128,17 @@ public abstract class GetThread extends AsyncTask<Void, Void, String> {
 			}
 
 			conn.disconnect();
-			return total.toString();
+			handleResults(total.toString());
+			return true;
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "Failed.";
+		return false;
 	}
+	
+	protected abstract void handleResults(String result);
 
-	protected abstract void onPostExecute(String result);
+	protected abstract void onPostExecute(Boolean result);
 }

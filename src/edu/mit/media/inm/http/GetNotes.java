@@ -51,13 +51,20 @@ public class GetNotes extends GetThread {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		this.uri = server + "/" + notes + "/" + check + "?" + query.toString();
-		
 		Log.d(TAG, "URI to ping: " + this.uri);
 	}
 	@Override
-	protected void onPostExecute(String result) {
+	protected void onPostExecute(Boolean result) {
+		if (result){
+			Toast.makeText(ctx, "You are up to date!", Toast.LENGTH_LONG).show();
+			ph.set_last_pinged();
+			Log.d(TAG, "Refreshing.");
+			ctx.refresh();
+		}
+	}
+	@Override
+	protected void handleResults(String result) {
 		NoteDataSource datasource = new NoteDataSource(ctx);
 		datasource.open();
 		UserDataSource userdata = new UserDataSource(ctx);
@@ -102,11 +109,5 @@ public class GetNotes extends GetThread {
 		datasource.close();
 		userdata.close();
 		plantdata.close();
-
-		Toast.makeText(ctx, "You are up to date!", Toast.LENGTH_LONG).show();
-		ph.set_last_pinged();
-		
-		Log.d(TAG, "Refreshing.");
-		ctx.refresh();
 	}
 }
