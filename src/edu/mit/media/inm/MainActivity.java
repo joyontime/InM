@@ -184,6 +184,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		if (!ph.IV().equals(PreferenceHandler.default_IV)){
 			if (turnOn){
 				actionBar.setDisplayHomeAsUpEnabled(false);
+				actionBar.setHomeButtonEnabled(false);
 		        actionBar.setDisplayShowTitleEnabled(false);
 		        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 			} else {
@@ -200,13 +201,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 
 	public void setUpNavigation(){
         // Spinner title navigation
-		actionBar = getActionBar();		
+		actionBar = getActionBar();
+		actionBar.setDisplayUseLogoEnabled(true);
         navSpinner = new ArrayList<String>();
         navSpinner.add("All Topics");
         navSpinner.add("Mine");   
         navSpinner.add("Shared with me");   
         navSpinner.add("Archived");   
-        navSpinner.add("+ New");   
+        navSpinner.add("+ New Collection");   
         
         CollectionDataSource c_data = new CollectionDataSource(this);
         c_data.open();

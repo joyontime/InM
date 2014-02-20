@@ -45,13 +45,10 @@ public class MainNavigationAdapter extends BaseAdapter {
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.list_item_nav, null);
         }
-         
         txtTitle = (TextView) convertView.findViewById(R.id.nav_text);
-         
         txtTitle.setText(spinnerNavItem.get(position));
         return convertView;
     }
-     
  
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -60,11 +57,8 @@ public class MainNavigationAdapter extends BaseAdapter {
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.list_item_nav, null);
         }
-         
         txtTitle = (TextView) convertView.findViewById(R.id.nav_text);
-         
         txtTitle.setText(spinnerNavItem.get(position));
         return convertView;
     }
- 
 }
