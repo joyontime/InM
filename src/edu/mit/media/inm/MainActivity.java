@@ -13,13 +13,21 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import edu.mit.media.inm.fragments.CollectionFragment;
 import edu.mit.media.inm.fragments.NoteFragment;
@@ -30,6 +38,7 @@ import edu.mit.media.inm.fragments.PrefsFragment;
 import edu.mit.media.inm.handlers.CollectionDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.http.GetNotes;
 import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.User;
 import edu.mit.media.inm.util.LoginUtil;
@@ -54,6 +63,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
@@ -74,7 +84,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		Calendar cal = Calendar.getInstance();
 		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
 				+ cal.get(Calendar.MINUTE));
-		
 		setUpNavigation();
         
 		tracker = EasyTracker.getInstance(this);
@@ -160,24 +169,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public void refresh(){
 		Log.d(TAG, "Refresh");
 		this.user_id = ph.server_id();
-
 		int to_refresh = this.actionBar.getSelectedNavigationIndex();
 		if (to_refresh > -1 && this.actionBar.getNavigationItemCount() > to_refresh){
 			onNavigationItemSelected(to_refresh, to_refresh);
 		}
-		
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 		if (planter_frag !=null){
 			planter_frag.refresh();
 		}
-
+		refreshPlant();
+		invalidateOptionsMenu();
+	}
+	
+	public void refreshPlant(){
 		PlantFragment plant_frag = (PlantFragment) getFragmentManager()
 				.findFragmentByTag("plant");
 		if (plant_frag != null){
 			plant_frag.refresh();
 		}
-		invalidateOptionsMenu();
 	}
 	
 	public void turnOnActionBarNav(boolean turnOn){

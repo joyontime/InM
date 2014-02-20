@@ -47,7 +47,7 @@ public class PlantDataSource {
 	public Plant createPlant(String author, boolean archived,
 			long date, String pass, int pot_color, String salt, String server_id,
 			String share, int status, String title, String type, boolean shiny) {
-		Log.d(TAG, "Type: " + type);
+		//Log.d(TAG, "Type: " + type);
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
 		values.put(PlantSQLite.COLUMN_ARCHIVED, archived ? 1:0);

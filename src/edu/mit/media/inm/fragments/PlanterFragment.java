@@ -144,7 +144,7 @@ public class PlanterFragment extends Fragment {
 		List<Plant> to_display = new ArrayList<Plant>();
 
 		for (Plant p : all_plants){
-			Log.d(TAG, "Main Display: " + p.title);
+			//Log.d(TAG, "Main Display: " + p.title);
 			if (this.archived ^ p.archived){
 				// Don't show archived plants if in archive, etc.
 				continue;

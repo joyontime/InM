@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.fragments.PlanterFragment;
@@ -15,6 +16,7 @@ import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.GetIV;
+import edu.mit.media.inm.http.GetUsers;
 
 
 
@@ -55,9 +57,16 @@ public class LoginUtil{
 
 	public void pingServer(){
 		Log.d(TAG, "Starting update.");
-		if (!ph.username().isEmpty()){
+		if (ph.username().isEmpty()){
+			Toast.makeText(ctx, "Welcome to InMind!", Toast.LENGTH_SHORT).show();
+		} else if (ph.IV().equals(PreferenceHandler.default_IV)){
+			Toast.makeText(ctx, "Logging in..", Toast.LENGTH_SHORT).show();
 			final GetIV iv_thread = new GetIV(0, ctx);
 			iv_thread.execute();
+		} else {
+			Toast.makeText(ctx, "Welcome back! Checking for updates..", Toast.LENGTH_LONG).show();
+			GetUsers user_thread = new GetUsers(0, ctx);
+			user_thread.execute();
 		}
 	}
 	

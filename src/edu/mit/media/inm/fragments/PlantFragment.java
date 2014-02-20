@@ -20,13 +20,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.NoteAdapter;
 import edu.mit.media.inm.handlers.NoteDataSource;
 import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
+import edu.mit.media.inm.http.GetNotesForPlant;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.util.AesUtil;
@@ -34,13 +37,14 @@ import edu.mit.media.inm.util.AesUtil;
 public class PlantFragment extends Fragment {
 	private static final String TAG = "PlantActivity";
 
-	private Activity ctx;
+	private MainActivity ctx;
 	private View rootView;
 	private PlantDataSource datasource;
 	private String server_id;
 	private Plant plant;
 	private Button show_info;
 	private LinearLayout info_view;
+	private ProgressBar progress_bar;
 	
 	private ListView notes_view;
 	
@@ -78,7 +82,7 @@ public class PlantFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ctx = this.getActivity();
+		ctx = (MainActivity) this.getActivity();
 		rootView = inflater.inflate(R.layout.fragment_plant, container,
 				false);
 		
@@ -89,6 +93,7 @@ public class PlantFragment extends Fragment {
 		server_id = new PreferenceHandler(ctx).server_id();
 
 		setupInfoView();
+		getNotes();
 		setupNotes();
 
 		cmd_box_frag = CommandBoxFragment.newInstance(plant);
@@ -104,7 +109,6 @@ public class PlantFragment extends Fragment {
 				.setTransition(0)
 				.commit();
 		}
-		
 		checkOld();
 		
 		return rootView;
@@ -152,7 +156,13 @@ public class PlantFragment extends Fragment {
 		}
 	}
 	
+	private void getNotes(){
+		GetNotesForPlant check_message = new GetNotesForPlant(0, ctx, this.plant);
+		check_message.execute();
+	}
+	
 	private void setupNotes(){
+		progress_bar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
 		notes_view = (ListView) rootView.findViewById(R.id.notes);
 		NoteDataSource nds = new NoteDataSource(ctx);
 		nds.open();
@@ -199,6 +209,7 @@ public class PlantFragment extends Fragment {
 	public void refresh(){
 		setupNotes();
 		checkOld();
+		progress_bar.setVisibility(View.GONE);
 	}
 
 	@Override

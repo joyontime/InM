@@ -12,7 +12,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.util.Log;
-import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.PlantDataSource;
@@ -41,11 +40,8 @@ public class GetPlants extends GetThread {
 	protected void onPostExecute(Boolean result) {
 		Log.d(TAG, "GET plants finished");
 		if (result){
-			ctx.refresh();
-			/*
 			GetNotes check_message = new GetNotes(this.id + 1, ctx);
 			check_message.execute();
-			*/
 		}
 	}
 

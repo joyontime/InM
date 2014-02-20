@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
     
     <!-- Clickable data -->
     <LinearLayout
@@ -53,6 +53,11 @@
         android:transcriptMode="alwaysScroll"
         android:fadingEdgeLength="30dip"
         android:requiresFadingEdge="vertical" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/note_space"

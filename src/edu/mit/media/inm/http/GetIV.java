@@ -27,8 +27,11 @@ public class GetIV extends GetThread {
 	protected void onPostExecute(Boolean result) {
 		if (result){
 			ctx.turnOnActionBarNav(true);
+			Toast.makeText(ctx, "Login successful. Getting your data...", Toast.LENGTH_LONG).show();
 			GetUsers user_thread = new GetUsers(this.id +1, ctx);
 			user_thread.execute();
+		} else {
+			Toast.makeText(ctx, "Login Failed! Try again.", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -52,7 +55,6 @@ public class GetIV extends GetThread {
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
-			Toast.makeText(ctx, "Login Failed! Try again.", Toast.LENGTH_LONG).show();
 		}
 	}
 }

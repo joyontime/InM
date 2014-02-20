@@ -21,10 +21,10 @@ import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 
-public class GetNotes extends GetThread {
+public class GetNotesForPlant extends GetThread {
 	private static final String TAG = "GetNotes HTTP";
 
-	public GetNotes(int id, MainActivity ctx) {
+	public GetNotesForPlant(int id, MainActivity ctx, Plant p){
 		super(id, ctx);
 
 		String server = ctx.getResources().getString(R.string.url_server);
@@ -36,19 +36,10 @@ public class GetNotes extends GetThread {
 		try {
 			query.append("pinged_at=");
 			query.append(URLEncoder.encode(String.valueOf(ph.last_pinged()), charset));
-			
-			PlantDataSource datasource = new PlantDataSource(ctx);
-			datasource.open();
-			if (datasource.getAllPlants().size() < 1){
-				this.cancel(true);
-			}
-			
-			for (Plant p: datasource.getAllPlants()){
-				query.append("&");
-				query.append("plants=");
-				query.append(URLEncoder.encode(p.server_id, charset));
-			}
-			datasource.close();
+
+			query.append("&");
+			query.append("plants=");
+			query.append(URLEncoder.encode(p.server_id, charset));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -58,9 +49,8 @@ public class GetNotes extends GetThread {
 	@Override
 	protected void onPostExecute(Boolean result) {
 		if (result){
-			Toast.makeText(ctx, "You are up to date!", Toast.LENGTH_LONG).show();
-			ph.set_last_pinged();
-			ctx.refresh();
+			Log.d(TAG, "Refreshing.");
+			ctx.refreshPlant();
 		}
 	}
 	@Override
