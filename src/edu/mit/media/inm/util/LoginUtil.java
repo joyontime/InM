@@ -61,17 +61,28 @@ public class LoginUtil{
 			Toast.makeText(ctx, "Welcome to InMind!", Toast.LENGTH_SHORT).show();
 		} else if (ph.IV().equals(PreferenceHandler.default_IV)){
 			Toast.makeText(ctx, "Logging in..", Toast.LENGTH_SHORT).show();
+			PlanterFragment planter_frag = (PlanterFragment) ctx.getFragmentManager()
+					.findFragmentByTag("planter");
+			if (planter_frag !=null){
+				planter_frag.showSpinner();
+				planter_frag.setupPrompt();
+			}
 			final GetIV iv_thread = new GetIV(0, ctx);
 			iv_thread.execute();
 		} else {
 			Toast.makeText(ctx, "Welcome back! Checking for updates..", Toast.LENGTH_LONG).show();
+			PlanterFragment planter_frag = (PlanterFragment) ctx.getFragmentManager()
+					.findFragmentByTag("planter");
+			if (planter_frag !=null){
+				planter_frag.showSpinner();
+			}
 			GetUsers user_thread = new GetUsers(0, ctx);
 			user_thread.execute();
 		}
 	}
-	
 
 	public void clearAllDb(){
+		Toast.makeText(ctx, "Logging out...", Toast.LENGTH_SHORT).show();
 		ph.set_server_id("None");
 		ph.set_IV(PreferenceHandler.default_IV);
 		ph.set_now(0);

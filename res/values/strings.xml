@@ -28,6 +28,7 @@
     <string name="action_logout">Log Out</string>
     <string name="username">username</string>
     <string name="password">password</string>
+    <string name="waiting_on_server">"Hold on! I'm talking to the server...\n (If you have a lot of messages, this can take a while.)"</string>
     
     <!-- Plants -->
     <string name="action_note">Write a Note</string>

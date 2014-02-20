@@ -23,6 +23,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
@@ -44,6 +45,8 @@ public class PlanterFragment extends Fragment {
 	private LinearLayout my_plants;
 	private TextView message;
 	private int plant_width;
+	
+	private ProgressBar progress_spinner;
 
 	private boolean archived = false;
 	private boolean display_collection = false;
@@ -81,6 +84,8 @@ public class PlanterFragment extends Fragment {
 		planter = (HorizontalScrollView) rootView.findViewById(R.id.planter);
 		my_plants = (LinearLayout) rootView.findViewById(R.id.my_plants);
 		message = (TextView) rootView.findViewById(R.id.planter_message);
+		progress_spinner = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+		Log.d(TAG, progress_spinner.toString());
 		
 		ph = new PreferenceHandler(ctx);
 		return rootView;
@@ -99,8 +104,13 @@ public class PlanterFragment extends Fragment {
 		}
 	}
 	
+	public void showSpinner(){
+		progress_spinner.setVisibility(View.VISIBLE);
+	}
+	
 	public void refresh(){
 		setupPrompt();
+		progress_spinner.setVisibility(View.GONE);
 		if (datasource == null){
 			datasource = new PlantDataSource(ctx);
 		}
@@ -321,9 +331,11 @@ public class PlanterFragment extends Fragment {
 		}
 	}
 	
-	private void setupPrompt(){
-		if (ph.IV().equals(PreferenceHandler.default_IV)){
+	public void setupPrompt(){
+		if (ph.username().isEmpty()){
 			message.setText("Welcome to InMind! Please log in.");
+		} else if (ph.IV().equals(PreferenceHandler.default_IV)){
+			message.setText(R.string.waiting_on_server);
 		} else {
 			if (this.archived){
 				message.setText("Archived plants are kept here." +

@@ -14,6 +14,8 @@ import edu.mit.media.inm.handlers.PreferenceHandler;
 
 public class GetIV extends GetThread {
 	protected static final String TAG = "GetIV HTTP";
+	
+	private PreferenceHandler ph;
 
 	public GetIV(int id, MainActivity ctx) {
 		super(id, ctx);
@@ -21,23 +23,27 @@ public class GetIV extends GetThread {
 		String users = ctx.getResources().getString(R.string.uri_users);
 		String IV = ctx.getResources().getString(R.string.uri_IV);
 		this.uri = server + "/" + users + "/" + IV;
+
+		ph = new PreferenceHandler(ctx);
 	}
 
 	@Override
 	protected void onPostExecute(Boolean result) {
 		if (result){
 			ctx.turnOnActionBarNav(true);
+			ctx.invalidateOptionsMenu();
 			Toast.makeText(ctx, "Login successful. Getting your data...", Toast.LENGTH_LONG).show();
 			GetUsers user_thread = new GetUsers(this.id +1, ctx);
 			user_thread.execute();
 		} else {
 			Toast.makeText(ctx, "Login Failed! Try again.", Toast.LENGTH_LONG).show();
+	    	ph.setUsername("");
+			ctx.refresh();
 		}
 	}
 
 	@Override
 	protected void handleResults(String result) {
-		PreferenceHandler ph = new PreferenceHandler(ctx);
 		JSONParser js = new JSONParser();
 		try {
 			JSONObject iv = (JSONObject) js.parse(result);
