@@ -21,9 +21,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.CollectionDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Plant;
 
 public class CollectionFragment extends Fragment {
@@ -58,21 +55,15 @@ public class CollectionFragment extends Fragment {
 		title_box = (EditText) getView().findViewById(R.id.title_box);
 		
 		// Database call for plants
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
-		PlantDataSource plant_data = new PlantDataSource(ctx);
-		plant_data.open();
-		List<Plant> all_plants = plant_data.getAllPlants();
+		List<Plant> all_plants = ctx.plant_ds.getAllPlants();
 		plants = new ArrayList<Plant>();
 		ArrayList<String> plant_aliases = new ArrayList<String>(); 
 		for (Plant p: all_plants){
 			if (!p.archived){
-				plant_aliases.add(user_data.getUserAlias(p.author) + "'s " + p.title);
+				plant_aliases.add(ctx.user_ds.getUserAlias(p.author) + "'s " + p.title);
 				plants.add(p);
 			}
 		}
-		user_data.close();
-		plant_data.close();
 		
 		plant_list = (ListView) getView().findViewById(R.id.friend_list);
 		plant_list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -112,13 +103,10 @@ public class CollectionFragment extends Fragment {
             		}
                     imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
 
-                    CollectionDataSource collection_data = new CollectionDataSource(ctx);
-                    collection_data.open();
-                    collection_data.createCollection("0",
+                    ctx.collection_ds.createCollection("0",
                     		title_box.getText().toString(),
                     		plants_local.toString());
                     ;
-                    collection_data.close();
 
                     // Send it back to the main screen.
             		ctx.setUpNavigation();

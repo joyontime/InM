@@ -38,11 +38,8 @@ public class GetUsers extends GetThread {
 
 	@Override
 	protected void handleResults(String result) {
-		UserDataSource datasource = new UserDataSource(ctx);
-		datasource.open();
-
 		HashSet<String> server_ids = new HashSet<String>();
-		for (User u : datasource.getAllUsers()) {
+		for (User u : ctx.user_ds.getAllUsers()) {
 			server_ids.add(u.server_id);
 		}
 
@@ -56,7 +53,7 @@ public class GetUsers extends GetThread {
 				String iso_date = (String) user.get("date_joined");
 				String user_id = (String) user.get("server_id");
 				if (!server_ids.contains(user_id)) {
-					datasource.createUser(
+					ctx.user_ds.createUser(
 							user_id,
 							(String) user.get("alias"),
 							joda_ISO_parser.parseDateTime(iso_date)
@@ -67,9 +64,9 @@ public class GetUsers extends GetThread {
 			}
 			if (server_ids.size() > 0){
 				for (String id: server_ids){
-					for (User u : datasource.getAllUsers()) {
+					for (User u : ctx.user_ds.getAllUsers()) {
 						if (id.equalsIgnoreCase(u.server_id)){
-							datasource.deleteUser(u);
+							ctx.user_ds.deleteUser(u);
 						}
 					}
 				}
@@ -77,6 +74,5 @@ public class GetUsers extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		datasource.close();
 	}
 }

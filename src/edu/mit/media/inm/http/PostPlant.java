@@ -20,8 +20,6 @@ import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.types.Plant;
 
 public class PostPlant extends PostThread{
-	private PlantDataSource datasource;
-	
 	private String username;
 	private int pot_color;
 	private String passphrase;
@@ -32,12 +30,8 @@ public class PostPlant extends PostThread{
 	
 	private MainActivity main;
 
-	public PostPlant(int id, Context ctx) {
+	public PostPlant(int id, MainActivity ctx) {
 		super(id, ctx);
-		datasource = new PlantDataSource(ctx);
-		datasource.open();
-
-		main = (MainActivity) ctx;
 
 		String server = ctx.getResources().getString(R.string.url_server);
 		String plants = ctx.getResources().getString(R.string.uri_plants);
@@ -84,7 +78,7 @@ public class PostPlant extends PostThread{
 				status = 2;
 			}
 			// Save the plant locally
-			Plant s = datasource.createPlant(this.username, false, created_at,
+			Plant s = ctx.plant_ds.createPlant(this.username, false, created_at,
 					this.passphrase, this.pot_color, this.salt, server_id,
 					this.shared_with, status, this.title, this.type, true);
 			
@@ -93,8 +87,6 @@ public class PostPlant extends PostThread{
 			main.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} finally {
-			datasource.close();
 		}
 	}
 	

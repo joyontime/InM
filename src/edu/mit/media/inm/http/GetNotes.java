@@ -15,9 +15,6 @@ import android.util.Log;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.NoteDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 
@@ -37,18 +34,15 @@ public class GetNotes extends GetThread {
 			query.append("pinged_at=");
 			query.append(URLEncoder.encode(String.valueOf(ph.last_pinged()), charset));
 			
-			PlantDataSource datasource = new PlantDataSource(ctx);
-			datasource.open();
-			if (datasource.getAllPlants().size() < 1){
+			if (ctx.plant_ds.getAllPlants().size() < 1){
 				this.cancel(true);
 			}
 			
-			for (Plant p: datasource.getAllPlants()){
+			for (Plant p: ctx.plant_ds.getAllPlants()){
 				query.append("&");
 				query.append("plants=");
 				query.append(URLEncoder.encode(p.server_id, charset));
 			}
-			datasource.close();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -65,15 +59,9 @@ public class GetNotes extends GetThread {
 	}
 	@Override
 	protected void handleResults(String result) {
-		NoteDataSource datasource = new NoteDataSource(ctx);
-		datasource.open();
-		UserDataSource userdata = new UserDataSource(ctx);
-		userdata.open();
-		PlantDataSource plantdata = new PlantDataSource(ctx);
-		plantdata.open();
 
 		HashSet<String> server_ids = new HashSet<String>();
-		for (Note n : datasource.getAllNotes()) {
+		for (Note n : ctx.note_ds.getAllNotes()) {
 			server_ids.add(n.server_id);
 		}
 
@@ -90,14 +78,14 @@ public class GetNotes extends GetThread {
 				
 				String note_id = (String) note.get("server_id");
 				if (!server_ids.contains(note_id)) {
-					datasource.createNote(
-							userdata.getUserAlias((String) note.get("user_id")),
+					ctx.note_ds.createNote(
+							ctx.user_ds.getUserAlias((String) note.get("user_id")),
 							created_at,
 							(String) note.get("text"),
 							(String) note.get("plant_id"),
 							note_id);
 					if (ph.now() < created_at){
-						plantdata.setPlantShiny((String) note.get("plant_id"), true);
+						ctx.plant_ds.setPlantShiny((String) note.get("plant_id"), true);
 					}
 				} else {
 					server_ids.remove(note_id);
@@ -106,8 +94,5 @@ public class GetNotes extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		datasource.close();
-		userdata.close();
-		plantdata.close();
 	}
 }

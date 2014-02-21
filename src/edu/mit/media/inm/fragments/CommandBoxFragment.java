@@ -4,12 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,23 +20,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.NoteDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.PostNote;
 import edu.mit.media.inm.http.UpdatePlant;
-import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.util.AesUtil;
 
 public class CommandBoxFragment extends Fragment {
 	private static final String TAG = "PlantActivity";
 
-	private Activity ctx;
+	private MainActivity ctx;
 	private View rootView;
-	private PlantDataSource datasource;
 	private PreferenceHandler ph;
 	private Plant plant;
 
@@ -73,7 +67,7 @@ public class CommandBoxFragment extends Fragment {
 		setHasOptionsMenu(true);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
 
-		ctx = this.getActivity();
+		ctx = (MainActivity) this.getActivity();
 		tracker = EasyTracker.getInstance(ctx);
 	}
 
@@ -126,10 +120,6 @@ public class CommandBoxFragment extends Fragment {
 				disableArchive();
 			}
 		}
-		
-		datasource = new PlantDataSource(ctx);
-		datasource.open();
-		
 		this.setupInfo();
 		
 		return rootView;
@@ -140,11 +130,9 @@ public class CommandBoxFragment extends Fragment {
 		// Load plant data.
 		StringBuilder info_string = new StringBuilder();
 
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
 		// Pretty Print date
 				info_string.append("Owned by: \n\t");
-				info_string.append(user_data.getUserAlias(plant.author));
+				info_string.append(ctx.user_ds.getUserAlias(plant.author));
 				info_string.append("\n\n");
 
 		// Pretty Print date
@@ -157,10 +145,9 @@ public class CommandBoxFragment extends Fragment {
 		info_string.append("Shared with: \n\t");
 		for (String s: plant.shared_with.split(",")){
 			if (!s.trim().isEmpty() && !s.equals(plant.author)){
-				info_string.append(user_data.getUserAlias(s) + ", ");	
+				info_string.append(ctx.user_ds.getUserAlias(s) + ", ");	
 			}
 		}
-		user_data.close();
 		info_text.setText(info_string.toString());
 	}
 
@@ -315,15 +302,10 @@ public class CommandBoxFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
-		if (datasource == null){
-			datasource = new PlantDataSource(ctx);
-		}
-		datasource.open();
 	}
 	
 	@Override
 	public void onPause() {
-		datasource.close();
 		super.onPause();
 	}
 }

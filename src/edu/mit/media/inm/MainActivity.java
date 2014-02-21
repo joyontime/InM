@@ -13,21 +13,14 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import edu.mit.media.inm.fragments.CollectionFragment;
 import edu.mit.media.inm.fragments.NoteFragment;
@@ -36,9 +29,10 @@ import edu.mit.media.inm.fragments.PlanterFragment;
 import edu.mit.media.inm.fragments.PotFragment;
 import edu.mit.media.inm.fragments.PrefsFragment;
 import edu.mit.media.inm.handlers.CollectionDataSource;
+import edu.mit.media.inm.handlers.NoteDataSource;
+import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.handlers.UserDataSource;
-import edu.mit.media.inm.http.GetNotes;
 import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.User;
 import edu.mit.media.inm.util.LoginUtil;
@@ -60,11 +54,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	private long start_time;
 	
 	public String user_id;
+	
+	// Datasources for all activities to use
+	public PlantDataSource plant_ds;
+	public NoteDataSource note_ds;
+	public UserDataSource user_ds;
+	public CollectionDataSource collection_ds;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
+		// Open all datasources
+		plant_ds = new PlantDataSource(this);
+		note_ds = new NoteDataSource(this);
+		user_ds = new UserDataSource(this);
+		collection_ds = new CollectionDataSource(this);
+		plant_ds.open();
+		note_ds.open();
+		user_ds.open();
+		collection_ds.open();
+		
 		FragmentManager.enableDebugLogging(true);
 		fm = getFragmentManager();
 		if (savedInstanceState == null) {
@@ -123,9 +132,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		case R.id.action_discard:
 			Collection to_delete = this.collections.get(
 					this.actionBar.getSelectedNavigationIndex() - 5);
-			CollectionDataSource c_data = new CollectionDataSource(this);
-			c_data.open();
-			c_data.deleteCollection(to_delete);
+			this.collection_ds.deleteCollection(to_delete);
 			setUpNavigation();
 	        return true;
 		case R.id.action_refresh:
@@ -174,7 +181,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		}
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
-		if (planter_frag !=null && planter_frag.visible){
+		if (planter_frag !=null){
 			planter_frag.refresh();
 		}
 		refreshPlant();
@@ -219,13 +226,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         navSpinner.add("Archived");   
         navSpinner.add("+ New Collection");   
         
-        CollectionDataSource c_data = new CollectionDataSource(this);
-        c_data.open();
-        collections = c_data.getAllCollections();
+        collections = this.collection_ds.getAllCollections();
         for (Collection c : collections){
         	navSpinner.add("> " + c.name);
         }
-        c_data.close();
 
         adapter = new MainNavigationAdapter(this, navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
@@ -235,7 +239,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		Log.d(TAG, "Spinner Item :" + itemPosition + " " + itemId);
 		Set<String> users = new HashSet<String>();
-		UserDataSource userdata = new UserDataSource(this);
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
 
@@ -243,26 +246,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			switch (itemPosition) {
 			case 0:		// All
 				planter_frag.refresh(false);
-				userdata.close();
 				return true;
 			case 1:		// Mine
 				users.add(ph.server_id());
 				planter_frag.refresh(users);
-				userdata.close();
 				return true;
 			case 2:		// Not mine
-				userdata.open();
-				for (User u : userdata.getAllUsers()){
+				for (User u : user_ds.getAllUsers()){
 					if (!u.server_id.equals(ph.server_id())){
 						users.add(u.server_id);
 					}
 				}
-				userdata.close();
 				planter_frag.refresh(users);
 				return true;
 			case 3:		// Archived
 				planter_frag.refresh(true);
-				userdata.close();
 				return true;
 			case 4:		// New Collection
 				fm.beginTransaction()
@@ -270,16 +268,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack("collection").commit();
 				this.actionBar.setSelectedNavigationItem(0);
-				userdata.close();
 				return true;
 			default:	// Collections
 				Collection selected = this.collections.get(itemPosition-5);
 				planter_frag.refresh(selected);
-				userdata.close();
 				return true;
 			}
 		}
-		userdata.close();
 		return false;
 	}
 
@@ -334,6 +329,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	@Override
 	public void onResume(){
 		super.onResume();
+		plant_ds.open();
+		note_ds.open();
+		user_ds.open();
+		collection_ds.open();
+	}
+	
+	@Override
+	public void onPause(){
+		plant_ds.close();
+		note_ds.close();
+		user_ds.close();
+		collection_ds.close();
+		super.onPause();
 	}
 	
 	@Override

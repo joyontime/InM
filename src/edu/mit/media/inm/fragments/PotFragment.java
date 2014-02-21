@@ -31,7 +31,6 @@ import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.PreferenceHandler;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.PostPlant;
 import edu.mit.media.inm.types.Plant;
 import edu.mit.media.inm.types.User;
@@ -190,10 +189,7 @@ public class PotFragment extends Fragment {
 	
 	private void setupFriends(){
 		// Database call for friends
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
-		friends = user_data.getAllUsers();
-		user_data.close();
+		friends = ctx.user_ds.getAllUsers();
 		ArrayList<String> friend_aliases = new ArrayList<String>(); 
 		for (User u: friends){
 			if (u.server_id.equals(ph.server_id())){

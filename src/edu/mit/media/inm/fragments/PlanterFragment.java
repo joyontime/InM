@@ -28,10 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.NoteDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
@@ -41,7 +38,6 @@ public class PlanterFragment extends Fragment {
 
 	private MainActivity ctx;
 	private PreferenceHandler ph;
-	private PlantDataSource datasource;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
 	private TextView message;
@@ -119,12 +115,8 @@ public class PlanterFragment extends Fragment {
 		}
 		setupPrompt();
 		progress_spinner.setVisibility(View.GONE);
-		if (datasource == null){
-			datasource = new PlantDataSource(ctx);
-		}
-		datasource.open();
 		if (this.plants == null){
-			List<Plant> all_plants = datasource.getAllPlants();
+			List<Plant> all_plants = ctx.plant_ds.getAllPlants();
 			this.plants = new ArrayList<Plant>();
 
 			for (Plant p : all_plants){
@@ -138,7 +130,7 @@ public class PlanterFragment extends Fragment {
 		} else {
 			List<Plant> refreshed_plants = new ArrayList<Plant>();
 			for (Plant p: this.plants){
-				refreshed_plants.add(datasource.getPlantByServerID(p.server_id));
+				refreshed_plants.add(ctx.plant_ds.getPlantByServerID(p.server_id));
 			}
 			this.plants = refreshed_plants;
 		}
@@ -151,14 +143,13 @@ public class PlanterFragment extends Fragment {
 	 * @param archived
 	 */
 	public void refresh(boolean archived){
+		if (!visible){
+			return;
+		}
 		Log.d(TAG, "Showing: " + archived);
 		this.archived = archived;
 		this.display_collection = false;
-		if (datasource == null){
-			datasource = new PlantDataSource(ctx);
-		}
-		datasource.open();
-		List<Plant> all_plants = datasource.getAllPlants();
+		List<Plant> all_plants = ctx.plant_ds.getAllPlants();
 		List<Plant> to_display = new ArrayList<Plant>();
 
 		for (Plant p : all_plants){
@@ -181,13 +172,12 @@ public class PlanterFragment extends Fragment {
 	 * @param users
 	 */
 	public void refresh(Set<String> users){
+		if (!visible){
+			return;
+		}
 		this.archived = false;
 		this.display_collection = false;
-		if (datasource == null){
-			datasource = new PlantDataSource(ctx);
-		}
-		datasource.open();
-		List<Plant> all_plants = datasource.getAllPlants();
+		List<Plant> all_plants = ctx.plant_ds.getAllPlants();
 		List<Plant> to_display = new ArrayList<Plant>();
 
 		for (Plant p : all_plants){
@@ -209,6 +199,9 @@ public class PlanterFragment extends Fragment {
 	 * @param collection
 	 */
 	public void refresh(Collection collection){
+		if (!visible){
+			return;
+		}
 		this.archived = false;
 		this.display_collection = true;
 		
@@ -217,12 +210,7 @@ public class PlanterFragment extends Fragment {
 			plants_in_collection.add(s);
 		}
 		
-		if (datasource == null){
-			datasource = new PlantDataSource(ctx);
-		}
-		datasource.open();
-		
-		List<Plant> all_plants = datasource.getAllPlants();
+		List<Plant> all_plants = ctx.plant_ds.getAllPlants();
 		List<Plant> to_display = new ArrayList<Plant>();
 
 		for (Plant p : all_plants){
@@ -248,16 +236,13 @@ public class PlanterFragment extends Fragment {
 			my_plants.removeAllViews();
 		}
 
-		UserDataSource user_data = new UserDataSource(ctx);
-		user_data.open();
 		for (Plant p: this.plants){
-			addPlant(user_data, p);
+			addPlant(p);
 		}
-		user_data.close();
 		checkPlanterEmpty();
 	}
 	
-	private void addPlant(UserDataSource user_data, Plant p){
+	private void addPlant(Plant p){
 		// Set up the plant container
 		LinearLayout plant = new LinearLayout(ctx);
 		plant.setOrientation(LinearLayout.VERTICAL);
@@ -268,10 +253,7 @@ public class PlanterFragment extends Fragment {
 		if (p.shiny){
 			plant.setBackgroundResource(R.drawable.glow);
 		} else if (!p.archived && p.author.equals(ph.server_id())){
-			NoteDataSource nds = new NoteDataSource(ctx);
-			nds.open();
-			List<Note> notes = nds.getPlantNotes(p.server_id);
-			nds.close();
+			List<Note> notes = ctx.note_ds.getPlantNotes(p.server_id);
 			if (notes.size() > 0
 					&& notes.get(notes.size() - 1).date < System
 							.currentTimeMillis() - (1000 * 60 * 60 * 48)) {
@@ -324,7 +306,7 @@ public class PlanterFragment extends Fragment {
 		owner.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
-		owner.setText(user_data.getUserAlias(p.author));
+		owner.setText(ctx.user_ds.getUserAlias(p.author));
 		owner.setGravity(Gravity.CENTER);
 		plant.addView(owner);
 	}
@@ -368,15 +350,14 @@ public class PlanterFragment extends Fragment {
 	public void onResume() {
 		Log.d(TAG, "onResume");
 		super.onResume();
+		this.visible = true;
 		refresh();
 		ctx.turnOnActionBarNav(true);
-		this.visible = true;
 	}
 
 	@Override
 	public void onPause() {
 		this.visible = false;
-		datasource.close();
 		super.onPause();
 	}
 }

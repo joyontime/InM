@@ -10,11 +10,7 @@ import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.fragments.PlanterFragment;
-import edu.mit.media.inm.handlers.CollectionDataSource;
-import edu.mit.media.inm.handlers.NoteDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.GetIV;
 import edu.mit.media.inm.http.GetUsers;
 
@@ -89,22 +85,10 @@ public class LoginUtil{
 		ph.set_last_pinged();
     	ph.setPassword("");
     	ph.setUsername("");
-		UserDataSource userdata = new UserDataSource(ctx);
-		userdata.open();
-		userdata.deleteAll();
-		userdata.close();
-		PlantDataSource plantdata = new PlantDataSource(ctx);
-		plantdata.open();
-		plantdata.deleteAll();
-		plantdata.close();
-		NoteDataSource notedata = new NoteDataSource(ctx);
-		notedata.open();
-		notedata.deleteAll();
-		notedata.close();
-		CollectionDataSource collectiondata = new CollectionDataSource(ctx);
-		collectiondata.open();
-		collectiondata.deleteAll();
-		collectiondata.close();
+		ctx.user_ds.deleteAll();
+		ctx.plant_ds.deleteAll();
+		ctx.note_ds.deleteAll();
+		ctx.collection_ds.deleteAll();
 
 		PlanterFragment planter_frag = (PlanterFragment) ctx.getFragmentManager()
 				.findFragmentByTag("planter");

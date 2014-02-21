@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.User;
 
 public class FriendFragment extends Fragment {
-	private Activity ctx;
+	private MainActivity ctx;
 	private View rootView;
-	private UserDataSource datasource;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,16 +30,13 @@ public class FriendFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ctx = this.getActivity();
+		ctx = (MainActivity) this.getActivity();
 
 		rootView = inflater.inflate(R.layout.fragment_friends, container,
 				false);
 		
-		datasource = new UserDataSource(ctx);
-		datasource.open();
-		
 		ListView friend_listview = (ListView) rootView.findViewById(R.id.friend_list);
-		List<User> friends = datasource.getAllUsers();
+		List<User> friends = ctx.user_ds.getAllUsers();
 		ArrayList<String> friend_aliases = new ArrayList<String>(); 
 		for (User u: friends){
 			friend_aliases.add(u.alias);
@@ -47,8 +44,6 @@ public class FriendFragment extends Fragment {
 		
 		friend_listview.setAdapter(
 				new ArrayAdapter<String>(ctx, R.layout.friend_row_item, friend_aliases));
-		
-		datasource.close();
 		
 		return rootView;
 	}

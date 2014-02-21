@@ -10,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.NoteDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 import edu.mit.media.inm.http.PostNote;
 import edu.mit.media.inm.types.Plant;
@@ -27,7 +25,6 @@ public class NoteFragment extends Fragment {
 
 	private MainActivity ctx;
 	private View rootView;
-	private NoteDataSource datasource;
 	private Plant plant;
 	private TextView note_text;
 	private PreferenceHandler ph;
@@ -65,9 +62,6 @@ public class NoteFragment extends Fragment {
 				false);
 
 		note_text = (TextView) rootView.findViewById(R.id.note_text);
-
-		datasource = new NoteDataSource(ctx);
-		datasource.open();
 		
 		ImageButton send = (ImageButton) rootView.findViewById(R.id.send_btn);
 		send.setOnClickListener(new OnClickListener(){
@@ -117,15 +111,10 @@ public class NoteFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
-		if (datasource == null){
-			datasource = new NoteDataSource(ctx);
-		}
-		datasource.open();
 	}
 	
 	@Override
 	public void onPause() {
-		datasource.close();
 		super.onPause();
 	}
 

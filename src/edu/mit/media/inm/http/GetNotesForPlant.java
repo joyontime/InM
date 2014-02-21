@@ -15,9 +15,6 @@ import android.util.Log;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.NoteDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
 
@@ -55,15 +52,8 @@ public class GetNotesForPlant extends GetThread {
 	}
 	@Override
 	protected void handleResults(String result) {
-		NoteDataSource datasource = new NoteDataSource(ctx);
-		datasource.open();
-		UserDataSource userdata = new UserDataSource(ctx);
-		userdata.open();
-		PlantDataSource plantdata = new PlantDataSource(ctx);
-		plantdata.open();
-
 		HashSet<String> server_ids = new HashSet<String>();
-		for (Note n : datasource.getAllNotes()) {
+		for (Note n : ctx.note_ds.getAllNotes()) {
 			server_ids.add(n.server_id);
 		}
 
@@ -80,14 +70,14 @@ public class GetNotesForPlant extends GetThread {
 				
 				String note_id = (String) note.get("server_id");
 				if (!server_ids.contains(note_id)) {
-					datasource.createNote(
-							userdata.getUserAlias((String) note.get("user_id")),
+					ctx.note_ds.createNote(
+							ctx.user_ds.getUserAlias((String) note.get("user_id")),
 							created_at,
 							(String) note.get("text"),
 							(String) note.get("plant_id"),
 							note_id);
 					if (ph.now() < created_at){
-						plantdata.setPlantShiny((String) note.get("plant_id"), true);
+						ctx.plant_ds.setPlantShiny((String) note.get("plant_id"), true);
 					}
 				} else {
 					server_ids.remove(note_id);
@@ -96,8 +86,5 @@ public class GetNotesForPlant extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		datasource.close();
-		userdata.close();
-		plantdata.close();
 	}
 }

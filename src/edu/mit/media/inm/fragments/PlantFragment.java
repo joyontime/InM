@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +24,7 @@ import android.widget.TextView;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import edu.mit.media.inm.handlers.NoteAdapter;
-import edu.mit.media.inm.handlers.NoteDataSource;
-import edu.mit.media.inm.handlers.PlantDataSource;
 import edu.mit.media.inm.handlers.PreferenceHandler;
-import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.http.GetNotesForPlant;
 import edu.mit.media.inm.types.Note;
 import edu.mit.media.inm.types.Plant;
@@ -39,7 +35,6 @@ public class PlantFragment extends Fragment {
 
 	private MainActivity ctx;
 	private View rootView;
-	private PlantDataSource datasource;
 	private String server_id;
 	private Plant plant;
 	private Button show_info;
@@ -88,9 +83,7 @@ public class PlantFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.fragment_plant, container,
 				false);
 		
-		datasource = new PlantDataSource(ctx);
-		datasource.open();
-		datasource.setPlantShiny(plant.server_id, false);
+		ctx.plant_ds.setPlantShiny(plant.server_id, false);
 		
 		server_id = new PreferenceHandler(ctx).server_id();
 
@@ -144,10 +137,7 @@ public class PlantFragment extends Fragment {
 	private void checkOld(){
 		TextView alert_text = (TextView) rootView.findViewById(R.id.alert_text);
 		if (!plant.archived && plant.author.equals(server_id)){
-			NoteDataSource nds = new NoteDataSource(ctx);
-			nds.open();
-			List<Note> notes = nds.getPlantNotes(plant.server_id);
-			nds.close();
+			List<Note> notes = ctx.note_ds.getPlantNotes(plant.server_id);
 			if (notes.size() > 0
 					&& notes.get(notes.size() - 1).date < System
 							.currentTimeMillis() - (1000 * 60 * 60 * 48)) {
@@ -166,10 +156,7 @@ public class PlantFragment extends Fragment {
 	private void setupNotes(){
 		progress_bar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
 		notes_view = (ListView) rootView.findViewById(R.id.notes);
-		NoteDataSource nds = new NoteDataSource(ctx);
-		nds.open();
-		List<Note> notes = nds.getPlantNotes(plant.server_id);
-		nds.close();
+		List<Note> notes = ctx.note_ds.getPlantNotes(plant.server_id);
 		
 
 		ArrayList<Note> to_display = new ArrayList<Note>();
@@ -221,22 +208,17 @@ public class PlantFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
-		UserDataSource userdata = new UserDataSource(ctx);
-		userdata.open();
         ctx.turnOnActionBarNav(false);
 		ctx.getActionBar().setTitle(
-				userdata.getUserAlias(this.plant.author)
+				ctx.user_ds.getUserAlias(this.plant.author)
 				+ "\'s "
 				+ this.plant.title);
-		userdata.close();
-		datasource.open();
 		this.visible = true;
 	}
 	
 	@Override
 	public void onPause() {
 		this.visible=false;
-		datasource.close();
 		super.onPause();
 	}
 

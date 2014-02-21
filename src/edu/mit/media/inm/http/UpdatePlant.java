@@ -6,25 +6,19 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.content.Context;
 import android.util.Log;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
-import edu.mit.media.inm.handlers.PlantDataSource;
 
 public class UpdatePlant extends PostThread{
-	private PlantDataSource datasource;
-	
 	private String plant_id;
 	private int status;
 	private boolean archived;
 	
 	private MainActivity main;
 
-	public UpdatePlant(int id, Context ctx) {
+	public UpdatePlant(int id, MainActivity ctx) {
 		super(id, ctx);
-		datasource = new PlantDataSource(ctx);
-		datasource.open();
 		
 		main = (MainActivity) ctx;
 
@@ -51,8 +45,7 @@ public class UpdatePlant extends PostThread{
 	@Override
 	protected void onPostExecute(String result) {
 		// Save the plant locally
-		datasource.updatePlant(plant_id, this.status, this.archived);
-		datasource.close();
+		ctx.plant_ds.updatePlant(plant_id, this.status, this.archived);
 		main.refresh();
 	}
 }

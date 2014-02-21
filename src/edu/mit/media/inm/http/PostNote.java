@@ -20,19 +20,13 @@ import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Note;
 
 public class PostNote extends PostThread{
-	private NoteDataSource datasource;
-	
 	private String text;
 	private String plant_id;
 	
 	private MainActivity main;
 
-	public PostNote(int id, Context ctx) {
+	public PostNote(int id, MainActivity ctx) {
 		super(id, ctx);
-		datasource = new NoteDataSource(ctx);
-		datasource.open();
-		
-		main = (MainActivity) ctx;
 
 		String server = ctx.getResources().getString(R.string.url_server);
 		String notes = ctx.getResources().getString(R.string.uri_messages);
@@ -64,24 +58,19 @@ public class PostNote extends PostThread{
 					.getMillis();
 			String server_id = (String) plant_data.get("server_id");
 
-			UserDataSource userdata = new UserDataSource(main);
-			userdata.open();
 			// Save the note locally
-			Note n = datasource.createNote(
-					userdata.getUserAlias(ph.server_id()),
+			Note n = ctx.note_ds.createNote(
+					ctx.user_ds.getUserAlias(ph.server_id()),
 					created_at, 
 					this.text,
 					this.plant_id,
 					server_id);
-			userdata.close();
 			
 			Log.d(TAG, "Published " + n);                                        
 
 			main.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} finally {
-			datasource.close();
 		}
 	}
 }

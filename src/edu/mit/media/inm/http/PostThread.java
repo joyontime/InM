@@ -34,6 +34,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.handlers.PreferenceHandler;
 
 public abstract class PostThread extends AsyncTask<Void, Void, String> {
@@ -43,13 +44,13 @@ public abstract class PostThread extends AsyncTask<Void, Void, String> {
 	private final int id;
 	protected String uri;
 	protected static String charset = "UTF-8";
-	protected final Context ctx;
+	protected final MainActivity ctx;
 	protected final int TIMEOUT = 1000;
 	protected final PreferenceHandler ph;
 	
 	protected final List<NameValuePair> params;
 
-	public PostThread(int id, Context ctx) {
+	public PostThread(int id, MainActivity ctx) {
 		this.id = id;
 		this.ctx = ctx;
 		this.ph = new PreferenceHandler(ctx);

@@ -47,11 +47,8 @@ public class GetPlants extends GetThread {
 
 	@Override
 	protected void handleResults(String result) {
-		PlantDataSource datasource = new PlantDataSource(ctx);
-		datasource.open();
-
 		HashSet<String> server_ids = new HashSet<String>();
-		for (Plant u : datasource.getAllPlants()) {
+		for (Plant u : ctx.plant_ds.getAllPlants()) {
 			server_ids.add(u.server_id);
 		}
 
@@ -83,7 +80,7 @@ public class GetPlants extends GetThread {
 					if (ph.now() > modified_at){
 						shiny = false;
 					}
-					datasource.createPlant(
+					ctx.plant_ds.createPlant(
 							(String) plant.get("owner"),
 							(Boolean) plant.get("archived"),
 							joda_ISO_parser.parseDateTime(created_at)
@@ -98,14 +95,14 @@ public class GetPlants extends GetThread {
 							(String) plant.get("type"),
 							shiny);
 				} else {
-					Plant old_plant = datasource.getPlantByServerID(plant_id);
+					Plant old_plant = ctx.plant_ds.getPlantByServerID(plant_id);
 					String status = (String) plant.get("status");
 					Boolean archived = (Boolean) plant.get("archived");
 					if ((old_plant.archived ^ archived)
 							|| (old_plant.status != Integer.valueOf(status))) {
-						datasource.updatePlant(plant_id,
+						ctx.plant_ds.updatePlant(plant_id,
 								Integer.valueOf(status), archived);
-						datasource.setPlantShiny(plant_id, true);
+						ctx.plant_ds.setPlantShiny(plant_id, true);
 					}
 					server_ids.remove(plant_id);
 				}
@@ -113,6 +110,5 @@ public class GetPlants extends GetThread {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		datasource.close();
 	}
 }
