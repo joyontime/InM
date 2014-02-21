@@ -289,7 +289,7 @@ public class CommandBoxFragment extends Fragment {
 
 	public void updatePlant(){
 		UpdatePlant update_plant = new UpdatePlant(0, ctx);
-		update_plant.setupParams(this.plant.server_id, smiles, status, false);
+		update_plant.setupParams(this.plant.server_id, 0, status, false);
 		update_plant.execute();
 		
 		String update_text = "* changed topic state to level: " + status + " *";
@@ -328,7 +328,7 @@ public class CommandBoxFragment extends Fragment {
 
 	public void archivePlant(boolean archived) {
 		UpdatePlant http_client = new UpdatePlant(0, ctx);
-		http_client.setupParams(this.plant.server_id, smiles, status, archived);
+		http_client.setupParams(this.plant.server_id, 0, status, archived);
 		http_client.execute();
 		
 		String update_text = "* brought back from archive *";
