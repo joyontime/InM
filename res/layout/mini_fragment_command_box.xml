@@ -2,53 +2,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="120dip"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/plant_image"
+    <FrameLayout
+        android:id="@+id/plant_frame"
         android:layout_width="80dip"
         android:layout_height="160dip"
-        android:layout_toRightOf="@id/info_text"
-        android:src="@drawable/demo_plant" />
+        android:layout_toRightOf="@id/info_text" >
+
+        <ImageView
+            android:id="@+id/plant_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/topic_icon"
+            android:src="@drawable/demo_plant" />
+
+        <ImageView
+            android:id="@+id/smiles_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/topic_icon"/>
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/command_box"
         android:layout_width="wrap_content"
         android:layout_height="160dip"
-        android:layout_toRightOf="@id/plant_image"
+        android:layout_toRightOf="@id/plant_frame"
         android:gravity="center"
         android:orientation="vertical" >
-	<ImageButton
+
+        <ImageButton
             android:id="@+id/smile_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/plant_smile"
             android:padding="10dip"
-            android:contentDescription="@string/plant_smile" 
             android:src="@drawable/ic_action_smile"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <ImageButton
             android:id="@+id/water_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dip"
             android:contentDescription="@string/plant_water"
-            android:src="@drawable/ic_action_good"/>
+            android:padding="10dip"
+            android:src="@drawable/ic_action_good" />
 
         <ImageButton
             android:id="@+id/trim_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/plant_trim"
             android:padding="10dip"
-            android:contentDescription="@string/plant_trim" 
-            android:src="@drawable/ic_action_bad"/>
+            android:src="@drawable/ic_action_bad" />
 
         <Button
             android:id="@+id/archive_btn"

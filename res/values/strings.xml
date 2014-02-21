@@ -36,6 +36,7 @@
     <string name="plant_water">Water</string>
     <string name="plant_trim">Trim</string>
     <string name="plant_archive">Archive</string>
+    <string name="topic_icon">Topic Icon</string>
     
     <string name="show_info">Show Topic</string>
     <string name="hide_info">Hide Topic</string>

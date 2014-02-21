@@ -38,6 +38,7 @@ public class CommandBoxFragment extends Fragment {
 
 	private TextView info_text;
 	private ImageView plant_image;
+	private ImageView smiles_image;
 
 	private ImageButton smile;
 	private ImageButton water;
@@ -104,6 +105,10 @@ public class CommandBoxFragment extends Fragment {
 		}
 		plant_image.setImageResource(this.GROWTH_IMAGES[status]);
 		
+
+		smiles_image = (ImageView) rootView.findViewById(R.id.smiles_image);
+		refreshSmiles();
+		
 		//Choose which buttons to turn on and off.
 		if (plant.archived){
 			disableWater();
@@ -128,6 +133,18 @@ public class CommandBoxFragment extends Fragment {
 		this.setupInfo();
 		
 		return rootView;
+	}
+	
+	private void refreshSmiles(){
+		if (smiles == 1){
+			smiles_image.setImageResource(R.drawable.smile_1);
+		} else if (smiles == 2){
+			smiles_image.setImageResource(R.drawable.smile_2);
+		} else if (smiles == 3){
+			smiles_image.setImageResource(R.drawable.smile_3);
+		} else if (smiles >3){
+			smiles_image.setImageResource(R.drawable.smile_lots);
+		}
 	}
 	
 	private void setupInfo(){
@@ -267,6 +284,7 @@ public class CommandBoxFragment extends Fragment {
 					               minute).build());
 				smiles ++;
 				sendSmile();
+				refreshSmiles();
 			}
 		});
 	}
@@ -338,7 +356,7 @@ public class CommandBoxFragment extends Fragment {
 		PostNote post_note = new PostNote(0, ctx);
 		post_note.setupParams(encrypt(update_text), plant.server_id);
         post_note.execute();
-	}	
+	}
 	
 	@Override
 	public void onResume() {
