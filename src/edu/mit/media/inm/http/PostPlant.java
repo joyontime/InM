@@ -78,7 +78,7 @@ public class PostPlant extends PostThread{
 			// Save the plant locally
 			Plant s = ctx.plant_ds.createPlant(this.username, false, created_at,
 					this.passphrase, this.pot_color, this.salt, server_id,
-					this.shared_with, status, this.title, this.type, true);
+					this.shared_with, 0, status, this.title, this.type, true);
 			
 			Log.d(TAG, "Published " + s);                                        
 

@@ -12,6 +12,7 @@ import edu.mit.media.inm.R;
 
 public class UpdatePlant extends PostThread{
 	private String plant_id;
+	private int smiles;
 	private int status;
 	private boolean archived;
 	
@@ -32,8 +33,9 @@ public class UpdatePlant extends PostThread{
 
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 	
-	public void setupParams(String plant_id, int status, boolean archived){
+	public void setupParams(String plant_id, int smiles, int status, boolean archived){
 		this.plant_id = plant_id;
+		this.smiles = smiles;
 		this.status = status;
 		this.archived = archived;
 		
@@ -45,7 +47,7 @@ public class UpdatePlant extends PostThread{
 	@Override
 	protected void onPostExecute(String result) {
 		// Save the plant locally
-		ctx.plant_ds.updatePlant(plant_id, this.status, this.archived);
+		ctx.plant_ds.updatePlant(plant_id, this.status, this.smiles, this.archived);
 		main.refresh();
 	}
 }

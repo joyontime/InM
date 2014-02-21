@@ -24,7 +24,14 @@
         android:layout_toRightOf="@id/plant_image"
         android:gravity="center"
         android:orientation="vertical" >
-
+	<ImageButton
+            android:id="@+id/smile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:contentDescription="@string/plant_smile" 
+            android:src="@drawable/ic_action_smile"
+            android:visibility="gone"/>
         <ImageButton
             android:id="@+id/water_btn"
             android:layout_width="wrap_content"

@@ -28,6 +28,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 	public String salt;
 	public String server_id;
 	public String shared_with;
+	public int smiles;
 	public int status;
 	public boolean shiny;
 	public String title;
@@ -137,7 +138,13 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		R.drawable.b_ham_7,
 		R.drawable.b_ham_8,
 	};
-
+	
+	public static int[] smile_img = {
+		R.drawable.smile_1,
+		R.drawable.smile_2,
+		R.drawable.smile_3,
+		R.drawable.smile_lots,
+	};
 	
 	@Override
 	public String toString() {
@@ -160,6 +167,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
 		out.writeString(salt);
 		out.writeString(server_id);
 		out.writeString(shared_with);
+		out.writeInt(smiles);
 		out.writeInt(status);
 		out.writeString(title);
 		out.writeString(type);
@@ -193,6 +201,7 @@ public class Plant implements Parcelable, Comparable<Plant> {
         this.salt = in.readString();
         this.server_id = in.readString();
         this.shared_with = in.readString();
+        this.smiles = in.readInt();
         this.status = in.readInt();
         this.title = in.readString();
         this.type = in.readString();

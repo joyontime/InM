@@ -39,12 +39,14 @@ public class CommandBoxFragment extends Fragment {
 	private TextView info_text;
 	private ImageView plant_image;
 
+	private ImageButton smile;
 	private ImageButton water;
 	private ImageButton trim;
 	private Button archive;
 	
 	private int status_init;
 	private int status = 1000;
+	private int smiles;
 	
 	private int MAX_GROWTH;
 	private int[] GROWTH_IMAGES;
@@ -83,6 +85,8 @@ public class CommandBoxFragment extends Fragment {
 			status_init = plant.status;
 		}
 		
+		smiles = plant.smiles;
+		
 		plant_image = (ImageView) rootView.findViewById(R.id.plant_image);
 		
 		if (plant.type.equals(Plant.PLANT)){
@@ -118,6 +122,7 @@ public class CommandBoxFragment extends Fragment {
 				disableWater();
 				disableTrim();
 				disableArchive();
+				enableSmile();
 			}
 		}
 		this.setupInfo();
@@ -153,18 +158,18 @@ public class CommandBoxFragment extends Fragment {
 
 	private void disableWater() {
 		water = (ImageButton) rootView.findViewById(R.id.water_btn);
-		water.setEnabled(false);
+		water.setVisibility(View.GONE);
 	}
 
 
 	private void disableTrim() {
 		trim = (ImageButton) rootView.findViewById(R.id.trim_btn);
-		trim.setEnabled(false);
+		trim.setVisibility(View.GONE);
 	}
 
 	private void disableArchive() {
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
-		archive.setEnabled(false);
+		archive.setVisibility(View.GONE);
 	}
 
 	private void enableWater() {
@@ -239,6 +244,32 @@ public class CommandBoxFragment extends Fragment {
 			}
 		});
 	}
+	
+	private void enableSmile() {
+		smile = (ImageButton) rootView.findViewById(R.id.smile_btn);
+		smile.setVisibility(View.VISIBLE);
+		smile.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				smile.setEnabled(false);
+				Toast.makeText(ctx, ":)",
+						Toast.LENGTH_SHORT).show();
+				
+				
+				
+				PreferenceHandler ph = new PreferenceHandler(ctx);
+				Long minute = getMinute();
+				tracker.send(MapBuilder
+					      .createEvent(
+				                   ph.server_id(),
+				                   "smile",
+				                   String.valueOf(minute),
+					               minute).build());
+				smiles ++;
+				sendSmile();
+			}
+		});
+	}
 
 	private void enableArchive(final boolean archived) {
 		archive = (Button) rootView.findViewById(R.id.archive_btn);
@@ -258,10 +289,21 @@ public class CommandBoxFragment extends Fragment {
 
 	public void updatePlant(){
 		UpdatePlant update_plant = new UpdatePlant(0, ctx);
-		update_plant.setupParams(this.plant.server_id, status, false);
+		update_plant.setupParams(this.plant.server_id, smiles, status, false);
 		update_plant.execute();
 		
 		String update_text = "* changed topic state to level: " + status + " *";
+		PostNote post_note = new PostNote(0, ctx);
+		post_note.setupParams(encrypt(update_text), plant.server_id);
+        post_note.execute();
+	}
+	
+	public void sendSmile(){
+		UpdatePlant update_plant = new UpdatePlant(0, ctx);
+		update_plant.setupParams(this.plant.server_id, smiles, status, false);
+		update_plant.execute();
+		
+		String update_text = "* :) *";
 		PostNote post_note = new PostNote(0, ctx);
 		post_note.setupParams(encrypt(update_text), plant.server_id);
         post_note.execute();
@@ -286,7 +328,7 @@ public class CommandBoxFragment extends Fragment {
 
 	public void archivePlant(boolean archived) {
 		UpdatePlant http_client = new UpdatePlant(0, ctx);
-		http_client.setupParams(this.plant.server_id, status, archived);
+		http_client.setupParams(this.plant.server_id, smiles, status, archived);
 		http_client.execute();
 		
 		String update_text = "* brought back from archive *";

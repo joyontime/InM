@@ -290,7 +290,15 @@ public class PlanterFragment extends Fragment {
 			Log.d(TAG, p.title + " TYPE:" + p.type);
 		}
 		ImageView smiles = new ImageView(ctx);
-		smiles.setImageResource(R.drawable.smile_lots);
+		if (p.smiles == 1){
+			smiles.setImageResource(R.drawable.smile_1);
+		} else if (p.smiles == 2){
+			smiles.setImageResource(R.drawable.smile_2);
+		} else if (p.smiles == 3){
+			smiles.setImageResource(R.drawable.smile_3);
+		} else if (p.smiles >3){
+			smiles.setImageResource(R.drawable.smile_lots);
+		}
 		frame.addView(image);
 		frame.addView(smiles);
 		plant.addView(frame);

@@ -90,7 +90,8 @@ public class GetPlants extends GetThread {
 							(String) plant.get("salt"),
 							plant_id,
 							shared_with.toString(),
-							Integer.parseInt((String) plant.get("status")),
+							Integer.valueOf((String) plant.get("smiles")),
+							Integer.valueOf((String) plant.get("status")),
 							(String) plant.get("title"),
 							(String) plant.get("type"),
 							shiny);
@@ -101,6 +102,7 @@ public class GetPlants extends GetThread {
 					if ((old_plant.archived ^ archived)
 							|| (old_plant.status != Integer.valueOf(status))) {
 						ctx.plant_ds.updatePlant(plant_id,
+								Integer.valueOf(status),
 								Integer.valueOf(status), archived);
 						ctx.plant_ds.setPlantShiny(plant_id, true);
 					}

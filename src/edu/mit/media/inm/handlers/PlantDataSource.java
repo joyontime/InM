@@ -27,6 +27,7 @@ public class PlantDataSource {
 			PlantSQLite.COLUMN_POT, PlantSQLite.COLUMN_SALT,
 			PlantSQLite.COLUMN_SERVER_ID,
 			PlantSQLite.COLUMN_SHARED_WITH,
+			PlantSQLite.COLUMN_SMILES,
 			PlantSQLite.COLUMN_STATUS,
 			PlantSQLite.COLUMN_TITLE,
 			PlantSQLite.COLUMN_TYPE,
@@ -46,7 +47,7 @@ public class PlantDataSource {
 
 	public Plant createPlant(String author, boolean archived,
 			long date, String pass, int pot_color, String salt, String server_id,
-			String share, int status, String title, String type, boolean shiny) {
+			String share, int smiles, int status, String title, String type, boolean shiny) {
 		//Log.d(TAG, "Type: " + type);
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_AUTHOR, author);
@@ -57,6 +58,7 @@ public class PlantDataSource {
 		values.put(PlantSQLite.COLUMN_SALT, salt);
 		values.put(PlantSQLite.COLUMN_SERVER_ID, server_id);
 		values.put(PlantSQLite.COLUMN_SHARED_WITH, share);
+		values.put(PlantSQLite.COLUMN_SMILES, smiles);
 		values.put(PlantSQLite.COLUMN_STATUS, status);
 		values.put(PlantSQLite.COLUMN_TITLE, title);
 		values.put(PlantSQLite.COLUMN_TYPE, type);
@@ -121,10 +123,11 @@ public class PlantDataSource {
 		return Plants;
 	}
 
-	public void updatePlant(String server_id, int status, boolean archived){
+	public void updatePlant(String server_id, int status, int smiles, boolean archived){
 		ContentValues values = new ContentValues();
 		values.put(PlantSQLite.COLUMN_STATUS, status);
 		values.put(PlantSQLite.COLUMN_ARCHIVED, archived ? 1 : 0);
+		values.put(PlantSQLite.COLUMN_SMILES, smiles);
 
 		database.update(PlantSQLite.TABLE_PLANT,
 				values, PlantSQLite.COLUMN_SERVER_ID + " = ?",
@@ -149,7 +152,6 @@ public class PlantDataSource {
 		return plant;
 	}
 	
-
 	public void deleteAll(){
 		database.delete(PlantSQLite.TABLE_PLANT, null, null);
 	}
@@ -165,10 +167,11 @@ public class PlantDataSource {
 		Plant.salt = cursor.getString(6);
 		Plant.server_id = cursor.getString(7);
 		Plant.shared_with = cursor.getString(8);
-		Plant.status = cursor.getInt(9);
-		Plant.title = cursor.getString(10);
-		Plant.type = cursor.getString(11);
-		Plant.shiny = cursor.getInt(12) == 1;
+		Plant.smiles = cursor.getInt(9);
+		Plant.status = cursor.getInt(10);
+		Plant.title = cursor.getString(11);
+		Plant.type = cursor.getString(12);
+		Plant.shiny = cursor.getInt(13) == 1;
 		return Plant;
 	}
 }

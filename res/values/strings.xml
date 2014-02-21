@@ -32,6 +32,7 @@
     
     <!-- Plants -->
     <string name="action_note">Write a Note</string>
+    <string name="plant_smile">Smile</string>
     <string name="plant_water">Water</string>
     <string name="plant_trim">Trim</string>
     <string name="plant_archive">Archive</string>
