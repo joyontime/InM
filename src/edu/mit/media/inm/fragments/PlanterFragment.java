@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -274,6 +275,7 @@ public class PlanterFragment extends Fragment {
 		my_plants.addView(plant);
 		
 		// Choose a plant image
+		FrameLayout frame = new FrameLayout(ctx);
 		ImageView image = new ImageView(ctx);
 		if (p.type.equals("plant")){
 			image.setImageResource(Plant.growth[p.status]);
@@ -287,7 +289,11 @@ public class PlanterFragment extends Fragment {
 		} else {
 			Log.d(TAG, p.title + " TYPE:" + p.type);
 		}
-		plant.addView(image);
+		ImageView smiles = new ImageView(ctx);
+		smiles.setImageResource(R.drawable.smile_lots);
+		frame.addView(image);
+		frame.addView(smiles);
+		plant.addView(frame);
 		
 		// Label the plant with its topic
 		TextView text = new TextView(ctx);
@@ -350,9 +356,10 @@ public class PlanterFragment extends Fragment {
 	public void onResume() {
 		Log.d(TAG, "onResume");
 		super.onResume();
+		ctx.turnOnActionBarNav(true);
+		
 		this.visible = true;
 		refresh();
-		ctx.turnOnActionBarNav(true);
 	}
 
 	@Override

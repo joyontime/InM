@@ -27,8 +27,6 @@ public class PostPlant extends PostThread{
 	private String shared_with;
 	private String title;
 	private String type;
-	
-	private MainActivity main;
 
 	public PostPlant(int id, MainActivity ctx) {
 		super(id, ctx);
@@ -84,7 +82,7 @@ public class PostPlant extends PostThread{
 			
 			Log.d(TAG, "Published " + s);                                        
 
-			main.refresh();
+			ctx.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

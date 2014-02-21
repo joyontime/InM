@@ -22,8 +22,6 @@ import edu.mit.media.inm.types.Note;
 public class PostNote extends PostThread{
 	private String text;
 	private String plant_id;
-	
-	private MainActivity main;
 
 	public PostNote(int id, MainActivity ctx) {
 		super(id, ctx);
@@ -68,7 +66,7 @@ public class PostNote extends PostThread{
 			
 			Log.d(TAG, "Published " + n);                                        
 
-			main.refresh();
+			ctx.refresh();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

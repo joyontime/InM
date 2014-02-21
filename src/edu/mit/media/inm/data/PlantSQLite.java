@@ -17,6 +17,7 @@ public class PlantSQLite extends SQLiteOpenHelper{
 	public static final String COLUMN_SALT = "salt";
 	public static final String COLUMN_SERVER_ID = "server_id";
 	public static final String COLUMN_SHARED_WITH = "share";
+	public static final String COLUMN_SMILES = "smiles";
 	public static final String COLUMN_STATUS = "status";
 	public static final String COLUMN_UPDATED = "updated";
 	public static final String COLUMN_TITLE = "title";
@@ -38,6 +39,7 @@ public class PlantSQLite extends SQLiteOpenHelper{
 			+ COLUMN_SALT + text
 			+ COLUMN_SERVER_ID + text
 			+ COLUMN_SHARED_WITH + text
+			+ COLUMN_SMILES + integer
 			+ COLUMN_STATUS + integer
 			+ COLUMN_TITLE + text
 			+ COLUMN_TYPE + text

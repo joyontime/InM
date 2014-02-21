@@ -168,7 +168,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	private void newThingDialog(){
 		fm.beginTransaction()
 		.replace(android.R.id.content, new PotFragment(), "pot")
-		.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+		.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 		.addToBackStack("pot").commit();
 	}
 	
@@ -265,7 +265,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			case 4:		// New Collection
 				fm.beginTransaction()
 				.replace(android.R.id.content, new CollectionFragment(), "collection")
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 				.addToBackStack("collection").commit();
 				this.actionBar.setSelectedNavigationItem(0);
 				return true;

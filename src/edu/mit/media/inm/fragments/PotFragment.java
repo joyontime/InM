@@ -63,37 +63,27 @@ public class PotFragment extends Fragment {
 		Log.d(TAG, "OnCreateView");
 		ctx = (MainActivity) this.getActivity();
 		
-		ph = new PreferenceHandler(ctx);
-		username = ph.server_id();
-
 		View rootView = inflater.inflate(R.layout.fragment_pot, container,
 				false);
 		setHasOptionsMenu(true);
 
+		ph = new PreferenceHandler(ctx);
+		username = ph.server_id();
+
         imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
-		return rootView;
-	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+		title_box = (EditText) rootView.findViewById(R.id.title_box);
+		icon_type_spinner = (Spinner) rootView.findViewById(R.id.icon_spinner);
+		help_btn = (ImageButton) rootView.findViewById(R.id.help_btn);
+		pot_list = (LinearLayout) rootView.findViewById(R.id.pot_list);
+		pot_image = (ImageView) rootView.findViewById(R.id.pot_image);
+		friend_list = (ListView) rootView.findViewById(R.id.friend_list);
 		
-		title_box = (EditText) getView().findViewById(R.id.title_box);
-		icon_type_spinner = (Spinner) getView().findViewById(R.id.icon_spinner);
-		help_btn = (ImageButton) getView().findViewById(R.id.help_btn);
-		pot_list = (LinearLayout) getView().findViewById(R.id.pot_list);
-		pot_image = (ImageView) getView().findViewById(R.id.pot_image);
-		friend_list = (ListView) getView().findViewById(R.id.friend_list);
-		
-
 		pot_image.setImageResource(Plant.b_pots[selected_color]);
-		
-		setupHelp();
-		setupFriends();
-		setupSpinner();
-		swap_type(Plant.PLANT);
+
+		return rootView;
 	}
 	
 	private void setupSpinner(){
@@ -183,7 +173,6 @@ public class PotFragment extends Fragment {
 			        }
 			    }).show();
 			}
-			
 		});
 	}
 	
@@ -213,6 +202,11 @@ public class PotFragment extends Fragment {
 		Log.d(TAG, "onResume");
 		ctx.turnOnActionBarNav(false);
 		ctx.getActionBar().setTitle(R.string.pot_fragment);
+
+		setupHelp();
+		setupFriends();
+		setupSpinner();
+		swap_type(Plant.PLANT);
 	}
 	
 	@Override
