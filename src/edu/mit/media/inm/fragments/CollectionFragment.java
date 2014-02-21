@@ -85,6 +85,7 @@ public class CollectionFragment extends Fragment {
 		super.onResume();
 		Log.d(TAG, "onResume");
 		ctx.getActionBar().setTitle(R.string.collection_fragment);
+		ctx.turnOnActionBarNav(false);
 	}
 	
 	@Override

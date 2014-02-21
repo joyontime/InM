@@ -163,7 +163,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		.replace(android.R.id.content, new PotFragment(), "pot")
 		.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 		.addToBackStack("pot").commit();
-		turnOnActionBarNav(false);
 	}
 	
 	public void refresh(){
@@ -175,7 +174,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		}
 		PlanterFragment planter_frag = (PlanterFragment) getFragmentManager()
 				.findFragmentByTag("planter");
-		if (planter_frag !=null){
+		if (planter_frag !=null && planter_frag.visible){
 			planter_frag.refresh();
 		}
 		refreshPlant();
@@ -271,7 +270,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack("collection").commit();
 				this.actionBar.setSelectedNavigationItem(0);
-				turnOnActionBarNav(false);
 				userdata.close();
 				return true;
 			default:	// Collections

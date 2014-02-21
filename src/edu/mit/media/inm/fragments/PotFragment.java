@@ -215,6 +215,7 @@ public class PotFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "onResume");
+		ctx.turnOnActionBarNav(false);
 		ctx.getActionBar().setTitle(R.string.pot_fragment);
 	}
 	

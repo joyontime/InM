@@ -53,6 +53,8 @@ public class PlantFragment extends Fragment {
 	private EasyTracker tracker;
 	private long start_time;
 	
+	private boolean visible;
+	
 	public static PlantFragment newInstance(Plant p) {
         PlantFragment f = new PlantFragment();
         Bundle args = new Bundle();
@@ -68,7 +70,6 @@ public class PlantFragment extends Fragment {
 		setHasOptionsMenu(true);
 		this.plant = (Plant) (getArguments() != null ? getArguments().get("plant") : 1);
 
-		tracker = EasyTracker.getInstance(ctx);
 		start_time = System.currentTimeMillis();
 	}
 
@@ -83,6 +84,7 @@ public class PlantFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ctx = (MainActivity) this.getActivity();
+		tracker = EasyTracker.getInstance(ctx);
 		rootView = inflater.inflate(R.layout.fragment_plant, container,
 				false);
 		
@@ -207,6 +209,9 @@ public class PlantFragment extends Fragment {
 	}
 	
 	public void refresh(){
+		if (!visible){
+			return;
+		}
 		setupNotes();
 		checkOld();
 		progress_bar.setVisibility(View.GONE);
@@ -218,16 +223,19 @@ public class PlantFragment extends Fragment {
 		Log.d(TAG, "onResume");
 		UserDataSource userdata = new UserDataSource(ctx);
 		userdata.open();
+        ctx.turnOnActionBarNav(false);
 		ctx.getActionBar().setTitle(
 				userdata.getUserAlias(this.plant.author)
 				+ "\'s "
 				+ this.plant.title);
 		userdata.close();
 		datasource.open();
+		this.visible = true;
 	}
 	
 	@Override
 	public void onPause() {
+		this.visible=false;
 		datasource.close();
 		super.onPause();
 	}

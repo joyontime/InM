@@ -1,6 +1,7 @@
 package edu.mit.media.inm.fragments;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -51,6 +52,8 @@ public class PlanterFragment extends Fragment {
 	private boolean archived = false;
 	private boolean display_collection = false;
 	public List<Plant> plants;
+	
+	public boolean visible = false;
 	
 	public static PlanterFragment newInstance() {
         PlanterFragment f = new PlanterFragment();
@@ -105,10 +108,15 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void showSpinner(){
-		progress_spinner.setVisibility(View.VISIBLE);
+		if (progress_spinner != null){
+			progress_spinner.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	public void refresh(){
+		if (!visible){
+			return;
+		}
 		setupPrompt();
 		progress_spinner.setVisibility(View.GONE);
 		if (datasource == null){
@@ -233,6 +241,7 @@ public class PlanterFragment extends Fragment {
 	
 	public void displayPlants(List<Plant> plants) {
 		this.plants = plants;
+		Collections.sort(this.plants);
 		ctx.invalidateOptionsMenu();
 		// If there are child elements, remove them so we can refresh.
 		if (my_plants.getChildAt(0) != null) {
@@ -278,8 +287,6 @@ public class PlanterFragment extends Fragment {
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack("plant")
 				.commit();
-
-		        ctx.turnOnActionBarNav(false);
 			}
 	    });
 		my_plants.addView(plant);
@@ -363,10 +370,12 @@ public class PlanterFragment extends Fragment {
 		super.onResume();
 		refresh();
 		ctx.turnOnActionBarNav(true);
+		this.visible = true;
 	}
 
 	@Override
 	public void onPause() {
+		this.visible = false;
 		datasource.close();
 		super.onPause();
 	}
