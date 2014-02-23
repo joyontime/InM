@@ -82,8 +82,10 @@ public class NotifyService extends Service {
 				.setContentText("Check InMind for a new prompt!");
 
 		Intent resultIntent = new Intent(this, MainActivity.class);
+		resultIntent.putExtra("Prompt", true);
+		resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0,
+		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, NOTIFICATION,
 				resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		mBuilder.setContentIntent(resultPendingIntent);
 		mBuilder.setAutoCancel(true);
@@ -94,7 +96,8 @@ public class NotifyService extends Service {
 		Random random = new Random();
 		int day_hour = 9 + random.nextInt(6);
 		int night_hour = 15 + random.nextInt(6);
-		c.setTimeInMillis(System.currentTimeMillis());
+		c.setTimeInMillis(System.currentTimeMillis() + 1000 * 20);
+		/*
     	c.set(Calendar.HOUR_OF_DAY, 15);
     	c.set(Calendar.MINUTE, 0);
     	c.set(Calendar.SECOND, 0);
@@ -105,6 +108,7 @@ public class NotifyService extends Service {
     	} else {
 	    	c.set(Calendar.HOUR_OF_DAY, night_hour);
     	}
+    	*/
 		Log.d(TAG, "Next notification: " + c.getTime().toString());
     	new AlarmTask(this, c).run();
 		

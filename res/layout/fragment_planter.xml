@@ -36,7 +36,7 @@
         android:gravity="center"
         android:padding="5dip" >
 
-        <TextView
+        <Button
             android:id="@+id/planter_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

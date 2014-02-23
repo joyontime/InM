@@ -55,6 +55,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	private long start_time;
 	
 	public String user_id;
+	private String prompt;
 	
 	// Datasources for all activities to use
 	public PlantDataSource plant_ds;
@@ -82,6 +83,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			.add(android.R.id.content, new PlanterFragment(), "planter")
 			.commit();
 		}
+		
 		
 		ph = new PreferenceHandler(this);
 		this.user_id = ph.server_id();
@@ -124,7 +126,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_new:
-			newThingDialog();
+			newThing();
 	        return true;
 		case R.id.action_discard:
 			Collection to_delete = this.collections.get(
@@ -162,7 +164,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		return false;
 	}
 	
-	private void newThingDialog(){
+	private void newThing(){
 		fm.beginTransaction()
 		.replace(android.R.id.content, new PotFragment(), "pot")
 		.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -279,6 +281,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		}
 		return false;
 	}
+	
+	public void promptDialog(){
+		if (prompt == null){
+			prompt = "New prompt.";
+		}
+    	new AlertDialog.Builder(this)
+    	.setTitle("What's on your mind?")
+	    .setMessage(prompt)
+	    .setNegativeButton("Ok!", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	        	// Don't do anything
+	        }
+	    }).setPositiveButton("That gave me an idea for a topic.", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            newThing();
+	        }
+	    }).show();
+	}
 
 	private void confirmDialog(){
 		NoteFragment note = (NoteFragment) fm.findFragmentByTag("note");
@@ -335,6 +355,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		note_ds.open();
 		user_ds.open();
 		collection_ds.open();
+
+		Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+
+    	Log.d(TAG, "OnResume");
+        if (extras != null) {
+        	Log.d(TAG, "EXTRA");
+            if (extras.getBoolean("Prompt", false)){
+            	intent.removeExtra("Prompt");
+            	promptDialog();
+            }
+        }
 	}
 	
 	@Override

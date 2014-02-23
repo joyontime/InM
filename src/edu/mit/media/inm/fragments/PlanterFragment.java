@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -41,7 +42,7 @@ public class PlanterFragment extends Fragment {
 	private PreferenceHandler ph;
 	private HorizontalScrollView planter;
 	private LinearLayout my_plants;
-	private TextView message;
+	private Button message;
 	private int plant_width;
 	
 	private ProgressBar progress_spinner;
@@ -83,7 +84,7 @@ public class PlanterFragment extends Fragment {
 		
 		planter = (HorizontalScrollView) rootView.findViewById(R.id.planter);
 		my_plants = (LinearLayout) rootView.findViewById(R.id.my_plants);
-		message = (TextView) rootView.findViewById(R.id.planter_message);
+		message = (Button) rootView.findViewById(R.id.planter_message);
 		progress_spinner = (ProgressBar) rootView.findViewById(R.id.progress_bar);
 		Log.d(TAG, progress_spinner.toString());
 		
@@ -335,6 +336,13 @@ public class PlanterFragment extends Fragment {
 	}
 	
 	public void setupPrompt(){
+		message.setClickable(true);
+		message.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				ctx.promptDialog();
+			}
+		});
 		if (ph.username().isEmpty()){
 			message.setText("Welcome to InMind! Please log in.");
 		} else if (ph.IV().equals(PreferenceHandler.default_IV)){
