@@ -74,18 +74,6 @@ public class ScheduleService extends Service {
 			int day_hour = 9 + random.nextInt(6);
 			int night_hour = 15 + random.nextInt(6);
 			c.setTimeInMillis(System.currentTimeMillis());
-			/*
-	    	c.set(Calendar.HOUR_OF_DAY, 15);
-	    	c.set(Calendar.MINUTE, 0);
-	    	c.set(Calendar.SECOND, 0);
-	    	
-	    	if (c.getTime().before(new Date(System.currentTimeMillis()))){
-    			c.roll(Calendar.DATE, true);
-    	    	c.set(Calendar.HOUR_OF_DAY, day_hour);
-	    	} else {
-    	    	c.set(Calendar.HOUR_OF_DAY, night_hour);
-	    	}
-	    	*/
 			Log.d(TAG, "Next Notification: " + c.getTime().toString());
 	    	alarms.add(c);
 	    	new AlarmTask(this, c).run();

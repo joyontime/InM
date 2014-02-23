@@ -96,8 +96,7 @@ public class NotifyService extends Service {
 		Random random = new Random();
 		int day_hour = 9 + random.nextInt(6);
 		int night_hour = 15 + random.nextInt(6);
-		c.setTimeInMillis(System.currentTimeMillis() + 1000 * 20);
-		/*
+		c.setTimeInMillis(System.currentTimeMillis());
     	c.set(Calendar.HOUR_OF_DAY, 15);
     	c.set(Calendar.MINUTE, 0);
     	c.set(Calendar.SECOND, 0);
@@ -108,7 +107,6 @@ public class NotifyService extends Service {
     	} else {
 	    	c.set(Calendar.HOUR_OF_DAY, night_hour);
     	}
-    	*/
 		Log.d(TAG, "Next notification: " + c.getTime().toString());
     	new AlarmTask(this, c).run();
 		
