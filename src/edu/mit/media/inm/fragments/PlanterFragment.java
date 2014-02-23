@@ -340,7 +340,7 @@ public class PlanterFragment extends Fragment {
 		message.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				ctx.promptDialog();
+				ctx.promptDialog(false);
 			}
 		});
 		if (ph.username().isEmpty()){

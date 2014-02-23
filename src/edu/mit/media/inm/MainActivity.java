@@ -1,9 +1,14 @@
 package edu.mit.media.inm;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -15,6 +20,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -282,12 +288,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		return false;
 	}
 	
-	public void promptDialog(){
-		if (prompt == null){
-			prompt = "New prompt.";
+	public void promptDialog(boolean from_notification){
+		if (prompt == null || from_notification){
+			AssetManager assetManager = getAssets();
+		    InputStream ims;
+			Random random = new Random();
+			int line = random.nextInt(50);
+			try {
+				ims = assetManager.open("quotes.txt");
+				BufferedReader br = new BufferedReader(new InputStreamReader(ims));
+				for(int i = 0; i < line; ++i)
+				  br.readLine();
+				prompt = br.readLine();
+			} catch (IOException e) {
+				Toast.makeText(this, "Oops, failed to read file", Toast.LENGTH_SHORT).show();
+			}
 		}
     	new AlertDialog.Builder(this)
-    	.setTitle("What's on your mind?")
+    	.setTitle("Consider...")
 	    .setMessage(prompt)
 	    .setNegativeButton("Ok!", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
@@ -364,7 +382,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         	Log.d(TAG, "EXTRA");
             if (extras.getBoolean("Prompt", false)){
             	intent.removeExtra("Prompt");
-            	promptDialog();
+            	promptDialog(true);
             }
         }
 	}
