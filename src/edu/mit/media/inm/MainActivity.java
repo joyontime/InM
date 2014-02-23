@@ -90,11 +90,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		} else {
 			stopService(notifyService);
 		}
+
 		Calendar cal = Calendar.getInstance();
 		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
 				+ cal.get(Calendar.MINUTE));
-		setUpNavigation();
-        
+		setUpNavigation();        
 		tracker = EasyTracker.getInstance(this);
 		tracker.send(MapBuilder
 			      .createEvent(
