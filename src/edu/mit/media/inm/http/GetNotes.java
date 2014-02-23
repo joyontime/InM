@@ -47,7 +47,7 @@ public class GetNotes extends GetThread {
 			e.printStackTrace();
 		}
 		this.uri = server + "/" + notes + "/" + check + "?" + query.toString();
-		Log.d(TAG, "URI to ping: " + this.uri);
+		//Log.d(TAG, "URI to ping: " + this.uri);
 	}
 	@Override
 	protected void onPostExecute(Boolean result) {

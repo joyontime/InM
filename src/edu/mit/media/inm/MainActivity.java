@@ -37,13 +37,14 @@ import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.User;
 import edu.mit.media.inm.util.LoginUtil;
 import edu.mit.media.inm.util.NotifyService;
+import edu.mit.media.inm.util.ScheduleClient;
 
 public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 	private static String TAG = "MainActivity";
 	public ActionBar actionBar;
 	private FragmentManager fm;
 	private PreferenceHandler ph;
-	private Intent notifyService;
+	private ScheduleClient scheduleClient;
 	private LoginUtil login_util;
 	
     private ArrayList<String> navSpinner;
@@ -84,12 +85,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		
 		ph = new PreferenceHandler(this);
 		this.user_id = ph.server_id();
-		notifyService = new Intent(this, NotifyService.class);
-		if (ph.prompt() && !ph.password().equals("None")){
-			startService(notifyService);
-		} else {
-			stopService(notifyService);
-		}
+		scheduleClient = new ScheduleClient(this);
+		scheduleClient.doBindService();
 
 		Calendar cal = Calendar.getInstance();
 		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
@@ -175,6 +172,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	public void refresh(){
 		Log.d(TAG, "Main Refresh");
 		this.user_id = ph.server_id();
+
+	    if (ph.prompt() && !ph.password().equals("None")){
+			scheduleClient.checkAlarms();
+		}
+		
 		int to_refresh = this.actionBar.getSelectedNavigationIndex();
 		if (to_refresh > -1 && this.actionBar.getNavigationItemCount() > to_refresh){
 			onNavigationItemSelected(to_refresh, to_refresh);
@@ -323,7 +325,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	@Override
 	  public void onStart() {
 	    super.onStart();
-	    tracker.activityStart(this);  // Add this method.
+	    tracker.activityStart(this);
 	  }
 
 	@Override
@@ -355,5 +357,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	                      ph.server_id())
 	        .build()
 	    );
+    	if(scheduleClient != null)
+    		scheduleClient.doUnbindService();
 	  }
 }

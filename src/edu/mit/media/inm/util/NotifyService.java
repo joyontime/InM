@@ -1,5 +1,9 @@
 package edu.mit.media.inm.util;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Random;
+
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
 import android.app.Notification;
@@ -22,6 +26,7 @@ import android.util.Log;
  * @author paul.blundell
  */
 public class NotifyService extends Service {
+	private static String TAG = "NotifyService";
 
 	/**
 	 * Class for clients to access
@@ -35,19 +40,19 @@ public class NotifyService extends Service {
 	// Unique id to identify the notification.
 	private static final int NOTIFICATION = 123;
 	// Name of an intent extra we can use to identify if this service was started to create a notification	
-	public static final String INTENT_NOTIFY = "com.blundell.tut.service.INTENT_NOTIFY";
+	public static final String INTENT_NOTIFY = "edu.mit.media.inm.service.INTENT_NOTIFY";
 	// The system notification manager
 	private NotificationManager mNM;
 
 	@Override
 	public void onCreate() {
-		Log.i("NotifyService", "onCreate()");
+		Log.d(TAG, "onCreate()");
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.i("LocalService", "Received start id " + startId + ": " + intent);
+		Log.d(TAG, "Received start id " + startId + ": " + intent);
 		
 		// If this service was started by out AlarmTask intent then we want to show our notification
 		if(intent.getBooleanExtra(INTENT_NOTIFY, false))
@@ -69,6 +74,7 @@ public class NotifyService extends Service {
 	 * Creates a notification and shows it in the OS drag-down status bar
 	 */
 	private void showNotification() {		
+		Log.d(TAG, "Showing notification");
 		NotificationCompat.Builder mBuilder = new NotificationCompat
 				.Builder(this)
 				.setSmallIcon(R.drawable.ic_alert)
@@ -83,6 +89,24 @@ public class NotifyService extends Service {
 		mBuilder.setAutoCancel(true);
 		
 		mNM.notify(NOTIFICATION, mBuilder.build());
+		
+		Calendar c = Calendar.getInstance();
+		Random random = new Random();
+		int day_hour = 9 + random.nextInt(6);
+		int night_hour = 15 + random.nextInt(6);
+		c.setTimeInMillis(System.currentTimeMillis());
+    	c.set(Calendar.HOUR_OF_DAY, 15);
+    	c.set(Calendar.MINUTE, 0);
+    	c.set(Calendar.SECOND, 0);
+    	
+    	if (c.getTime().before(new Date(System.currentTimeMillis()))){
+			c.roll(Calendar.DATE, true);
+	    	c.set(Calendar.HOUR_OF_DAY, day_hour);
+    	} else {
+	    	c.set(Calendar.HOUR_OF_DAY, night_hour);
+    	}
+		Log.d(TAG, "Next notification: " + c.getTime().toString());
+    	new AlarmTask(this, c).run();
 		
 		// Stop the service when we are finished
 		stopSelf();
