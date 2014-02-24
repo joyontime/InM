@@ -289,13 +289,35 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	}
 	
 	public void promptDialog(boolean from_notification){
+		if (!ph.prompt()){
+	    	new AlertDialog.Builder(this)
+	    	.setTitle("Welcome back!")
+		    .setMessage("What would you like to do today?")
+		    .setNegativeButton("Check on topics.", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		        	// Don't do anything
+		        }
+		    }).setPositiveButton("Start a new topic.", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            newThing();
+		        }
+		    }).show();
+	    	return;
+		}
 		if (prompt == null || from_notification){
 			AssetManager assetManager = getAssets();
 		    InputStream ims;
 			Random random = new Random();
-			int line = random.nextInt(50);
+			int line = random.nextInt(2);
+			String filename = "quotes.txt";
+			int lines = 63;
+			if (line > 0){
+				filename = "prompts.txt";
+				lines = 98;
+			}
 			try {
-				ims = assetManager.open("quotes.txt");
+				ims = assetManager.open(filename);
+				line = random.nextInt(lines);
 				BufferedReader br = new BufferedReader(new InputStreamReader(ims));
 				for(int i = 0; i < line; ++i)
 				  br.readLine();
@@ -307,7 +329,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     	new AlertDialog.Builder(this)
     	.setTitle("Consider...")
 	    .setMessage(prompt)
-	    .setNegativeButton("Ok!", new DialogInterface.OnClickListener() {
+	    .setNegativeButton("Ok.", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
 	        	// Don't do anything
 	        }
