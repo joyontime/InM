@@ -34,6 +34,7 @@ public class UpdatePlant extends PostThread{
 	List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 	
 	public void setupParams(String plant_id, int smiles, int status, boolean archived){
+		Log.d(TAG, "Sendng smile: " + smiles);
 		this.plant_id = plant_id;
 		this.smiles = smiles;
 		this.status = status;
@@ -41,6 +42,7 @@ public class UpdatePlant extends PostThread{
 		
 		params.add(new BasicNameValuePair("state", String.valueOf(this.status)));
 		params.add(new BasicNameValuePair("id", this.plant_id));
+		params.add(new BasicNameValuePair("smiles", String.valueOf(this.smiles)));
 		params.add(new BasicNameValuePair("archived", String.valueOf(this.archived)));
 	}
 

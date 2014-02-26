@@ -98,12 +98,14 @@ public class GetPlants extends GetThread {
 				} else {
 					Plant old_plant = ctx.plant_ds.getPlantByServerID(plant_id);
 					String status = (String) plant.get("status");
+					String smiles = (String) plant.get("smiles");
 					Boolean archived = (Boolean) plant.get("archived");
 					if ((old_plant.archived ^ archived)
-							|| (old_plant.status != Integer.valueOf(status))) {
+							|| (old_plant.status != Integer.valueOf(status))
+							|| (old_plant.smiles != Integer.valueOf(smiles))) {
 						ctx.plant_ds.updatePlant(plant_id,
 								Integer.valueOf(status),
-								Integer.valueOf(status), archived);
+								Integer.valueOf(smiles), archived);
 						ctx.plant_ds.setPlantShiny(plant_id, true);
 					}
 					server_ids.remove(plant_id);
