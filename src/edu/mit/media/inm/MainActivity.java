@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 	private FragmentManager fm;
 	private PreferenceHandler ph;
 	private ScheduleClient scheduleClient;
-	private LoginUtil login_util;
+	public LoginUtil login_util;
 	
     private ArrayList<String> navSpinner;
     private List<Collection> collections;

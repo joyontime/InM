@@ -340,7 +340,11 @@ public class PlanterFragment extends Fragment {
 		message.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				ctx.promptDialog(false);
+				if (ph.username().isEmpty()){
+					ctx.login_util.loginDialog();
+				} else {
+					ctx.promptDialog(false);
+				}
 			}
 		});
 		if (ph.username().isEmpty()){
@@ -348,22 +352,16 @@ public class PlanterFragment extends Fragment {
 		} else if (ph.IV().equals(PreferenceHandler.default_IV)){
 			message.setText(R.string.waiting_on_server);
 		} else {
-			if (this.archived){
-				message.setText("Archived plants are kept here." +
-						"You can\'t do anything with them " +
-						"unless you bring them back.");
+			Random random = new Random();
+			int prompt = random.nextInt(6);
+			if (prompt == 0) {
+				message.setText(ph.POTD_neut());
+			} else if (prompt == 1) {
+				message.setText(ph.POTD_happy());
+			} else if (prompt == 2) {
+				message.setText(ph.POTD_sad());
 			} else {
-				Random random = new Random();
-				int prompt = random.nextInt(6);
-				if (prompt == 0) {
-					message.setText(ph.POTD_neut());
-				} else if (prompt == 1) {
-					message.setText(ph.POTD_happy());
-				} else if (prompt == 2) {
-					message.setText(ph.POTD_sad());
-				} else {
-					message.setText("Hello! What's on your mind?");
-				}
+				message.setText("Hello! What's on your mind?");
 			}
 		}
 	}
