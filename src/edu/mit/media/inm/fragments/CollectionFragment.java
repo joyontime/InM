@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import edu.mit.media.inm.MainActivity;
 import edu.mit.media.inm.R;
+import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.Plant;
 
 public class CollectionFragment extends Fragment {
@@ -103,14 +104,14 @@ public class CollectionFragment extends Fragment {
             		}
                     imm.hideSoftInputFromWindow(title_box.getWindowToken(), 0);
 
-                    ctx.collection_ds.createCollection("0",
+                    Collection c = ctx.collection_ds.createCollection("0",
                     		title_box.getText().toString(),
                     		plants_local.toString());
                     ;
 
                     // Send it back to the main screen.
-            		ctx.setUpNavigation();
                     ctx.goBack();
+            		ctx.setUpNavigation(true);
             	}
                 return true;
             }

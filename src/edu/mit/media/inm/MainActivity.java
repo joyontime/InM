@@ -26,7 +26,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.Toast;
 import edu.mit.media.inm.fragments.CollectionFragment;
 import edu.mit.media.inm.fragments.NoteFragment;
@@ -42,11 +41,11 @@ import edu.mit.media.inm.handlers.UserDataSource;
 import edu.mit.media.inm.types.Collection;
 import edu.mit.media.inm.types.User;
 import edu.mit.media.inm.util.LoginUtil;
-import edu.mit.media.inm.util.NotifyService;
 import edu.mit.media.inm.util.ScheduleClient;
 
 public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener {
 	private static String TAG = "MainActivity";
+	private static int SPINNER_COUNT = 5;
 	public ActionBar actionBar;
 	private FragmentManager fm;
 	private PreferenceHandler ph;
@@ -99,7 +98,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		Calendar cal = Calendar.getInstance();
 		Long minute = Long.valueOf(60 * cal.get(Calendar.HOUR_OF_DAY)
 				+ cal.get(Calendar.MINUTE));
-		setUpNavigation();        
+		setUpNavigation(false);        
 		tracker = EasyTracker.getInstance(this);
 		tracker.send(MapBuilder
 			      .createEvent(
@@ -138,7 +137,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 			Collection to_delete = this.collections.get(
 					this.actionBar.getSelectedNavigationIndex() - 5);
 			this.collection_ds.deleteCollection(to_delete);
-			setUpNavigation();
+			setUpNavigation(false);
 	        return true;
 		case R.id.action_refresh:
 			login_util.pingServer();
@@ -225,7 +224,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 		}
 	}
 
-	public void setUpNavigation(){
+	public void setUpNavigation(boolean collection_created){
         // Spinner title navigation
 		actionBar = getActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
@@ -243,6 +242,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 
         adapter = new MainNavigationAdapter(this, navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
+        
+        if (collection_created){
+        	actionBar.setSelectedNavigationItem(collections.size()+SPINNER_COUNT-1);
+        }
 	}
 
 	@Override
@@ -280,7 +283,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 				this.actionBar.setSelectedNavigationItem(0);
 				return true;
 			default:	// Collections
-				Collection selected = this.collections.get(itemPosition-5);
+				Collection selected = this.collections.get(itemPosition-SPINNER_COUNT);
 				planter_frag.refresh(selected);
 				return true;
 			}
